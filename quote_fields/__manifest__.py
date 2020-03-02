@@ -1,26 +1,40 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "quote_fields",
+    'name': "Quotation Extra Fields",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Adds extra fields to Sales quotations and SO""",
 
     'description': """
-        Long description of module's purpose
+        IP Expert module for Sales, adds the fields:
+            - List Price
+            - Vendor Discount
+            - Discounted
+            - FOB Total
+            - Tariff (%)
+            - Tariff Cost
+            - Total Tariff Cost
+            - Cost
+            - Adminstration Costs
+            - Final Cost
+            - Total Final Cost
+            - Margin
+            - Profit Margin
+            - Profit
+            - Sell Price
     """,
 
-    'author': "My Company",
-    'website': "http://www.yourcompany.com",
+    'author': "IP Expert DR",
+    'website': "http://www.ipexdr.com",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Uncategorized',
+    'category': 'Sales',
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'sale_management'],
 
     # always loaded
     'data': [
