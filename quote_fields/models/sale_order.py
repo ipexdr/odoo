@@ -13,7 +13,7 @@ class SaleOrderLine(models.Model):
     @api.depends('product_id')
     def _get_list_price(self):
         for record in self:
-            record['list_price'] = record.product_id.standard_price
+            record.list_price = record.product_id.standard_price
 
     list_price = fields.Float('List Price', readonly=True, digits='Product Price', store=True)
 
