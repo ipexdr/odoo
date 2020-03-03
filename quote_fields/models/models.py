@@ -7,24 +7,17 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     # list_price = fields.Float('List Price', readonly=True, digits='Product Price', store=True)
-    list_price = fields.Float('List Price', compute='_get_list_price')
-    vendor_discount = fields.Float('Vendor Discount', widget='percentage')
+    list_price = fields.Float('List Price', compute='_get_list_price', readonly=True, store=True)
+    vendor_discount = fields.Float('Vendor Discount', store=True)
+    vendor_discounted = fields.Float('Discounted', store=True)
 
     @api.depends('product_id')
     def _get_list_price(self):
-        for record in self:
-            record['list_price'] = record.product_id.standard_price
+        for line in self:
+            line.list_price = line.product_id.standard_price
 
-# class quote_fields(models.Model):
-#     _name = 'quote_fields.quote_fields'
-#     _description = 'quote_fields.quote_fields'
-
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+    @api.depends('vendor_discount')
+    @api.onchange('vendor_discount')
+    def _get_vendor_discount(self):
+        for line in self:
+            line.vendor_discounted = line.vendor_discount * line.list_price
