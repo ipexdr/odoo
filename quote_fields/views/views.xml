@@ -9,6 +9,19 @@
               <field name="list_price"/>
               <field name="vendor_discount" widget="percentage"/>
               <field name="vendor_discounted" widget="monetary"/>
+              <!-- fob_total -->
+              <field name="fob_total" widget="monetary"/>
+              <field name="tariff" widget="percentage"/>
+              <field name="tariff_cost" widget="monetary"/>
+              <field name="total_tariff_cost" widget="monetary"/>
+              <field name="cost" widget="monetary"/>
+              <field name="admin_cost" widget="monetary"/>
+              <field name="final_cost" widget="monetary"/>
+              <field name="total_final_cost" widget="monetary"/>
+              <field name="margin" widget="percentage"/>
+              <field name="profit_margin" widget="monetary"/>
+              <field name="profit" widget="monetary"/>
+              <field name="sell_price" widget="monetary"/>
           </xpath>
       </field>
     </record>
