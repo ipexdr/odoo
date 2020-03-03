@@ -7,6 +7,7 @@ class SaleOrderLine(models.Model):
 
     # list_price = fields.Float('List Price', readonly=True, digits='Product Price', store=True)
     list_price = fields.Float('List Price')
+    vendor_discount = fields.Float('Vendor Discount', widget='percentage')
 
 
     @api.depends('product_id')
