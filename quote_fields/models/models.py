@@ -15,7 +15,7 @@ class SaleOrderLine(models.Model):
     fob_total = fields.Float('FOB Total', store=True, readonly=True,
                              compute='_get_fob_total')  # _get_fob_total |  Precio de lista - Desc
     tariff = fields.Float('Tariff', store=True)
-    tariff_cost = fields.Float('Tariff Cost', store=True, readonly=True)  # _get_tariff_cost | (Total FOB) * (% Arancel)
+    tariff_cost = fields.Float('Tariff Cost', store=True, readonly=True, compute='_get_tariff_cost')  # _get_tariff_cost | (Total FOB) * (% Arancel)
     total_tariff_cost = fields.Float('Total Tariff Cost', store=True,
                                      readonly=True)  # _get_total_tariff_cost | Costo de Arancel * Cantidad de Articulos
     cost = fields.Float('Cost', store=True, readonly=True)  # _get_cost | Total FOB + Costo de Arancel
@@ -55,12 +55,15 @@ class SaleOrderLine(models.Model):
             line.fob_total = line.list_price - line.vendor_discounted
 
     @api.depends('fob_total', 'tariff')
+    @api.onchange('tariff', 'fob_total')
     def _get_tariff_cost(self):
         """
         Tariff Cost amount from FOB Total amount * Tariff percentage
+        Total Tariff Cost from Tariff Cost * Quantity
         :return:
         """
         for line in self:
             line.tariff_cost = line.fob_total * line.tariff
+            line.total_tariff_cost = line.tariff_cost * line.product_uom_qty
 
-
+    
