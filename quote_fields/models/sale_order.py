@@ -7,7 +7,7 @@ from odoo import models, fields, api
 #     _inherit = 'sale.order'
 
 
-class SaleOrderLineInherit(models.Model):
+class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     @api.depends('product_id')
