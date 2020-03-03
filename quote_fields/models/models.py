@@ -26,7 +26,7 @@ class SaleOrderLine(models.Model):
     total_final_cost = fields.Float('Total Final Cost', store=True,
                                     readonly=True)  # Costo Final x Cantidad
 
-    margin = fields.Float('Margin', store=True)
+    margin = fields.Float('Margin', store=True) #  % de margen de ganancia aplicado al Costo Final
     profit_margin = fields.Float('Profit Margin', store=True,
                                  readonly=True)  # monto del % margen de ganancia
     profit = fields.Float('Profit', store=True, readonly=True)  # Margen G. * Cantidad
@@ -77,4 +77,10 @@ class SaleOrderLine(models.Model):
             line.final_cost = line.admin_cost + line.cost
             line.total_final_cost = line.final_cost * line.product_uom_qty
 
-
+    @api.depends('margin', 'profit_margin', 'final_cost')
+    @api.onchange('margin', 'final_cost')
+    def _get_margin(self):
+        for line in self:
+            line.profit_margin = line.margin * line.final_cost
+            line.profit = line.profit_margin * line.product_uom_qty
+            line.sell_price = line.final_cost + line.profit_margin
