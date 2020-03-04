@@ -38,19 +38,16 @@ class SaleOrderLine(models.Model):
             line.list_price = line.product_id.standard_price
 
     @api.depends('vendor_discount')
-    @api.onchange('vendor_discount')
     def _get_vendor_discount(self):
         """
         Compute the vendor discounted amount from vendor_discount
         :return:
         """
-        self.vendor_discounted = self.vendor_discount * self.list_price
-        
-        # for line in self:
-        #     line.vendor_discounted = line.vendor_discount * line.list_price
+
+        for line in self:
+            line.vendor_discounted = line.vendor_discount * line.list_price
 
     @api.depends('list_price', 'vendor_discounted')
-    @api.onchange('vendor_discounted')
     def _get_fob_total(self):
         """
         Compute FOB Total amount from list_price - vendor_discounted
@@ -60,7 +57,6 @@ class SaleOrderLine(models.Model):
             line.fob_total = line.list_price - line.vendor_discounted
 
     @api.depends('fob_total', 'tariff')
-    @api.onchange('tariff', 'fob_total')
     def _get_tariff_cost(self):
         """
         Tariff Cost amount from FOB Total amount * Tariff percentage
@@ -69,10 +65,8 @@ class SaleOrderLine(models.Model):
         """
         for line in self:
             line.tariff_cost = line.fob_total * line.tariff
-            line.total_tariff_cost = line.tariff_cost * line.product_uom_qty
 
     @api.depends('fob_total', 'tariff_cost')
-    @api.onchange('fob_total', 'tariff_cost')
     def _get_costs(self):
         for line in self:
             line.cost = line.fob_total + line.tariff_cost
@@ -80,7 +74,6 @@ class SaleOrderLine(models.Model):
             line.total_final_cost = line.final_cost * line.product_uom_qty
 
     @api.depends('margin', 'profit_margin', 'final_cost')
-    @api.onchange('margin', 'final_cost')
     def _get_margin(self):
         for line in self:
             line.profit_margin = line.margin * line.final_cost
