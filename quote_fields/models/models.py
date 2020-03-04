@@ -103,7 +103,7 @@ class SaleOrderLine(models.Model):
         for line in self:
             line.profit = line.profit_margin * line.product_uom_qty
 
-    @api.depends('profit_margin', 'final_cost')
+    @api.depends('profit_margin', 'final_cost', 'product_uom_qty')
     def _compute_sell_price(self):
         for line in self:
             line.sell_price = line.final_cost + line.profit_margin
