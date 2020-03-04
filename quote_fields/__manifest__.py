@@ -46,4 +46,8 @@
     'demo': [
         'demo/demo.xml',
     ],
+
+    'css':[
+        'static/src/css/style.css'
+    ]
 }
