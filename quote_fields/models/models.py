@@ -44,8 +44,10 @@ class SaleOrderLine(models.Model):
         Compute the vendor discounted amount from vendor_discount
         :return:
         """
-        for line in self:
-            line.vendor_discounted = line.vendor_discount * line.list_price
+        self.vendor_discounted = self.vendor_discount * self.list_price
+        
+        # for line in self:
+        #     line.vendor_discounted = line.vendor_discount * line.list_price
 
     @api.depends('list_price', 'vendor_discounted')
     @api.onchange('vendor_discounted')
