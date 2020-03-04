@@ -107,4 +107,4 @@ class SaleOrderLine(models.Model):
     def _compute_sell_price(self):
         for line in self:
             line.sell_price = line.final_cost + line.profit_margin
-            line.unit_price = line.sell_price
+            line.price_unit = line.sell_price
