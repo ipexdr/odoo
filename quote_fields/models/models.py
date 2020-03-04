@@ -73,7 +73,7 @@ class SaleOrderLine(models.Model):
     @api.onchange('fob_total', 'tariff_cost')
     def _get_costs(self):
         for line in self:
-            line.cost = line.fob_cost + line.tariff_cost
+            line.cost = line.fob_total + line.tariff_cost
             line.final_cost = line.admin_cost + line.cost
             line.total_final_cost = line.final_cost * line.product_uom_qty
 
