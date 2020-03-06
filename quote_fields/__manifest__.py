@@ -15,7 +15,7 @@
             - Tariff Cost
             - Total Tariff Cost
             - Cost
-            - Adminstration Costs
+            - Administration Costs
             - Final Cost
             - Total Final Cost
             - Margin
@@ -38,7 +38,7 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
     ],
@@ -47,7 +47,7 @@
         'demo/demo.xml',
     ],
 
-    'css':[
+    'css': [
         'static/src/css/style.css'
     ]
 }
