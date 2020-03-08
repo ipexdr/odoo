@@ -6,22 +6,23 @@
       <field name="inherit_id" ref="sale.view_order_form"/>
       <field name="arch" type="xml">
           <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
-              <field name="list_price" groups="quote_fields_manager"/>
-              <field name="vendor_discount" widget="percentage" groups="quote_fields_manager"/>
-              <field name="vendor_discounted" widget="monetary" groups="quote_fields_manager"/>
+              <field name="list_price"/>
+              <field name="vendor_discount" widget="percentage"/>
+              <field name="vendor_discounted" widget="monetary"/>
               <!-- fob_total -->
-              <field name="fob_total" widget="monetary" groups="quote_fields_manager"/>
-              <field name="tariff" widget="percentage" groups="quote_fields_manager"/>
-              <field name="tariff_cost" widget="monetary" groups="quote_fields_manager"/>
-              <field name="total_tariff_cost" widget="monetary" groups="quote_fields_manager"/>
-              <field name="cost" widget="monetary" groups="quote_fields_manager"/>
-              <field name="admin_cost" widget="monetary" groups="quote_fields_manager"/>
-              <field name="final_cost" widget="monetary" groups="quote_fields_manager"/>
-              <field name="total_final_cost" widget="monetary" groups="quote_fields_manager"/>
-              <field name="margin" widget="percentage" groups="quote_fields_manager"/>
+              <field name="fob_total" widget="monetary"/>
+              <field name="tariff" widget="percentage"/>
+              <field name="tariff_cost" widget="monetary"/>
+              <field name="total_tariff_cost" widget="monetary"/>
+              <field name="cost" widget="monetary"/>
+              <field name="admin_cost" widget="monetary"/>
+              <field name="final_cost" widget="monetary"/>
+              <field name="total_final_cost" widget="monetary"/>
+              <field name="margin" widget="percentage"/>
               <field name="profit_margin" widget="monetary" groups="quote_fields_manager"/>
               <field name="profit" widget="monetary" groups="quote_fields_manager"/>
               <field name="sell_price" widget="monetary"/>
+              
           </xpath>
       </field>
     </record>
