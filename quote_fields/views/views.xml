@@ -5,8 +5,8 @@
       <field name="model">sale.order</field>
       <field name="inherit_id" ref="sale.view_order_form"/>
       <field name="arch" type="xml">
-<!--          <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">-->
-          <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree[1]" position="inside">
+          <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+<!--          <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree[1]" position="inside">-->
               <field name="list_price"/>
               <field name="vendor_discount" widget="percentage"/>
               <field name="vendor_discounted" widget="monetary"/>
