@@ -34,7 +34,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['sale_management'],
+    'depends': ['sale_management', 'hr'],
 
     # always loaded
     'data': [
