@@ -7,7 +7,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     cuid = fields.Integer(string="Get Current User ID", compute="_dp_cuid")
-    is_quote_manager = fields.Boolean(compute='_compute_is_quote_manager', store=True, default=True)
+    is_quote_manager = fields.Boolean(compute='_compute_is_quote_manager', store=True, default=False)
 
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
     vendor_discount = fields.Float('Vendor Discount', store=True)
