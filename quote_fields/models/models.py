@@ -6,12 +6,12 @@ from odoo import models, fields, api
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    # list_price = fields.Float('List Price', readonly=True, digits='Product Price', store=True)
+    is_quote_manager = fields.Boolean(compute='_compute_is_quote_manager', store=True)
+
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
     vendor_discount = fields.Float('Vendor Discount', store=True)
     vendor_discounted = fields.Float('Discounted', store=True, readonly=True,
                                      compute='_compute_vendor_discount')  # (Precio de lista) * (% Descuento fabricante)
-    # New
     fob_total = fields.Float('FOB Total', store=True, readonly=True,
                              compute='_compute_fob_total')  # Precio de lista - Desc
 
@@ -33,6 +33,15 @@ class SaleOrderLine(models.Model):
                                  readonly=True, compute='_compute_profit_margin')  # monto del % margen de ganancia
     profit = fields.Float('Profit', store=True, readonly=True, compute='_compute_profit')  # Margen G. * Cantidad
     sell_price = fields.Float('Sell Price', store=True, readonly=True, compute='_compute_sell_price')  # Costo Final + Margen G
+
+    @api.depends('user_id')
+    def _compute_is_quote_manager(self):
+        uid = self.env.user
+        flag = self.pool.get('res.users').has_group(cr, uid, 'quote_fields.quote_fields_manager')
+        for line in self:
+            if flag:
+                line.is_quote_manager = True
+
 
     @api.depends('product_id')
     def _compute_list_price(self):
