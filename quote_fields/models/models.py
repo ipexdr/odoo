@@ -43,7 +43,7 @@ class SaleOrderLine(models.Model):
             line.cuid = self.env.user.id
 
     @api.depends('cuid')
-    def _compute_is_quote_manager(self):
+    def is_quote_manager(self):
         user = self.env.user
         for line in self:
             if user.has_group('quote_fields.quote_fields_manager'):
