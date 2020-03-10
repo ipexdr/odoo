@@ -34,7 +34,7 @@ class SaleOrderLine(models.Model):
     profit = fields.Float('Profit', store=True, readonly=True, compute='_compute_profit')  # Margen G. * Cantidad
     sell_price = fields.Float('Sell Price', store=True, readonly=True, compute='_compute_sell_price')  # Costo Final + Margen G
 
-    @api.depends('user_id')
+    @api.depends('user.id')
     def _compute_is_quote_manager(self):
         uid = self.env.user
         flag = self.pool.get('res.users').has_group(cr, uid, 'quote_fields.quote_fields_manager')
