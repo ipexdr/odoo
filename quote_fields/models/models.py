@@ -45,7 +45,7 @@ class SaleOrderLine(models.Model):
     @api.depends('cuid')
     def _compute_is_quote_manager(self):
         uid = self.env.user
-        flag = self.pool.get('res.users').has_group(cr, uid, 'quote_fields.quote_fields_manager')
+        flag = self.pool.get('res.users').has_group(uid, 'quote_fields.quote_fields_manager')
         for line in self:
             if flag:
                 line.is_quote_manager = True
