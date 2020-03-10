@@ -6,6 +6,7 @@ from odoo import models, fields, api
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
+    cuid = fields.Integer(string="Get Current User ID", compute="_dp_cuid")
     is_quote_manager = fields.Boolean(compute='_compute_is_quote_manager', store=True)
 
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
@@ -35,6 +36,11 @@ class SaleOrderLine(models.Model):
     profit = fields.Float('Profit', store=True, readonly=True, compute='_compute_profit')  # Margen G. * Cantidad
     sell_price = fields.Float('Sell Price', store=True, readonly=True,
                               compute='_compute_sell_price')  # Costo Final + Margen G
+
+    @api.depends("cuid")
+    def _dp_cuid(self):
+        for line in self:
+            line.cuid = self.env.user.id
 
     @api.depends('user_id')
     def _compute_is_quote_manager(self):
