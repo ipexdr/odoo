@@ -24,7 +24,8 @@ class SaleOrderLine(models.Model):
 
     cost = fields.Float('Cost', store=True, readonly=True, compute='_compute_cost')  # Total FOB + Costo de Arancel
     admin_cost = fields.Float('Admin. Cost', store=True, default=0)
-    final_cost = fields.Float('Final Cost', store=True, readonly=True, compute='_compute_final_cost')  # Costo + Costo Adm
+    final_cost = fields.Float('Final Cost', store=True, readonly=True,
+                              compute='_compute_final_cost')  # Costo + Costo Adm
     total_final_cost = fields.Float('Total Final Cost', store=True,
                                     readonly=True, compute='_compute_total_final_cost')  # Costo Final x Cantidad
 
@@ -32,16 +33,16 @@ class SaleOrderLine(models.Model):
     profit_margin = fields.Float('Profit Margin', store=True,
                                  readonly=True, compute='_compute_profit_margin')  # monto del % margen de ganancia
     profit = fields.Float('Profit', store=True, readonly=True, compute='_compute_profit')  # Margen G. * Cantidad
-    sell_price = fields.Float('Sell Price', store=True, readonly=True, compute='_compute_sell_price')  # Costo Final + Margen G
+    sell_price = fields.Float('Sell Price', store=True, readonly=True,
+                              compute='_compute_sell_price')  # Costo Final + Margen G
 
-    @api.depends('user.id')
+    @api.depends('user')
     def _compute_is_quote_manager(self):
         uid = self.env.user
         flag = self.pool.get('res.users').has_group(cr, uid, 'quote_fields.quote_fields_manager')
         for line in self:
             if flag:
                 line.is_quote_manager = True
-
 
     @api.depends('product_id')
     def _compute_list_price(self):
