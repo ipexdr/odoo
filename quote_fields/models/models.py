@@ -42,7 +42,7 @@ class SaleOrderLine(models.Model):
         for line in self:
             line.cuid = self.env.user.id
 
-    @api.depends('user_id')
+    @api.depends('cuid')
     def _compute_is_quote_manager(self):
         uid = self.env.user
         flag = self.pool.get('res.users').has_group(cr, uid, 'quote_fields.quote_fields_manager')
