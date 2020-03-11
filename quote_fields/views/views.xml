@@ -8,20 +8,23 @@
           <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
 <!--              <field name="is_quote_manager" invisible="1"/>-->
 
-              <field name="list_price" groups="quote_fields.quote_fields_manager" />
-              <field name="vendor_discount" widget="percentage"/>
-              <field name="vendor_discounted" widget="monetary"/>
-              <field name="fob_total" widget="monetary"/>
-              <field name="tariff" widget="percentage"/>
-              <field name="tariff_cost" widget="monetary"/>
-              <field name="total_tariff_cost" widget="monetary"/>
-              <field name="cost" widget="monetary"/>
-              <field name="admin_cost" widget="monetary"/>
-              <field name="final_cost" widget="monetary"/>
-              <field name="total_final_cost" widget="monetary"/>
-              <field name="margin" widget="percentage"/>
+              <field name="list_price" groups="quote_fields.quote_fields_manager"/>
+              <field name="vendor_discount" widget="percentage" groups="quote_fields.quote_fields_manager"/>
+              <field name="vendor_discounted" widget="monetary" groups="quote_fields.quote_fields_manager"/>
+              <field name="fob_total" widget="monetary" groups="quote_fields.quote_fields_manager"/>
+              <field name="tariff" widget="percentage" groups="quote_fields.quote_fields_manager"/>
+              <field name="tariff_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
+              <field name="total_tariff_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
+              <field name="cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
+              <field name="admin_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
+              <field name="final_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
+              <field name="total_final_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
+              <field name="margin" widget="percentage" groups="quote_fields.quote_fields_manager"/>
 
               <field name="sell_price" widget="monetary"/>
+          </xpath>
+          <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                <attribute name="groups">quote_fields.quote_fields_manager</attribute>
           </xpath>
       </field>
     </record>
