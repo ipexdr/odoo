@@ -27,7 +27,7 @@ class SaleOrderLine(models.Model):
     total_final_cost = fields.Float('Total Final Cost', store=True,
                                     readonly=True, compute='_compute_total_final_cost')  # Costo Final x Cantidad
 
-    margin = fields.Float('Margin', store=True, default=30)  # % de margen de ganancia aplicado al Costo Final
+    margin = fields.Float('Margin', store=True, default=0.30)  # % de margen de ganancia aplicado al Costo Final
     profit_margin = fields.Float('Profit Margin', store=True,
                                  readonly=True, compute='_compute_profit_margin')  # monto del % margen de ganancia
     profit = fields.Float('Profit', store=True, readonly=True, compute='_compute_profit')  # Margen G. * Cantidad
