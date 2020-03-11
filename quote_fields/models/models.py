@@ -10,7 +10,7 @@ class SaleOrderLine(models.Model):
     is_quote_manager = fields.Boolean(compute='_compute_is_quote_manager', store=True, default=False)
 
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
-    vendor_discount = fields.Float('Vendor Discount', store=True)
+    vendor_discount = fields.Float('Vendor Discount', store=True, default=0)
     vendor_discounted = fields.Float('Discounted', store=True, readonly=True,
                                      compute='_compute_vendor_discount')  # (Precio de lista) * (% Descuento fabricante)
     fob_total = fields.Float('FOB Total', store=True, readonly=True,
@@ -30,7 +30,7 @@ class SaleOrderLine(models.Model):
     total_final_cost = fields.Float('Total Final Cost', store=True,
                                     readonly=True, compute='_compute_total_final_cost')  # Costo Final x Cantidad
 
-    margin = fields.Float('Margin', store=True)  # % de margen de ganancia aplicado al Costo Final
+    margin = fields.Float('Margin', store=True, default=30)  # % de margen de ganancia aplicado al Costo Final
     profit_margin = fields.Float('Profit Margin', store=True,
                                  readonly=True, compute='_compute_profit_margin')  # monto del % margen de ganancia
     profit = fields.Float('Profit', store=True, readonly=True, compute='_compute_profit')  # Margen G. * Cantidad
