@@ -6,7 +6,7 @@
       <field name="inherit_id" ref="sale.view_order_form"/>
       <field name="arch" type="xml">
           <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
-              <field name="is_quote_manager"/>
+<!--              <field name="is_quote_manager"/>-->
 
               <field name="list_price" invisible="1"/>
               <field name="vendor_discount" widget="percentage" invisible="1"/>
