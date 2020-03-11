@@ -8,18 +8,18 @@
           <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
               <field name="is_quote_manager" invisible="1"/>
 
-              <field name="list_price" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
-              <field name="vendor_discount" widget="percentage" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
-              <field name="vendor_discounted" widget="monetary" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
-              <field name="fob_total" widget="monetary" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
-              <field name="tariff" widget="percentage" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
-              <field name="tariff_cost" widget="monetary" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
-              <field name="total_tariff_cost" widget="monetary" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
-              <field name="cost" widget="monetary" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
-              <field name="admin_cost" widget="monetary" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
-              <field name="final_cost" widget="monetary" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
-              <field name="total_final_cost" widget="monetary" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
-              <field name="margin" widget="percentage" attrs="{'invisible': [('is_quote_manager', '=', True)]}"/>
+              <field name="list_price" invisible="1"/>
+              <field name="vendor_discount" widget="percentage" invisible="1"/>
+              <field name="vendor_discounted" widget="monetary" invisible="1"/>
+              <field name="fob_total" widget="monetary" invisible="1"/>
+              <field name="tariff" widget="percentage" invisible="1"/>
+              <field name="tariff_cost" widget="monetary" invisible="1"/>
+              <field name="total_tariff_cost" widget="monetary" invisible="1"/>
+              <field name="cost" widget="monetary" invisible="1"/>
+              <field name="admin_cost" widget="monetary" invisible="1"/>
+              <field name="final_cost" widget="monetary" invisible="1"/>
+              <field name="total_final_cost" widget="monetary" invisible="1"/>
+              <field name="margin" widget="percentage" invisible="1"/>
 
               <field name="sell_price" widget="monetary"/>
           </xpath>
