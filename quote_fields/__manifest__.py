@@ -41,7 +41,7 @@
         'security/security.xml',
         # 'security/ir.model.access.csv',
         'views/templates.xml',
-        'views/views.xml'
+        'views/sale_order.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
