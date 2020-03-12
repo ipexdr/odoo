@@ -33,6 +33,9 @@
           <button name="action_confirm" position="attributes">
             <attribute name="states">quotation_approved,sent,progress,manual</attribute>
           </button>
+          <field name="state" position="attributes">
+            <attribute name="statusbar_visible">draft,quotation_approved,sent,progress,done</attribute>
+          </field>
       </field>
     </record>
   </data>
