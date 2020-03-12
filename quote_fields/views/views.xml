@@ -18,7 +18,10 @@
               <field name="admin_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
               <field name="final_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
               <field name="total_final_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
-              <field name="margin" widget="percentage" groups="quote_fields.quote_fields_manager"/>
+<!--              <field name="margin" widget="percentage" groups="quote_fields.quote_fields_manager"/>-->
+              <field name="margin" widget="percentage"/>
+              <field name="profit_margin" widget="monetary" groups="quote_fields.quote_fields_manager"/>
+              <field name="profit" widget="monetary" groups="quote_fields.quote_fields_manager"/>
               <field name="sell_price" widget="monetary" groups="quote_fields.quote_fields_manager"/>
 
           </xpath>
