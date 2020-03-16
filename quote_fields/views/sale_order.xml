@@ -24,8 +24,8 @@
               <field name="sell_price" widget="monetary" groups="quote_fields.quote_fields_manager"/>
           </xpath>
           <button name="action_quotation_send" position="before">
-            <button name="action_quotation_approve" string="Approve" states="draft"
-                    type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager"/>
+              <button name="action_quotation_approve" string="Approve"
+                        type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager" attrs="{'invisible':['|',('quote_approved','=',True),('state', 'not in', 'draft')]}"/>
           </button>
           <button name="action_quotation_send" position="attributes">
             <attribute name="states">quotation_approved</attribute>
