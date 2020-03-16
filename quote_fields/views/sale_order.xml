@@ -30,12 +30,17 @@
           <button name="action_quotation_send" position="attributes">
             <attribute name="states">quotation_approved,sent,progress,manual</attribute>
           </button>
-          <button name="action_confirm" position="attributes">
-            <attribute name="states">quotation_approved,sent,progress,manual</attribute>
+          <button name="action_cancel" position="attributes">
+              <attribute name="states">draft,quotation_approved,sent,sale</attribute>
           </button>
-<!--           <field name="state" position="attributes">
-            <attribute name="statusbar_visible">draft,quotation_approved,sent,progress,done</attribute>
-          </field> -->
+
+          <xpath expr="/form/header/button[@name='action_confirm'][2]" position="replace">
+                <button name="action_confirm" string="Confirm" type="object" attrs="{'invisible': [('state', 'not in', ['quotation_approved'])]}"/>
+          </xpath>
+
+          <field name="state" position="attributes">
+            <attribute name="statusbar_visible">draft,quotation_approved,sent,sale</attribute>
+          </field>
       </field>
     </record>
   </data>
