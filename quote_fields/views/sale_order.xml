@@ -28,7 +28,7 @@
                     type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager"/>
           </button>
           <button name="action_quotation_send" position="attributes">
-            <attribute name="states">quotation_approved,sent,progress,manual</attribute>
+            <attribute name="states">quotation_approved</attribute>
           </button>
           <button name="action_cancel" position="attributes">
               <attribute name="states">draft,quotation_approved,sent,sale</attribute>
