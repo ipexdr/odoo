@@ -3,7 +3,6 @@
 from odoo import models, fields, api
 import logging
 
-
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
     quote_approved = fields.Boolean(store=True, string="Is approved", default=True)
@@ -25,3 +24,4 @@ class SaleOrder(models.Model):
                     break
                 else:
                     order.quote_approved = True
+

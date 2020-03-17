@@ -9,6 +9,7 @@
                        position="after">
                     <field name="higher_disc" invisible="1"/>
                     <field name="approved_disc" invisible="1"/>
+
                     <field name="list_price" groups="quote_fields.quote_fields_manager"/>
                     <field name="vendor_discount" widget="percentage" groups="quote_fields.quote_fields_manager"/>
                     <field name="vendor_discounted" widget="monetary" groups="quote_fields.quote_fields_manager"/>
@@ -22,6 +23,7 @@
                     <field name="total_final_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="margin" widget="percentage" groups="quote_fields.quote_fields_manager"/>
 <!--                     <field name="margin" widget="percentage"/> -->
+
                     <field name="profit_margin" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="profit" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="sell_price" widget="monetary" groups="quote_fields.quote_fields_manager"/>
