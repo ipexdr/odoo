@@ -6,6 +6,15 @@ from odoo import models, fields, api
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
+    #     Approval fields
+
+    pre_appr_disc = 5
+    higher_disc = fields.Float(store=True, string="Higher approved discount", default=pre_appr_disc)
+    approved_disc = fields.Float(store=True, string="Approved Discount", default=pre_appr_disc)
+
+    #     Approval fields
+
+
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
     vendor_discount = fields.Float('Vendor Discount', store=True, default=0)
     vendor_discounted = fields.Float('Discounted', store=True, readonly=True,

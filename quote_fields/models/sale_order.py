@@ -6,21 +6,22 @@ import logging
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
     quote_approved = fields.Boolean(store=True, string="Is approved", default=True)
-    pre_appr_disc = 5
-    approved_disc = fields.Float(store=True, string="Approved Discount", default=5)
 
     def action_quotation_approve(self):
-        for quote in self:
-            quote.quote_approved = True
+        for order in self:
+            order.quote_approved = True
+            for line in order.order_line:
+                line.approved_disc = line.discount
+                if line.discount > line.higher_disc:
+                    line.higher_disc = line.discount
 
     @api.onchange('amount_total')
     def approved_by_discount(self):
-        approved = True
         for order in self:
             for line in order.order_line:
-                if line.discount > order.pre_appr_disc and line.discount > order.approved_disc:
-                    approved = False
+                if line.discount > line.approved_disc and line.discount > line.higher_disc:
+                    order.quote_approved = False
                     break
-        for quote in self:
-            quote.quote_approved = approved
+                else:
+                    order.quote_approved = True
 
