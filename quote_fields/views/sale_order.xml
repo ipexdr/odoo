@@ -29,14 +29,15 @@
                     <field name="quote_approved" invisible="1"/>
                 </xpath>
 
+
                 <button name="action_quotation_send" position="before">
                     <button name="action_quotation_approve" string="Approve"
                             type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager"
-                            attrs="{'invisible':['|',('quote_approved','=',True),('state', 'not in', 'draft')]}"/>
+                            attrs="{'invisible':['|',('quote_approved','=',True), ('state', '!=', 'draft')]}"/>
                 </button>
                 <button name="action_quotation_send" position="replace">
                     <button name="action_quotation_send" string="Send by Email" type="object" class="btn-primary"
-                            attrs="{'invisible': [('quote_approved', '=', False)]}"/>
+                            attrs="{'invisible': ['|',('quote_approved', '=', False), ('state', '!=', 'draft')]}"/>
                 </button>
 
                 <xpath expr="/form/header/button[@name='action_confirm'][2]" position="replace">
