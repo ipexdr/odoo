@@ -9,4 +9,4 @@ class SaleOrder(models.Model):
 
     def action_quotation_approve(self):
         for quote in self:
-            quote.approved = True
+            quote.quote_approved = True
