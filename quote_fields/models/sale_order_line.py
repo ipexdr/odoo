@@ -14,6 +14,7 @@ class SaleOrderLine(models.Model):
 
     #     Approval fields
 
+
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
     vendor_discount = fields.Float('Vendor Discount', store=True, default=0)
     vendor_discounted = fields.Float('Discounted', store=True, readonly=True,
