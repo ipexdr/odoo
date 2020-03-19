@@ -23,11 +23,15 @@ class SaleOrder(models.Model):
             for line in order.order_line:
                 if line.discount > line.higher_disc:
                     exceeded_items.append({'item': line.product_id.name, 'discount_pct': line.discount})
+        order_id = self.id
+        domain = "ipexdr-so-approval-966903.dev.odoo.com"
+        url = f"https://{domain}/web#id={order_id}&action=321&model=sale.order&view_type=form&cids=1&menu_id=175"
 
         msg = f"<p>The Quotation {so_number} needs to be approved.</p><p>Items over the limit:</p><ul>"
         for item in exceeded_items:
             msg += f"<li>\t{item['item']} - Discount: {item['discount_pct']}%</li>"
-        msg += "</ul>"
+        msg += f"</ul> <p>Click <a href=\"{url}\">here</a> to view the order."
+
         partner_ids = []
         for user in my_users_group:
             partner_ids.append(user.partner_id.id)
