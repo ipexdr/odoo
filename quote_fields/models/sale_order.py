@@ -9,6 +9,29 @@ _logger = logging.getLogger(__name__)
 class SaleOrder(models.Model):
     _inherit = ['sale.order']
     quote_approved = fields.Boolean(store=True, string="Is approved", default=True)
+    can_approve = fields.Boolean(compute="compute_can_approve")
+
+    @api.onchange('amount_total')
+    def compute_can_approve(self):
+        lvl_2_discount = 15
+
+        for order in self:
+            for line in order.order_line:
+                #                 ('quote_approved','=',True), ('state', '!=', 'draft'))
+                if order.quote_approved == True or order.state != 'draft':
+                    break
+                else:
+                    if (
+                            lvl_2_discount > line.discount > line.higher_disc) and self.env.user.has_group(
+                        'quote_fields.quote_fields_manager_1'):
+                        order.can_approve = True
+                    elif (
+                            line.discount >= lvl_2_discount and line.discount > line.higher_disc) and self.env.user.has_group(
+                        'quote_fields.quote_fields_manager_2'):
+                        order.can_approve = True
+                    else:
+                        order.can_approve = False
+                        break
 
     def action_ask_approval(self):
         all_users = self.env['res.users'].search([('active', '=', True)])
@@ -42,6 +65,7 @@ class SaleOrder(models.Model):
             partner_ids=tuple(partner_ids)
         )
 
+    @api.depends('can_approve')
     def action_quotation_approve(self):
         for order in self:
             order.quote_approved = True
