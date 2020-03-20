@@ -8,32 +8,25 @@ _logger = logging.getLogger(__name__)
 
 class SaleOrder(models.Model):
     _inherit = ['sale.order']
-    quote_approved = fields.Boolean(store=True, string="Is approved", default=True)
-    can_approve = fields.Boolean(compute="compute_can_approve")
+    max_discount = fields.Float(store=True, default=0, compute='compute_max_discount')
+    quote_approved = fields.Boolean(store=True, default=True)
 
-    @api.onchange('amount_total')
-    def compute_can_approve(self):
-        lvl_2_discount = 15
-
+    @api.depends('amount_total')
+    def compute_max_discount(self):
+        discounts = []
         for order in self:
             for line in order.order_line:
-                #                 ('quote_approved','=',True), ('state', '!=', 'draft'))
-                if order.quote_approved == True or order.state != 'draft':
-                    break
-                else:
-                    if (
-                            lvl_2_discount > line.discount > line.higher_disc) and self.env.user.has_group(
-                        'quote_fields.quote_fields_manager_1'):
-                        order.can_approve = True
-                    elif (
-                            line.discount >= lvl_2_discount and line.discount > line.higher_disc) and self.env.user.has_group(
-                        'quote_fields.quote_fields_manager_2'):
-                        order.can_approve = True
-                    else:
-                        order.can_approve = False
-                        break
+                discounts.append(line.discount)
+
+        for order in self:
+            if discounts:
+                order.max_discount = max(discounts)
+            else:
+                order.max_discount = 0
 
     def action_ask_approval(self):
+        # TODO: Distinguish between ask for lvl1 or lvl2 approval
+
         all_users = self.env['res.users'].search([('active', '=', True)])
 
         my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager'))
@@ -46,6 +39,7 @@ class SaleOrder(models.Model):
             for line in order.order_line:
                 if line.discount > line.higher_disc:
                     exceeded_items.append({'item': line.product_id.name, 'discount_pct': line.discount})
+
         order_id = self.id
         domain = "ipexdr-so-approval-966903.dev.odoo.com"
         url = f"https://{domain}/web#id={order_id}&action=321&model=sale.order&view_type=form&cids=1&menu_id=175"
@@ -65,7 +59,6 @@ class SaleOrder(models.Model):
             partner_ids=tuple(partner_ids)
         )
 
-    @api.depends('can_approve')
     def action_quotation_approve(self):
         for order in self:
             order.quote_approved = True
