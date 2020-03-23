@@ -29,7 +29,10 @@ class SaleOrder(models.Model):
 
         all_users = self.env['res.users'].search([('active', '=', True)])
 
-        my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager'))
+        if self.max_discount >= 15:
+            my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager_2'))
+        else:
+            my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager_1'))
         so_number = self.name
 
         exceeded_items = []
