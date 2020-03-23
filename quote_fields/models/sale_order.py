@@ -25,8 +25,6 @@ class SaleOrder(models.Model):
                 order.max_discount = 0
 
     def action_ask_approval(self):
-        # TODO: Distinguish between ask for lvl1 or lvl2 approval
-
         all_users = self.env['res.users'].search([('active', '=', True)])
 
         if self.max_discount >= 15:
