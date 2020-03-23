@@ -22,7 +22,7 @@
                     <field name="final_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="total_final_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="margin" widget="percentage" groups="quote_fields.quote_fields_manager"/>
-<!--                     <field name="margin" widget="percentage"/> -->
+                    <!--                     <field name="margin" widget="percentage"/> -->
 
                     <field name="profit_margin" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="profit" widget="monetary" groups="quote_fields.quote_fields_manager"/>
@@ -31,12 +31,21 @@
 
                 <xpath expr="/form/header/field[@name='authorized_transaction_ids']" position="after">
                     <field name="quote_approved" invisible="1"/>
+                    <field name="max_discount" invisible="1"/>
                 </xpath>
 
 
                 <button name="action_quotation_send" position="before">
                     <button name="action_quotation_approve" string="Approve"
-                            type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager"
+                            type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager_1"
+                            attrs="{'invisible':['|',('max_discount', '&gt;=', 15),'|',('quote_approved','=',True), ('state', '!=', 'draft')]}"/>
+
+                    <button name="action_quotation_approve" string="Approve"
+                            type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager_2"
+                            attrs="{'invisible':['|',('quote_approved','=',True), ('state', '!=', 'draft')]}"/>
+
+                    <button name="action_ask_approval" string="Ask for Approval"
+                            type="object" class="oe_highlight"
                             attrs="{'invisible':['|',('quote_approved','=',True), ('state', '!=', 'draft')]}"/>
                 </button>
                 <button name="action_quotation_send" position="replace">
@@ -45,8 +54,8 @@
                 </button>
 
                 <xpath expr="/form/header/button[@name='action_confirm'][2]" position="replace">
-                   <button name="action_confirm" string="Confirm" type="object"
-                           attrs="{'invisible': [('quote_approved', '=', False)]}"/>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            attrs="{'invisible': ['|',('quote_approved', '=', False), ('state', '!=', 'draft')]}"/>
                 </xpath>
 
             </field>
