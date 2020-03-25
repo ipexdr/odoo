@@ -45,7 +45,7 @@ class SaleOrderLine(models.Model):
     @api.depends('discount', 'final_cost', 'margin', 'profit_margin', 'sell_price')
     def _compute_real_margin(self):
         for line in self:
-            if line.price_unit:
+            if line.final_cost:
                 new_margin = line.profit_margin - (line.sell_price * (line.discount * 0.01))
                 line.real_margin = new_margin / line.final_cost
             else:
