@@ -8,21 +8,24 @@ _logger = logging.getLogger(__name__)
 
 class SaleOrder(models.Model):
     _inherit = ['sale.order']
-    max_discount = fields.Float(store=True, default=0, compute='compute_max_discount')
+    min_margin = fields.Float(store=True, default=0.30, compute='compute_min_margin')
     quote_approved = fields.Boolean(store=True, default=True)
+    std_min_margin = fields.Float(store=True, default=0.20)
 
     @api.depends('amount_total')
-    def compute_max_discount(self):
-        discounts = []
+    def compute_min_margin(self):
+        margins = []
         for order in self:
             for line in order.order_line:
-                discounts.append(line.discount)
+                new_margin = line.profit_margin - (line.price_unit * line.discount)
+                new_margin = new_margin / line.price_unit
+                margins.append(new_margin)
 
         for order in self:
-            if discounts:
-                order.max_discount = max(discounts)
+            if margins:
+                order.min_margin = min(margins)
             else:
-                order.max_discount = 0
+                order.min_margin = 0.30
 
     def action_ask_approval(self):
         all_users = self.env['res.users'].search([('active', '=', True)])
@@ -72,6 +75,9 @@ class SaleOrder(models.Model):
     def approved_by_discount(self):
         for order in self:
             for line in order.order_line:
+                new_margin = line.profit_margin - (line.price_unit * line.discount)
+                new_margin = new_margin / line.price_unit
+                # if new_margin < order.min_margin
                 if line.discount > line.approved_disc and line.discount > line.higher_disc:
                     order.quote_approved = False
                     break

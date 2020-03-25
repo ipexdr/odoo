@@ -6,14 +6,7 @@ from odoo import models, fields, api
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    #     Approval fields
-
-    pre_appr_disc = 5
-    higher_disc = fields.Float(store=True, string="Higher approved discount", default=pre_appr_disc)
-    approved_disc = fields.Float(store=True, string="Approved Discount", default=pre_appr_disc)
-
-    #     Approval fields
-
+    default_margin = 0.30
 
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
     vendor_discount = fields.Float('Vendor Discount', store=True, default=0)
@@ -36,12 +29,26 @@ class SaleOrderLine(models.Model):
     total_final_cost = fields.Float('Total Final Cost', store=True,
                                     readonly=True, compute='_compute_total_final_cost')  # Costo Final x Cantidad
 
-    margin = fields.Float('Margin', store=True, default=0.30)  # % de margen de ganancia aplicado al Costo Final
+    margin = fields.Float('Margin', store=True,
+                          default=default_margin)  # % de margen de ganancia aplicado al Costo Final
+    #   Approval field
+    real_margin = fields.Float('Real Profit Margin Pct', store=True, compute='_compute_real_margin', readonly=True,
+                               default=default_margin)
+    #   Approval field
     profit_margin = fields.Float('Profit Margin', store=True,
                                  readonly=True, compute='_compute_profit_margin')  # monto del % margen de ganancia
     profit = fields.Float('Profit', store=True, readonly=True, compute='_compute_profit')  # Margen G. * Cantidad
     sell_price = fields.Float('Sell Price', store=True, readonly=True,
                               compute='_compute_sell_price')  # Costo Final + Margen G
+
+    @api.depends('price_subtotal')
+    def _compute_real_margin(self):
+        for line in self:
+            if line.price_unit:
+                new_margin = line.profit_margin - (line.sell_price * (line.discount * 0.01))
+                line.real_margin = new_margin / line.final_cost
+            else:
+                line.real_margin = line.margin
 
     @api.depends('product_id')
     def _compute_list_price(self):
