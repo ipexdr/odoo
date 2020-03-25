@@ -7,6 +7,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     default_margin = 0.30
+    min_appr_margin = fields.Float('Minimum Approved Margin', store=True, default=default_margin)
 
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
     vendor_discount = fields.Float('Vendor Discount', store=True, default=0)
@@ -41,7 +42,7 @@ class SaleOrderLine(models.Model):
     sell_price = fields.Float('Sell Price', store=True, readonly=True,
                               compute='_compute_sell_price')  # Costo Final + Margen G
 
-    @api.depends('price_subtotal')
+    @api.depends('discount', 'final_cost', 'margin', 'profit_margin', 'sell_price')
     def _compute_real_margin(self):
         for line in self:
             if line.price_unit:
