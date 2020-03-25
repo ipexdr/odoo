@@ -8,6 +8,8 @@
                 <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']"
                        position="after">
 
+                    <field name="min_appr_margin" invisible="1"/>
+
                     <field name="list_price" groups="quote_fields.quote_fields_manager"/>
                     <field name="vendor_discount" widget="percentage" groups="quote_fields.quote_fields_manager"/>
                     <field name="vendor_discounted" widget="monetary" groups="quote_fields.quote_fields_manager"/>
@@ -30,14 +32,15 @@
 
                 <xpath expr="/form/header/field[@name='authorized_transaction_ids']" position="after">
                     <field name="quote_approved" invisible="1"/>
-                    <field name="max_discount" invisible="1"/>
+                    <field name="min_margin" invisible="1"/>
+                    <field name="std_min_margin" invisible="1"/>
                 </xpath>
 
 
                 <button name="action_quotation_send" position="before">
                     <button name="action_quotation_approve" string="Approve"
                             type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager_1"
-                            attrs="{'invisible':['|',('max_discount', '&gt;=', 15),'|',('quote_approved','=',True), ('state', '!=', 'draft')]}"/>
+                            attrs="{'invisible':['|',('min_margin', '&lt;=', 'std_min_margin'),'|',('quote_approved','=',True), ('state', '!=', 'draft')]}"/>
 
                     <button name="action_quotation_approve" string="Approve"
                             type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager_2"
