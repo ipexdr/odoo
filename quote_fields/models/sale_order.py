@@ -40,8 +40,8 @@ class SaleOrder(models.Model):
         #       Knowing which items are the reason for the approval
         for order in self:
             for line in order.order_line:
-                if line.real_margin > line.min_appr_margin:
-                    exceeded_items.append({'item': line.product_id.name, 'margin': line.real_margin})
+                if line.real_margin < line.min_appr_margin:
+                    exceeded_items.append({'item': line.product_id.name, 'margin': (line.real_margin * 100)})
 
         order_id = self.id
         domain = "ipexdr-so-approval-966903.dev.odoo.com"
@@ -66,14 +66,14 @@ class SaleOrder(models.Model):
         for order in self:
             order.quote_approved = True
             for line in order.order_line:
-                if line.real_margin > line.min_appr_margin:
+                if line.real_margin < line.min_appr_margin:
                     line.min_appr_margin = line.real_margin
 
     @api.onchange('amount_total')
     def approved_by_margin(self):
         for order in self:
             for line in order.order_line:
-                if line.real_margin > line.min_appr_margin:
+                if line.real_margin < line.min_appr_margin:
                     order.quote_approved = False
                     break
                 else:
