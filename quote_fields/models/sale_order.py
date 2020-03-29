@@ -36,13 +36,13 @@ class SaleOrder(models.Model):
         #       Knowing which items are the reason for the approval
         for order in self:
             for line in order.order_line:
-                if line.real_margin < line.min_appr_margin:
+                if line.real_margin <= line.min_appr_margin:
                     exceeded_items.append({'item': line.product_id.name, 'margin': (line.real_margin * 100)})
 
         order_id = self.id
 
         domain = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        #         domain = "ipexdr-so-approval-966903.dev.odoo.com"
+
         url = f"{domain}/web#id={order_id}&action=321&model=sale.order&view_type=form&cids=1&menu_id=175"
 
         msg = f"<p>The Quotation {so_number} needs to be approved.</p><p>Items over the limit:</p><ul>"
@@ -57,7 +57,9 @@ class SaleOrder(models.Model):
         self.message_notify(
             subject='Quotation pending for Approval',
             body=msg,
-            partner_ids=tuple(partner_ids)
+            partner_ids=tuple(partner_ids),
+            model=self._name,
+            res_id=self.id
         )
 
     def action_quotation_approve(self):
