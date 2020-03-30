@@ -38,7 +38,7 @@ class SaleOrder(models.Model):
         #       Knowing which items are the reason for the approval
         for order in self:
             for line in order.order_line:
-              if line.real_margin <= line.min_appr_margin:
+                if line.real_margin <= line.min_appr_margin:
 
                     exceeded_items.append({'item': line.product_id.name, 'margin': (line.real_margin * 100)})
 
