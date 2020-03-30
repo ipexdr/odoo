@@ -19,8 +19,10 @@ class SaleOrder(models.Model):
         for order in self:
             for line in order.order_line:
                 margins.append(line.real_margin)
+                
         if len(margins) > 0:
             order.min_margin = min(margins)
+
 
     def action_ask_approval(self):
         all_users = self.env['res.users'].search([('active', '=', True)])
@@ -36,7 +38,8 @@ class SaleOrder(models.Model):
         #       Knowing which items are the reason for the approval
         for order in self:
             for line in order.order_line:
-                if line.real_margin <= line.min_appr_margin:
+              if line.real_margin <= line.min_appr_margin:
+
                     exceeded_items.append({'item': line.product_id.name, 'margin': (line.real_margin * 100)})
 
         order_id = self.id
@@ -74,6 +77,7 @@ class SaleOrder(models.Model):
         for order in self:
             for line in order.order_line:
                 if line.real_margin < line.min_appr_margin or line.real_margin < order.std_min_margin:
+
                     order.quote_approved = False
                     break
                 else:
