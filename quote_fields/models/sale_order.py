@@ -10,8 +10,10 @@ class SaleOrder(models.Model):
     _inherit = ['sale.order']
     min_margin = fields.Float(store=True, default=0.30, compute='compute_min_margin')
     quote_approved = fields.Boolean(store=True, default=True)
-    var_std_min_margin = 0.20
-    std_min_margin = fields.Float(store=True, default=var_std_min_margin)
+    var_lvl_1_margin = 0.20
+    std_min_margin = fields.Float(store=True, default=var_lvl_1_margin)
+
+    #     TODO: set default min_margin, var_lvl_1_margin from settings page
 
     @api.depends('amount_total')
     def compute_min_margin(self):
@@ -19,13 +21,14 @@ class SaleOrder(models.Model):
         for order in self:
             for line in order.order_line:
                 margins.append(line.real_margin)
+
         if len(margins) > 0:
             order.min_margin = min(margins)
 
     def action_ask_approval(self):
         all_users = self.env['res.users'].search([('active', '=', True)])
 
-        if self.min_margin <= self.var_std_min_margin:
+        if self.min_margin <= self.var_lvl_1_margin:
             my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager_2'))
         else:
             my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager_1'))
@@ -36,7 +39,6 @@ class SaleOrder(models.Model):
         #       Knowing which items are the reason for the approval
         for order in self:
             for line in order.order_line:
-
                 if line.real_margin <= line.min_appr_margin:
                     exceeded_items.append({'item': line.product_id.name, 'margin': (line.real_margin * 100)})
 
@@ -48,7 +50,7 @@ class SaleOrder(models.Model):
 
         msg = f"<p>The Quotation {so_number} needs to be approved.</p><p>Items over the limit:</p><ul>"
         for item in exceeded_items:
-            msg += f"<li>\t{item['item']} - Profit Margin: {item['margin']}%</li>"
+            msg += f"<li>\t{item['item']} - Profit Margin: {round(item['margin'], 2)}%</li>"
         msg += f"</ul> <p>Click <a href=\"{url}\">here</a> to view the order."
 
         partner_ids = []
@@ -75,6 +77,7 @@ class SaleOrder(models.Model):
         for order in self:
             for line in order.order_line:
                 if line.real_margin < line.min_appr_margin or line.real_margin < order.std_min_margin:
+
                     order.quote_approved = False
                     break
                 else:
