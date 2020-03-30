@@ -7,7 +7,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     default_margin = 0.30
-    min_appr_margin = fields.Float('Minimum Approved Margin', store=True, default=default_margin)
+    min_appr_margin = fields.Float('Minimum Approved Margin', store=True, default=0.20)
 
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
     vendor_discount = fields.Float('Vendor Discount', store=True, default=0)
@@ -33,7 +33,7 @@ class SaleOrderLine(models.Model):
     margin = fields.Float('Margin', store=True,
                           default=default_margin)  # % de margen de ganancia aplicado al Costo Final
     #   Approval field
-    real_margin = fields.Float('Real Profit Margin Pct', store=True, compute='_compute_real_margin', readonly=True,
+    real_margin = fields.Float('Real Margin', store=True, compute='_compute_real_margin', readonly=True,
                                default=default_margin)
     #   Approval field
     profit_margin = fields.Float('Profit Margin', store=True,
