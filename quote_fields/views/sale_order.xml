@@ -42,6 +42,7 @@
                             type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager_1"
                             attrs="{'invisible':['|',('min_margin', '&lt;=', 0.20),'|',('quote_approved','=',True), ('state', '!=', 'draft')]}"/>
 
+
                     <button name="action_quotation_approve" string="Approve"
                             type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager_2"
                             attrs="{'invisible':['|',('min_margin', '&gt;', 0.20),'|',('quote_approved','=',True), ('state', '!=', 'draft')]}"/>
