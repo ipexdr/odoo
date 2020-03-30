@@ -19,12 +19,10 @@ class SaleOrder(models.Model):
         for order in self:
             for line in order.order_line:
                 margins.append(line.real_margin)
+                
+        if len(margins) > 0:
+            order.min_margin = min(margins)
 
-        for order in self:
-            if margins:
-                order.min_margin = min(margins)
-            else:
-                order.min_margin = 0.30
 
     def action_ask_approval(self):
         all_users = self.env['res.users'].search([('active', '=', True)])
@@ -40,12 +38,15 @@ class SaleOrder(models.Model):
         #       Knowing which items are the reason for the approval
         for order in self:
             for line in order.order_line:
-                if line.real_margin < line.min_appr_margin:
+              if line.real_margin <= line.min_appr_margin:
+
                     exceeded_items.append({'item': line.product_id.name, 'margin': (line.real_margin * 100)})
 
         order_id = self.id
-        domain = "ipexdr-so-approval-966903.dev.odoo.com"
-        url = f"https://{domain}/web#id={order_id}&action=321&model=sale.order&view_type=form&cids=1&menu_id=175"
+
+        domain = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+
+        url = f"{domain}/web#id={order_id}&action=321&model=sale.order&view_type=form&cids=1&menu_id=175"
 
         msg = f"<p>The Quotation {so_number} needs to be approved.</p><p>Items over the limit:</p><ul>"
         for item in exceeded_items:
@@ -59,7 +60,9 @@ class SaleOrder(models.Model):
         self.message_notify(
             subject='Quotation pending for Approval',
             body=msg,
-            partner_ids=tuple(partner_ids)
+            partner_ids=tuple(partner_ids),
+            model=self._name,
+            res_id=self.id
         )
 
     def action_quotation_approve(self):
@@ -73,7 +76,8 @@ class SaleOrder(models.Model):
     def approved_by_margin(self):
         for order in self:
             for line in order.order_line:
-                if line.real_margin < line.min_appr_margin:
+                if line.real_margin < line.min_appr_margin or line.real_margin < order.std_min_margin:
+
                     order.quote_approved = False
                     break
                 else:
