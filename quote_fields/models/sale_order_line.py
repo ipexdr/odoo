@@ -42,6 +42,8 @@ class SaleOrderLine(models.Model):
     sell_price = fields.Float('Sell Price', store=True, readonly=True,
                               compute='_compute_sell_price')  # Costo Final + Margen G
 
+    # TODO: Set list_price from compute
+
     @api.depends('discount', 'final_cost', 'margin', 'profit_margin', 'sell_price')
     def _compute_real_margin(self):
         for line in self:
