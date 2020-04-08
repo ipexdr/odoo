@@ -38,6 +38,7 @@
                         <label for="margin"/>
                         <div class="o_row">
                             <field name="margin"/>
+                            <span>%%</span>
                         </div>
 
                     </group>
