@@ -8,7 +8,9 @@
                 <xpath expr="//field[@name='standard_price']" position="attributes">
                     <attribute name="string">List Price</attribute>
                 </xpath>
-
+                <xpath expr="//group[@name='group_standard_price']/label[2]" position='replace'>
+                    <label for="standard_price" string="List Price"/>
+                </xpath>
                 <xpath expr="//page[@name='general_information']/group" position="after">
                     <group col="4" colspan="2">
 
@@ -17,7 +19,11 @@
                         <field name="fob_total" invisible="1"/>
                         <field name="profit_margin" invisible="1"/>
 
-                        <field name="cost"/>
+                        <label for="cost"/>
+                        <div class="o_row">
+                            <span>$</span>
+                            <field name="cost"/>
+                        </div>
 
                         <label for="tariff"/>
                         <div class="o_row">
