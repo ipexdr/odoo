@@ -1,10 +1,21 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class ProductTemplate(models.Model):
     _inherit = ['product.template']
+
+    # overrided from product_template.py
+    # list_price: catalog price, user defined
+    list_price = fields.Float(
+        'Sales Price', default=1.0,
+        compute='_compute_list_price',
+        digits='Product Price',
+        help="Price at which the product is sold to customers.")
 
     default_margin = 30
 
@@ -38,6 +49,7 @@ class ProductTemplate(models.Model):
         """
         Calculates the product $cost by adding the total_fob, tariff $cost and admin fee
         """
+        _logger.info("_compute_cost")
         for product in self:
             cost = product.fob_total + product.tariff_cost + product.admin_fee
             #             product.write({'cost':cost})
@@ -50,6 +62,7 @@ class ProductTemplate(models.Model):
         using the vendor discount.
         :return:
         """
+        _logger.info("compute_vendor_discounted")
         for product in self:
             vendor_discounted = product.standard_price * (product.vendor_discount * 0.01)
             #             product.write({'vendor_discounted': vendor_discounted})
@@ -62,6 +75,7 @@ class ProductTemplate(models.Model):
         the discounted $amount (vendor_discounted).
         :return:
         """
+        _logger.info("_compute_fob_total")
         for product in self:
             fob_total = product.standard_price - product.vendor_discounted
             #             product.write({'fob_total': fob_total})
@@ -73,6 +87,7 @@ class ProductTemplate(models.Model):
         Calculates tariff real $amount from tariff and fob_total fields
         :return:
         """
+        _logger.info("_compute_tariff_cost")
 
         for product in self:
             tariff_cost = (product.tariff * 0.01) * product.fob_total
@@ -100,21 +115,21 @@ class ProductTemplate(models.Model):
         profit_margin = cost * margin
         :return:
         """
+        _logger.info("_compute_profit_margin")
 
         for product in self:
             profit_margin = product.cost * (product.margin * 0.01)
-            #             product.write({'profit_margin': profit_margin})
             product.profit_margin = profit_margin
 
     @api.depends('cost', 'margin')
-    def _compute_sale_price(self):
+    def _compute_list_price(self):
         """
-        Each time the final_cost or margin is affected, applies the
-        corresponding list price to the product's sale price
+        Each time the cost or margin is affected, applies the
+        corresponding price to the product's sale price
         :return:
         """
+        _logger.info("_compute_list_price")
 
         for product in self:
             sale_price = product.cost + product.profit_margin
-            #             product.write({'sale_price':sale_price})
             product.list_price = sale_price
