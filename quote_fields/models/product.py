@@ -132,5 +132,6 @@ class ProductTemplate(models.Model):
         _logger.info('_set_list_price')
 
         for product in self:
-            new_margin = (product.list_price - product.cost) / product.cost
-            product.margin = (new_margin * 100)
+            if product.cost:
+                new_margin = (product.list_price - product.cost) / product.cost
+                product.margin = (new_margin * 100)
