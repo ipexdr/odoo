@@ -14,6 +14,7 @@ class ProductTemplate(models.Model):
     list_price = fields.Float(
         'Sales Price', default=1.0,
         compute='_compute_list_price',
+        inverse='_set_list_price',
         digits='Product Price',
         help="Price at which the product is sold to customers.")
 
@@ -62,7 +63,7 @@ class ProductTemplate(models.Model):
         using the vendor discount.
         :return:
         """
-        _logger.info("compute_vendor_discounted")
+        _logger.info("_compute_vendor_discounted")
         for product in self:
             vendor_discounted = product.standard_price * (product.vendor_discount * 0.01)
             #             product.write({'vendor_discounted': vendor_discounted})
@@ -94,18 +95,6 @@ class ProductTemplate(models.Model):
             #             product.write({'tariff_cost': tariff_cost})
             product.tariff_cost = tariff_cost
 
-    #     @api.depends('admin_fee', 'cost')
-    #     def _compute_final_cost(self):
-    #         """
-    #         Adds admin_fee and cost, to get final_cost value.
-    #         Final_cost value will be used to calculate the final Sale Price
-    #         :return:
-    #         """
-    #         for product in self:
-    #             final_cost = product.admin_fee + product.cost
-    # #             product.write({'final_cost': final_cost})
-    #             product.final_cost = final_cost
-
     @api.depends('margin', 'cost')
     def _compute_profit_margin(self):
         """
@@ -133,3 +122,15 @@ class ProductTemplate(models.Model):
         for product in self:
             sale_price = product.cost + product.profit_margin
             product.list_price = sale_price
+
+    def _set_list_price(self):
+        """
+        When setting a manual list_price (sales price),
+        sets the profit margin according to the new list_price
+        :return:
+        """
+        _logger.info('_set_list_price')
+
+        for product in self:
+            new_margin = (product.list_price - product.cost) / product.cost
+            product.margin = (new_margin * 100)
