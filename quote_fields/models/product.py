@@ -13,6 +13,8 @@ class ProductTemplate(models.Model):
     # list_price: catalog price, user defined
     list_price = fields.Float(
         'Sales Price', default=1.0,
+        compute='_compute_list_price',
+        inverse='_set_list_price',
         #         compute='_compute_list_price',
         #         inverse='_set_list_price',
         digits='Product Price',
