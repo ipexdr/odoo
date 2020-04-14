@@ -122,7 +122,7 @@ class ProductTemplate(models.Model):
             sale_price = product.cost + product.profit_margin
             product.list_price = sale_price
 
-    @api.depends('list_price')
+    @api.onchange('list_price')
     def _set_list_price(self):
         """
         When setting a manual list_price (sales price),
