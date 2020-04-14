@@ -138,8 +138,8 @@ class ProductTemplate(models.Model):
                 # Setting tariff pct, default vendor discount and admin fee
                 # to 0. So, in case there is no list price, it is set to
                 # sale price without the profit margin
-                product.standard_price = product.list_price / 1.30
-                product.margin = 30
+                product.standard_price = product.list_price
+                product.margin = 0
                 product.tariff = 0
                 product.vendor_discount = 0
                 product.admin_fee = 0
