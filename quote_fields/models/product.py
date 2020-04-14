@@ -13,8 +13,8 @@ class ProductTemplate(models.Model):
     # list_price: catalog price, user defined
     list_price = fields.Float(
         'Sales Price', default=1.0,
-        compute='_compute_list_price',
-        inverse='_set_list_price',
+        #         compute='_compute_list_price',
+        #         inverse='_set_list_price',
         digits='Product Price',
         help="Price at which the product is sold to customers.")
 
@@ -122,6 +122,7 @@ class ProductTemplate(models.Model):
             sale_price = product.cost + product.profit_margin
             product.list_price = sale_price
 
+    @api.depends('list_price')
     def _set_list_price(self):
         """
         When setting a manual list_price (sales price),
