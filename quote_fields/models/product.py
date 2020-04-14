@@ -131,6 +131,15 @@ class ProductTemplate(models.Model):
         _logger.info('_set_list_price')
 
         for product in self:
-            if product.cost:
+            if product.standard_price:
                 new_margin = (product.list_price - product.cost) / product.cost
                 product.margin = (new_margin * 100)
+            else:
+                # Setting tariff pct, default vendor discount and admin fee
+                # to 0. So, in case there is no list price, it is set to
+                # sale price without the profit margin
+                product.standard_price = product.list_price / 1.30
+                product.margin = 30
+                product.tariff = 0
+                product.vendor_discount = 0
+                product.admin_fee = 0
