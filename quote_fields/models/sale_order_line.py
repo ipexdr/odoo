@@ -10,29 +10,48 @@ class SaleOrderLine(models.Model):
     min_appr_margin = fields.Float('Minimum Approved Margin', store=True, default=0.20)
 
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
-    vendor_discount = fields.Float('Vendor Discount', store=True, default=0)
+
+    vendor_discount = fields.Float('Vendor Discount', store=True, default=0, compute='_compute_vendor_discount')
+
+    # TODO: _compute_new_discount
+    #   - add extra_discount
+
     vendor_discounted = fields.Float('Discounted', store=True, readonly=True,
-                                     compute='_compute_vendor_discount')  # (Precio de lista) * (% Descuento fabricante)
+                                     compute='_compute_vendor_discounted')  # (Precio de lista) * (% Descuento fabricante)
     fob_total = fields.Float('FOB Total', store=True, readonly=True,
                              compute='_compute_fob_total')  # Precio de lista - Desc
 
-    tariff = fields.Float('Tariff', store=True, default='0.08')
+    tariff = fields.Float('Tariff', store=True, default='0.08', compute='_compute_tariff')
+    # TODO: _compute_tariff
+
     tariff_cost = fields.Float('Tariff Cost', store=True, readonly=True,
-                               compute='_compute_tariff_cost')  # (Total FOB) * (% Arancel)
+                               compute='_compute_tariff_cost')  # Get from Product (Total FOB) * (% Arancel)
+    # TODO: change _compute_tariff_cost to get from product_id
+
     total_tariff_cost = fields.Float('Total Tariff Cost', store=True,
                                      readonly=True,
-                                     compute='_compute_total_tariff_cost')  # Costo de Arancel * Cantidad de Articulos
+                                     compute='_compute_total_tariff_cost')  # Get from Product -  Costo de Arancel * Cantidad de Articulos
+    # TODO: change _compute_total_tariff_cost to get from product_id
 
     cost = fields.Float('Cost', store=True, readonly=True, compute='_compute_cost')  # Total FOB + Costo de Arancel
+    # TODO: change _compute_cost
+    #  - get from product_id.cost
+
     admin_cost = fields.Float('Admin. Cost', store=True, default=0)
+    # TODO: _compute_admin_cost get from product_id
+
     final_cost = fields.Float('Final Cost', store=True, readonly=True,
                               compute='_compute_final_cost')  # Costo + Costo Adm
+    # TODO: remove final cost - merge with cost
+
     total_final_cost = fields.Float('Total Final Cost', store=True,
                                     readonly=True, compute='_compute_total_final_cost')  # Costo Final x Cantidad
 
     margin = fields.Float('Margin', store=True,
                           default=default_margin)  # % de margen de ganancia aplicado al Costo Final
-    #   Approval field
+
+    # Approval field
+
     real_margin = fields.Float('Real Margin', store=True, compute='_compute_real_margin', readonly=True,
                                default=default_margin)
     #   Approval field
@@ -41,8 +60,7 @@ class SaleOrderLine(models.Model):
     profit = fields.Float('Profit', store=True, readonly=True, compute='_compute_profit')  # Margen G. * Cantidad
     sell_price = fields.Float('Sell Price', store=True, readonly=True,
                               compute='_compute_sell_price')  # Costo Final + Margen G
-
-    # TODO: Set list_price from compute
+    # TODO: (??) change _compute_sell_price - get from product_id.list_price
 
     @api.depends('discount', 'final_cost', 'margin', 'profit_margin', 'sell_price')
     def _compute_real_margin(self):
@@ -54,12 +72,17 @@ class SaleOrderLine(models.Model):
                 line.real_margin = line.margin
 
     @api.depends('product_id')
+    def _compute_vendor_discount(self):
+        for line in self:
+            line.vendor_discount = (line.product_id.vendor_discount * 0.01)
+
+    @api.depends('product_id')
     def _compute_list_price(self):
         for line in self:
-            line.list_price = line.product_id.list_price
+            line.list_price = line.product_id.standard_price
 
     @api.depends('vendor_discount', 'list_price')
-    def _compute_vendor_discount(self):
+    def _compute_vendor_discounted(self):
         """
         Compute the vendor discounted amount from vendor_discount
         :return:
