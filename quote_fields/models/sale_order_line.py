@@ -53,7 +53,7 @@ class SaleOrderLine(models.Model):
 
     # TODO: (??) change _compute_sell_price - get from product_id.list_price
 
-    @api.depends('discount', 'cost' 'margin', 'profit_margin', 'sell_price')
+    @api.depends('discount', 'cost', 'margin', 'profit_margin', 'sell_price')
     def _compute_real_margin(self):
         for line in self:
             if line.cost:
