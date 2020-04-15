@@ -56,7 +56,7 @@ class SaleOrderLine(models.Model):
     @api.depends('product_id')
     def _compute_list_price(self):
         for line in self:
-            line.list_price = line.product_id.standard_price
+            line.list_price = line.product_id.list_price
 
     @api.depends('vendor_discount', 'list_price')
     def _compute_vendor_discount(self):
