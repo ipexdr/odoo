@@ -34,10 +34,6 @@ class SaleOrderLine(models.Model):
 
     admin_cost = fields.Float('Admin. Cost', store=True, default=0)
 
-    final_cost = fields.Float('Final Cost', store=True, readonly=True,
-                              compute='_compute_final_cost')  # Costo + Costo Adm
-    # TODO: remove final cost - merge with cost
-
     total_final_cost = fields.Float('Total Final Cost', store=True,
                                     readonly=True, compute='_compute_total_final_cost')  # Costo Final x Cantidad
 
@@ -57,12 +53,12 @@ class SaleOrderLine(models.Model):
 
     # TODO: (??) change _compute_sell_price - get from product_id.list_price
 
-    @api.depends('discount', 'final_cost', 'margin', 'profit_margin', 'sell_price')
+    @api.depends('discount', 'cost' 'margin', 'profit_margin', 'sell_price')
     def _compute_real_margin(self):
         for line in self:
-            if line.final_cost:
+            if line.cost:
                 new_margin = line.profit_margin - (line.sell_price * (line.discount * 0.01))
-                line.real_margin = new_margin / line.final_cost
+                line.real_margin = new_margin / line.cost
             else:
                 line.real_margin = line.margin
 
@@ -130,28 +126,23 @@ class SaleOrderLine(models.Model):
         for line in self:
             line.cost = line.product_id.cost
 
-    @api.depends('cost', 'admin_cost')
-    def _compute_final_cost(self):
-        for line in self:
-            line.final_cost = line.admin_cost + line.cost
-
-    @api.depends('final_cost', 'product_uom_qty')
+    @api.depends('cost', 'product_uom_qty')
     def _compute_total_final_cost(self):
         for line in self:
-            line.total_final_cost = line.final_cost * line.product_uom_qty
+            line.total_final_cost = line.cost * line.product_uom_qty
 
-    @api.depends('margin', 'final_cost')
+    @api.depends('margin', 'cost')
     def _compute_profit_margin(self):
         for line in self:
-            line.profit_margin = line.margin * line.final_cost
+            line.profit_margin = line.margin * line.cost
 
     @api.depends('profit_margin', 'product_uom_qty')
     def _compute_profit(self):
         for line in self:
             line.profit = line.profit_margin * line.product_uom_qty
 
-    @api.depends('profit_margin', 'final_cost', 'product_uom_qty')
+    @api.depends('profit_margin', 'cost', 'product_uom_qty')
     def _compute_sell_price(self):
         for line in self:
-            line.sell_price = line.final_cost + line.profit_margin
+            line.sell_price = line.cost + line.profit_margin
             line.price_unit = line.sell_price
