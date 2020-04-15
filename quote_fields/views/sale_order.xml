@@ -19,7 +19,6 @@
                     <field name="total_tariff_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="admin_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
-                    <field name="final_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="total_final_cost" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="margin" widget="percentage" groups="quote_fields.quote_fields_manager"/>
                     <field name="real_margin" widget="percentage" groups="quote_fields.quote_fields_manager"/>
