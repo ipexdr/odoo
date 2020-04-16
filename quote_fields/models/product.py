@@ -37,7 +37,7 @@ class ProductTemplate(models.Model):
                                compute='_compute_tariff_cost')
     # Total FOB + tariff cost
     cost = fields.Float('Product Cost', store=True, readonly=True, compute='_compute_cost')
-    admin_fee = fields.Float('Admin. Fee', store=True, default=0)
+    # admin_fee = fields.Float('Admin. Fee', store=True, default=0)
     #     final_cost = fields.Float('Final Cost', store=True, readonly=True,
     #                               compute='_compute_final_cost')
 
@@ -47,14 +47,14 @@ class ProductTemplate(models.Model):
     profit_margin = fields.Float(store=True,
                                  readonly=True, compute='_compute_profit_margin')
 
-    @api.depends('fob_total', 'tariff_cost', 'admin_fee')
+    @api.depends('fob_total', 'tariff_cost')
     def _compute_cost(self):
         """
         Calculates the product $cost by adding the total_fob, tariff $cost and admin fee
         """
         _logger.info("_compute_cost")
         for product in self:
-            cost = product.fob_total + product.tariff_cost + product.admin_fee
+            cost = product.fob_total + product.tariff_cost
             #             product.write({'cost':cost})
             product.cost = cost
 
@@ -145,4 +145,4 @@ class ProductTemplate(models.Model):
                 product.margin = 0
                 product.tariff = 0
                 product.vendor_discount = 0
-                product.admin_fee = 0
+                # product.admin_fee = 0
