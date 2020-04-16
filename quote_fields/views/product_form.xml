@@ -39,7 +39,7 @@
 
                         <!--                         <field name="admin_fee" invisible="1"/> -->
 
-                        <field name="admin_fee"/>
+<!--                        <field name="admin_fee"/>-->
 
                         <label for="margin"/>
                         <div class="o_row">

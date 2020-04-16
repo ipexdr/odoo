@@ -62,10 +62,10 @@ class SaleOrderLine(models.Model):
             else:
                 line.real_margin = line.margin
 
-    @api.depends('product_id')
-    def _compute_admin_cost(self):
-        for line in self:
-            line.admin_cost = line.product_id.admin_fee
+    # @api.depends('product_id')
+    # def _compute_admin_cost(self):
+    #     for line in self:
+    #         line.admin_cost = line.product_id.admin_fee
 
     @api.depends('product_id')
     def _compute_tariff(self):
@@ -129,7 +129,7 @@ class SaleOrderLine(models.Model):
     @api.depends('cost', 'product_uom_qty')
     def _compute_total_final_cost(self):
         for line in self:
-            line.total_final_cost = line.cost * line.product_uom_qty
+            line.total_final_cost = (line.cost + line.admin_cost) * line.product_uom_qty
 
     @api.depends('margin', 'cost')
     def _compute_profit_margin(self):
