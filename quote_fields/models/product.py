@@ -14,7 +14,6 @@ class ProductTemplate(models.Model):
     list_price = fields.Float(
         'Sales Price', default=1.0,
         compute='_compute_list_price',
-        inverse='_set_list_price',
         #         compute='_compute_list_price',
         #         inverse='_set_list_price',
         digits='Product Price',
@@ -124,25 +123,25 @@ class ProductTemplate(models.Model):
             sale_price = product.cost + product.profit_margin
             product.list_price = sale_price
 
-    @api.onchange('list_price')
-    def _set_list_price(self):
-        """
-        When setting a manual list_price (sales price),
-        sets the profit margin according to the new list_price
-        :return:
-        """
-        _logger.info('_set_list_price')
-
-        for product in self:
-            if product.standard_price:
-                new_margin = (product.list_price - product.cost) / product.cost
-                product.margin = (new_margin * 100)
-            else:
-                # Setting tariff pct, default vendor discount and admin fee
-                # to 0. So, in case there is no list price, it is set to
-                # sale price without the profit margin
-                product.standard_price = product.list_price
-                product.margin = 0
-                product.tariff = 0
-                product.vendor_discount = 0
-                # product.admin_fee = 0
+    # @api.onchange('list_price')
+    # def _set_list_price(self):
+    #     """
+    #     When setting a manual list_price (sales price),
+    #     sets the profit margin according to the new list_price
+    #     :return:
+    #     """
+    #     _logger.info('_set_list_price')
+    #
+    #     for product in self:
+    #         if product.standard_price:
+    #             new_margin = (product.list_price - product.cost) / product.cost
+    #             product.margin = (new_margin * 100)
+    #         else:
+    #             # Setting tariff pct, default vendor discount and admin fee
+    #             # to 0. So, in case there is no list price, it is set to
+    #             # sale price without the profit margin
+    #             product.standard_price = product.list_price
+    #             product.margin = 0
+    #             product.tariff = 0
+    #             product.vendor_discount = 0
+    #             # product.admin_fee = 0
