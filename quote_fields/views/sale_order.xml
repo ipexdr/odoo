@@ -12,6 +12,7 @@
 
                     <field name="list_price" groups="quote_fields.quote_fields_manager"/>
                     <field name="vendor_discount" widget="percentage" groups="quote_fields.quote_fields_manager"/>
+                    <field name="Extra Vendor Discount" widget="percentage"/>
                     <field name="vendor_discounted" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="fob_total" widget="monetary" groups="quote_fields.quote_fields_manager"/>
                     <field name="tariff" widget="percentage" groups="quote_fields.quote_fields_manager"/>

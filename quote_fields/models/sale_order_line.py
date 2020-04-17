@@ -13,6 +13,8 @@ class SaleOrderLine(models.Model):
 
     vendor_discount = fields.Float('Vendor Discount', store=True, default=0, compute='_compute_vendor_discount')
 
+    extra_discount = fields.Float('Extra Vendor Discount', default=0)
+
     # TODO: _compute_new_discount
     #   - add extra_discount
 
@@ -82,7 +84,7 @@ class SaleOrderLine(models.Model):
         for line in self:
             line.list_price = line.product_id.standard_price
 
-    @api.depends('vendor_discount', 'list_price')
+    @api.depends('vendor_discount', 'list_price', 'extra_discount')
     def _compute_vendor_discounted(self):
         """
         Compute the vendor discounted amount from vendor_discount
@@ -90,7 +92,10 @@ class SaleOrderLine(models.Model):
         """
 
         for line in self:
-            line.vendor_discounted = line.vendor_discount * line.list_price
+            if line.extra_discount:
+                line.vendor_discounted = line.extra_discount * line.list_price
+            else:
+                line.vendor_discounted = line.vendor_discount * line.list_price
 
     @api.depends('list_price', 'vendor_discounted')
     def _compute_fob_total(self):
