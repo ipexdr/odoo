@@ -15,8 +15,7 @@ class SaleOrderLine(models.Model):
 
     extra_discount = fields.Float('Extra Vendor Discount', default=0)
 
-    # TODO: _compute_new_discount
-    #   - add extra_discount
+    approved_extra_discount = fields.Float('Approved Vendor discount', default=0)
 
     vendor_discounted = fields.Float('Discounted', store=True, readonly=True,
                                      compute='_compute_vendor_discounted')  # (Precio de lista) * (% Descuento fabricante)
@@ -53,8 +52,6 @@ class SaleOrderLine(models.Model):
     sell_price = fields.Float('Sell Price', store=True, readonly=True,
                               compute='_compute_sell_price')  # Costo Final + Margen G
 
-    # TODO: (??) change _compute_sell_price - get from product_id.list_price
-
     @api.depends('discount', 'cost', 'margin', 'profit_margin', 'sell_price')
     def _compute_real_margin(self):
         for line in self:
@@ -77,7 +74,10 @@ class SaleOrderLine(models.Model):
     @api.depends('product_id')
     def _compute_vendor_discount(self):
         for line in self:
-            line.vendor_discount = (line.product_id.vendor_discount * 0.01)
+            discount = (line.product_id.vendor_discount * 0.01)
+
+            line.vendor_discount = discount
+            line.approved_extra_discount = discount
 
     @api.depends('product_id')
     def _compute_list_price(self):
@@ -92,7 +92,7 @@ class SaleOrderLine(models.Model):
         """
 
         for line in self:
-            if line.extra_discount and (line.extra_discount > line.vendor_discount):
+            if line.extra_discount:
                 line.vendor_discounted = line.extra_discount * line.list_price
             else:
                 line.vendor_discounted = line.vendor_discount * line.list_price
