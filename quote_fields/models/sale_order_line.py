@@ -92,7 +92,7 @@ class SaleOrderLine(models.Model):
         """
 
         for line in self:
-            if line.extra_discount:
+            if line.extra_discount and (line.extra_discount > line.vendor_discount):
                 line.vendor_discounted = line.extra_discount * line.list_price
             else:
                 line.vendor_discounted = line.vendor_discount * line.list_price
@@ -114,7 +114,7 @@ class SaleOrderLine(models.Model):
         :return:
         """
         for line in self:
-            line.tariff_cost = line.product_id.tariff_cost
+            line.tariff_cost = line.fob_total * line.tariff
 
     @api.depends('tariff_cost', 'product_uom_qty')
     def _compute_total_tariff_cost(self):
@@ -129,7 +129,7 @@ class SaleOrderLine(models.Model):
     @api.depends('fob_total', 'tariff_cost')
     def _compute_cost(self):
         for line in self:
-            line.cost = line.product_id.cost
+            line.cost = line.fob_total + line.tariff_cost
 
     @api.depends('cost', 'product_uom_qty')
     def _compute_total_final_cost(self):
