@@ -74,6 +74,7 @@ class SaleOrderLine(models.Model):
     @api.depends('product_id')
     def _compute_vendor_discount(self):
         for line in self:
+          
             discount = (line.product_id.vendor_discount * 0.01)
 
             line.vendor_discount = discount
@@ -114,7 +115,7 @@ class SaleOrderLine(models.Model):
         :return:
         """
         for line in self:
-            line.tariff_cost = line.fob_total * line.tariff
+            line.tariff_cost = line.product_id.tariff_cost
 
     @api.depends('tariff_cost', 'product_uom_qty')
     def _compute_total_tariff_cost(self):
@@ -130,6 +131,7 @@ class SaleOrderLine(models.Model):
     def _compute_cost(self):
         for line in self:
             line.cost = line.fob_total + line.tariff_cost
+
 
     @api.depends('cost', 'product_uom_qty')
     def _compute_total_final_cost(self):
