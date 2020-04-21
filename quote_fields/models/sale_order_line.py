@@ -10,29 +10,38 @@ class SaleOrderLine(models.Model):
     min_appr_margin = fields.Float('Minimum Approved Margin', store=True, default=0.20)
 
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
-    vendor_discount = fields.Float('Vendor Discount', store=True, default=0)
+
+    vendor_discount = fields.Float('Vendor Discount', store=True, default=0, compute='_compute_vendor_discount')
+
+    # TODO: _compute_new_discount
+    #   - add extra_discount
+
     vendor_discounted = fields.Float('Discounted', store=True, readonly=True,
-                                     compute='_compute_vendor_discount')  # (Precio de lista) * (% Descuento fabricante)
+                                     compute='_compute_vendor_discounted')  # (Precio de lista) * (% Descuento fabricante)
     fob_total = fields.Float('FOB Total', store=True, readonly=True,
                              compute='_compute_fob_total')  # Precio de lista - Desc
 
-    tariff = fields.Float('Tariff', store=True, default='0.08')
+    tariff = fields.Float('Tariff', store=True, default='0.08', compute='_compute_tariff')
+
     tariff_cost = fields.Float('Tariff Cost', store=True, readonly=True,
-                               compute='_compute_tariff_cost')  # (Total FOB) * (% Arancel)
+                               compute='_compute_tariff_cost')  # Get from Product (Total FOB) * (% Arancel)
+
     total_tariff_cost = fields.Float('Total Tariff Cost', store=True,
                                      readonly=True,
-                                     compute='_compute_total_tariff_cost')  # Costo de Arancel * Cantidad de Articulos
+                                     compute='_compute_total_tariff_cost')  # Get from Product -  Costo de Arancel * Cantidad de Articulos
 
     cost = fields.Float('Cost', store=True, readonly=True, compute='_compute_cost')  # Total FOB + Costo de Arancel
+
     admin_cost = fields.Float('Admin. Cost', store=True, default=0)
-    final_cost = fields.Float('Final Cost', store=True, readonly=True,
-                              compute='_compute_final_cost')  # Costo + Costo Adm
+
     total_final_cost = fields.Float('Total Final Cost', store=True,
                                     readonly=True, compute='_compute_total_final_cost')  # Costo Final x Cantidad
 
     margin = fields.Float('Margin', store=True,
                           default=default_margin)  # % de margen de ganancia aplicado al Costo Final
-    #   Approval field
+
+    # Approval field
+
     real_margin = fields.Float('Real Margin', store=True, compute='_compute_real_margin', readonly=True,
                                default=default_margin)
     #   Approval field
@@ -42,14 +51,31 @@ class SaleOrderLine(models.Model):
     sell_price = fields.Float('Sell Price', store=True, readonly=True,
                               compute='_compute_sell_price')  # Costo Final + Margen G
 
-    @api.depends('discount', 'final_cost', 'margin', 'profit_margin', 'sell_price')
+    # TODO: (??) change _compute_sell_price - get from product_id.list_price
+
+    @api.depends('discount', 'cost', 'margin', 'profit_margin', 'sell_price')
     def _compute_real_margin(self):
         for line in self:
-            if line.final_cost:
+            if line.cost:
                 new_margin = line.profit_margin - (line.sell_price * (line.discount * 0.01))
-                line.real_margin = new_margin / line.final_cost
+                line.real_margin = new_margin / line.cost
             else:
                 line.real_margin = line.margin
+
+    # @api.depends('product_id')
+    # def _compute_admin_cost(self):
+    #     for line in self:
+    #         line.admin_cost = line.product_id.admin_fee
+
+    @api.depends('product_id')
+    def _compute_tariff(self):
+        for line in self:
+            line.tariff = (line.product_id.tariff * 0.01)
+
+    @api.depends('product_id')
+    def _compute_vendor_discount(self):
+        for line in self:
+            line.vendor_discount = (line.product_id.vendor_discount * 0.01)
 
     @api.depends('product_id')
     def _compute_list_price(self):
@@ -57,7 +83,7 @@ class SaleOrderLine(models.Model):
             line.list_price = line.product_id.standard_price
 
     @api.depends('vendor_discount', 'list_price')
-    def _compute_vendor_discount(self):
+    def _compute_vendor_discounted(self):
         """
         Compute the vendor discounted amount from vendor_discount
         :return:
@@ -83,7 +109,7 @@ class SaleOrderLine(models.Model):
         :return:
         """
         for line in self:
-            line.tariff_cost = line.fob_total * line.tariff
+            line.tariff_cost = line.product_id.tariff_cost
 
     @api.depends('tariff_cost', 'product_uom_qty')
     def _compute_total_tariff_cost(self):
@@ -98,30 +124,25 @@ class SaleOrderLine(models.Model):
     @api.depends('fob_total', 'tariff_cost')
     def _compute_cost(self):
         for line in self:
-            line.cost = line.fob_total + line.tariff_cost
+            line.cost = line.product_id.cost
 
-    @api.depends('cost', 'admin_cost')
-    def _compute_final_cost(self):
-        for line in self:
-            line.final_cost = line.admin_cost + line.cost
-
-    @api.depends('final_cost', 'product_uom_qty')
+    @api.depends('cost', 'product_uom_qty')
     def _compute_total_final_cost(self):
         for line in self:
-            line.total_final_cost = line.final_cost * line.product_uom_qty
+            line.total_final_cost = (line.cost + line.admin_cost) * line.product_uom_qty
 
-    @api.depends('margin', 'final_cost')
+    @api.depends('margin', 'cost')
     def _compute_profit_margin(self):
         for line in self:
-            line.profit_margin = line.margin * line.final_cost
+            line.profit_margin = line.margin * line.cost
 
     @api.depends('profit_margin', 'product_uom_qty')
     def _compute_profit(self):
         for line in self:
             line.profit = line.profit_margin * line.product_uom_qty
 
-    @api.depends('profit_margin', 'final_cost', 'product_uom_qty')
+    @api.depends('profit_margin', 'cost', 'product_uom_qty')
     def _compute_sell_price(self):
         for line in self:
-            line.sell_price = line.final_cost + line.profit_margin
+            line.sell_price = line.cost + line.profit_margin
             line.price_unit = line.sell_price

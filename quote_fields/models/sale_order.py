@@ -11,6 +11,7 @@ class SaleOrder(models.Model):
     min_margin = fields.Float(store=True, default=0.30, compute='compute_min_margin')
     quote_approved = fields.Boolean(store=True, default=True)
     var_lvl_1_margin = 0.20
+    var_lvl_2_margin = 0.15
     std_min_margin = fields.Float(store=True, default=var_lvl_1_margin)
 
     #     TODO: set default min_margin, var_lvl_1_margin from settings page
@@ -28,7 +29,7 @@ class SaleOrder(models.Model):
     def action_ask_approval(self):
         all_users = self.env['res.users'].search([('active', '=', True)])
 
-        if self.min_margin <= self.var_lvl_1_margin:
+        if self.min_margin <= self.var_lvl_2_margin:
             my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager_2'))
         else:
             my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager_1'))
