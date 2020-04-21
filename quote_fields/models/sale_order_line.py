@@ -13,9 +13,8 @@ class SaleOrderLine(models.Model):
 
     vendor_discount = fields.Float('Vendor Discount', store=True, default=0, compute='_compute_vendor_discount')
 
-    extra_discount = fields.Float('Extra Vendor Discount', default=0)
-
-    approved_extra_discount = fields.Float('Approved Vendor discount', default=0)
+    # TODO: _compute_new_discount
+    #   - add extra_discount
 
     vendor_discounted = fields.Float('Discounted', store=True, readonly=True,
                                      compute='_compute_vendor_discounted')  # (Precio de lista) * (% Descuento fabricante)
@@ -52,6 +51,8 @@ class SaleOrderLine(models.Model):
     sell_price = fields.Float('Sell Price', store=True, readonly=True,
                               compute='_compute_sell_price')  # Costo Final + Margen G
 
+    # TODO: (??) change _compute_sell_price - get from product_id.list_price
+
     @api.depends('discount', 'cost', 'margin', 'profit_margin', 'sell_price')
     def _compute_real_margin(self):
         for line in self:
@@ -79,12 +80,13 @@ class SaleOrderLine(models.Model):
             line.vendor_discount = discount
             line.approved_extra_discount = discount
 
+
     @api.depends('product_id')
     def _compute_list_price(self):
         for line in self:
             line.list_price = line.product_id.standard_price
 
-    @api.depends('vendor_discount', 'list_price', 'extra_discount')
+    @api.depends('vendor_discount', 'list_price')
     def _compute_vendor_discounted(self):
         """
         Compute the vendor discounted amount from vendor_discount
@@ -92,10 +94,7 @@ class SaleOrderLine(models.Model):
         """
 
         for line in self:
-            if line.extra_discount:
-                line.vendor_discounted = line.extra_discount * line.list_price
-            else:
-                line.vendor_discounted = line.vendor_discount * line.list_price
+            line.vendor_discounted = line.vendor_discount * line.list_price
 
     @api.depends('list_price', 'vendor_discounted')
     def _compute_fob_total(self):
@@ -130,6 +129,7 @@ class SaleOrderLine(models.Model):
     def _compute_cost(self):
         for line in self:
             line.cost = line.fob_total + line.tariff_cost
+
 
     @api.depends('cost', 'product_uom_qty')
     def _compute_total_final_cost(self):
