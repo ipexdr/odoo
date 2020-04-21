@@ -46,6 +46,8 @@ class ProductTemplate(models.Model):
     profit_margin = fields.Float(store=True,
                                  readonly=True, compute='_compute_profit_margin')
 
+    manufacturer = fields.Char(store=True)
+
     @api.depends('fob_total', 'tariff_cost')
     def _compute_cost(self):
         """
