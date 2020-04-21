@@ -19,6 +19,8 @@
                         <field name="fob_total" invisible="1"/>
                         <field name="profit_margin" invisible="1"/>
 
+                        <field name="manufacturer"/>
+
                         <label for="cost"/>
                         <div class="o_row">
                             <span>$</span>
