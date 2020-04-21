@@ -33,6 +33,8 @@ class SaleOrder(models.Model):
     def action_ask_approval(self):
         all_users = self.env['res.users'].search([('active', '=', True)])
 
+        # TODO: Specify managers depending on extra vendor discount
+
         if self.min_margin <= self.var_lvl_2_margin:
             my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager_2'))
         else:
@@ -43,7 +45,7 @@ class SaleOrder(models.Model):
 
         domain = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
 
-        url = f"{domain}/web#id={order_id}&action=321&model=sale.order&view_type=form&cids=1&menu_id=175"
+        url = f"{domain}/web#id={order_id}&action=334&model=sale.order&view_type=form&cids=1&menu_id=192"
 
         msg = f"<p>The Quotation {so_number} needs to be approved.</p>"
 
