@@ -18,7 +18,7 @@ class SaleOrder(models.Model):
     var_lvl_2_margin = 0.15
     std_min_margin = fields.Float(store=True, default=var_lvl_1_margin)
 
-    #     TODO: set default min_margin, var_lvl_1_margin from settings page
+    #     TODO: set default min_margin,  var_lvl_1_margin from settings page
 
     @api.depends('amount_total')
     def compute_min_margin(self):
