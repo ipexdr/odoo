@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Final Client and Courier info in PO",
+    'name': "End Customer and Courier in PO",
 
     'summary': """
-        Adds the final client and courier fields to the PO model""",
+        Adds the end customer and courier fields to the PO model""",
 
     'description': """
         IP Expert module that adds relevant info about
-        the PO's final client information.
+        the PO's end client.
         
-        Final clients fields:
+        End customer fields:
         - Name
         - Address (only in PDF)
         - Contact (only in PDF)
