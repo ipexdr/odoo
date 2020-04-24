@@ -7,8 +7,8 @@
       <field name="arch" type="xml">
           <xpath expr="/form/sheet/group/group[2]" position="after">
               <group>
-                <field name="client_id" widget="res_partner_many2one" domain="[('is_company', '=', True)]" context="{'res_partner_search_mode':'customer', 'show_vat': True}"/>
-                <field name="contact_id" widget="res_partner_many2one" domain="[('is_company', '=', False)]" context="{'res_partner_search_mode':'customer', 'show_vat': True}"
+                <field name="end_client_id" widget="res_partner_many2one" domain="[('is_company', '=', True)]" context="{'res_partner_search_mode':'customer', 'show_vat': True}"/>
+                <field name="end_contact_id" widget="res_partner_many2one" domain="[('is_company', '=', False)]" context="{'res_partner_search_mode':'customer', 'show_vat': True}"
                 placeholder="Name, Email or Company"/>
               </group>
               <group>
