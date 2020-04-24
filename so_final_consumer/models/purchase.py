@@ -7,5 +7,7 @@ class PurchaseOrder(models.Model):
 
     end_customer_id = fields.Many2one('res.partner', string='End Customer', tracking=True)
     end_contact_id = fields.Many2one('res.partner', string='Contact', tracking=True)
-        
+    
+    vendor_contact_id = fields.Many2one('res.partner', string='Vendor Contact', tracking=True)
+
     courier_id = fields.Many2one('res.partner', string='Courier', tracking=True)
