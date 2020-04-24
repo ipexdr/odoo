@@ -11,6 +11,11 @@
                 placeholder="Name, TIN, Email, or Reference"
                 />
               </group>
+              <group>
+                <field name="courier_id" widget="res_partner_many2one" context="{'show_vat': True}"
+                placeholder="Name, TIN, Email, or Reference"
+                />
+              </group>
           </xpath>
       </field>
     </record>
