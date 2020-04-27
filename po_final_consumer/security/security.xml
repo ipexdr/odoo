@@ -1,5 +1,0 @@
-<odoo>
-        <record id="quote_fields_manager" model="res.groups">
-            <field name="name">Extra Quote Fields / Manager</field>
-        </record>
-</odoo>
