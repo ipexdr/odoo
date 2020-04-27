@@ -34,14 +34,16 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['sale_management'],
+
+    'depends': ['sale_management', 'purchase'],
 
     # always loaded
     'data': [
-        # 'security/security.xml',
+        'security/security.xml',
         # 'security/ir.model.access.csv',
         'views/templates.xml',
-        'views/views.xml'
+        'views/sale_order.xml',
+        'views/product_form.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
