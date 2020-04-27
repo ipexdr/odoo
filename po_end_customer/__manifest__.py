@@ -40,7 +40,8 @@
         # 'security/security.xml',
         # 'security/ir.model.access.csv',
         'views/templates.xml',
-        'views/purchase_views.xml'
+        'views/purchase_views.xml',
+        'views/po_report.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
