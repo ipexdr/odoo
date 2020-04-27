@@ -12,7 +12,7 @@
         </t>
       </xpath>
 
-      <xpath expr="//t[@t-set='information_block'">
+      <xpath expr="//t[@t-set='information_block']">
         <t t-if="o.dest_address_id">
           <strong>Shipping address:</strong>
           <div t-if="o.dest_address_id">

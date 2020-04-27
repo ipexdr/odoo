@@ -11,7 +11,6 @@
               <div t-field="o.vendor_contact_id.name"/>
               <div t-field="o.vendor_contact_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;mobile&quot;, &quot;phone&quot;, &quot;email&quot;], &quot;no_marker&quot;: False, &quot;phone_icons&quot;: True}" />
             </t>
-            
         </t>
         <t t-if="o.dest_address_id or o.end_customer_id or o.courier_id">
             <t t-set="information_block">
