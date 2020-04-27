@@ -1,0 +1,88 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="sale_order_view_inherit">
+      <field name="name">sale.order.view.inherit</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="arch" type="xml">
+          <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+              <field name="list_price"/>
+              <field name="vendor_discount" widget="percentage"/>
+              <field name="vendor_discounted" widget="monetary"/>
+              <!-- fob_total -->
+              <field name="fob_total" widget="monetary"/>
+              <field name="tariff" widget="percentage"/>
+              <field name="tariff_cost" widget="monetary"/>
+              <field name="total_tariff_cost" widget="monetary"/>
+              <field name="cost" widget="monetary"/>
+              <field name="admin_cost" widget="monetary"/>
+              <field name="final_cost" widget="monetary"/>
+              <field name="total_final_cost" widget="monetary"/>
+              <field name="margin" widget="percentage"/>
+              <field name="profit_margin" widget="monetary"/>
+              <field name="profit" widget="monetary"/>
+              <field name="sell_price" widget="monetary"/>
+          </xpath>
+      </field>
+    </record>
+
+
+
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="quote_fields.list">
+      <field name="name">quote_fields list</field>
+      <field name="model">quote_fields.quote_fields</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="quote_fields.action_window">
+      <field name="name">quote_fields window</field>
+      <field name="res_model">quote_fields.quote_fields</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="quote_fields.action_server">
+      <field name="name">quote_fields server</field>
+      <field name="model_id" ref="model_quote_fields_quote_fields"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="quote_fields" id="quote_fields.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="quote_fields.menu_1" parent="quote_fields.menu_root"/>
+    <menuitem name="Menu 2" id="quote_fields.menu_2" parent="quote_fields.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="quote_fields.menu_1_list" parent="quote_fields.menu_1"
+              action="quote_fields.action_window"/>
+    <menuitem name="Server to list" id="quote_fields" parent="quote_fields.menu_2"
+              action="quote_fields.action_server"/>
+-->
+  </data>
+</odoo>
