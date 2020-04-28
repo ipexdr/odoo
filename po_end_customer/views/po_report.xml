@@ -1,14 +1,16 @@
 <odoo>
   <data>
     <template id="report_purchaseorder_document_inherit" inherit_id="purchase.report_purchaseorder_document">
-      <xpath expr="//t[@t-set='address']">
-        <strong>Vendor:</strong>
-        <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: False, &quot;phone_icons&quot;: True}"/>
-        <p t-if="o.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></p>
-        <t t-if="o.vendor_contact_id">
-          <strong>Contact:</strong>
-          <div t-field="o.vendor_contact_id.name"/>
-          <div t-field="o.vendor_contact_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;mobile&quot;, &quot;phone&quot;, &quot;email&quot;], &quot;no_marker&quot;: False, &quot;phone_icons&quot;: True}" />
+      <xpath expr="//t[@t-set='address']" position='replace'>
+        <t t-set="address">
+            <strong>Vendor:</strong>
+            <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: False, &quot;phone_icons&quot;: True}"/>
+            <p t-if="o.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></p>
+            <t t-if="o.vendor_contact_id">
+                <strong>Contact:</strong>
+                <div t-field="o.vendor_contact_id.name"/>
+                <div t-field="o.vendor_contact_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;mobile&quot;, &quot;phone&quot;, &quot;email&quot;], &quot;no_marker&quot;: False, &quot;phone_icons&quot;: True}" />
+            </t>
         </t>
       </xpath>
 
