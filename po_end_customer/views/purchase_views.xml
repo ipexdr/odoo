@@ -13,9 +13,10 @@
 				<group>
 					<field name="end_customer_id" widget="res_partner_many2one" context="{'res_partner_search_mode':'customer', 'show_vat': True}"
 					placeholder="Name, TIN, Email, or Reference"/>
-					<field name="end_contact_id" widget="res_partner_many2one" domain="[('is_company', '=', False)]" context="{'show_vat': True}"
+					<field name="end_contact_id" widget="res_partner_many2one" domain="[('parent_id', '=', end_customer_id), ('is_company', '=', False)]" context="{'show_vat': True}"
 					placeholder="Name, Email or Company"/>
-					<field name="ref_customer_quote_id" widget="sale_order_many2one" placeholder="End Customer's Quoation ID"/>
+					<!-- [???] Maybe should consider allowing only SO -->
+					<field name="ref_customer_quote_id" widget="sale_order_many2one" domain="[('partner_id', '=', end_customer_id)]" placeholder="End Customer's Quoation ID"/>
 				</group>
 			</xpath>
 			<xpath expr="//group[@name='planning']" position="before">
