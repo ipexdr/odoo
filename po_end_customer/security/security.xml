@@ -1,7 +1,5 @@
 <odoo>
-    <!-- <record id="group_purchase_assistant" model="res.groups">
-        <field name="name">Assistant</field>
-         <field name="implied_ids" eval="[(4, ref('purchase.group_purchase_user'))]"/>
-        <field name="category_id" ref="base.module_category_operations_purchase"/>
-    </record> -->
+        <record id="quote_fields_manager" model="res.groups">
+            <field name="name">Extra Quote Fields / Manager</field>
+        </record>
 </odoo>
