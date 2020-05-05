@@ -21,12 +21,7 @@ class PurchaseOrder(models.Model):
     def button_approve(self, force=False):
         # all_users = self.env['res.users'].search([('active', '=', True)])
         
-        if self.env.user.has_group('purchase.group_purchase_manager'):
-            self.write({'pre_approved':True, 'final_approved':True})
-            self.write({'state': 'purchase', 'date_approve': fields.Datetime.now()})
-            self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
-            return {}
-        else:
+        if self.env.user.has_group('po_end_customer.group_purchase_assistant'):
             self.pre_approved = True
             po_number = self.name
 
@@ -57,4 +52,9 @@ class PurchaseOrder(models.Model):
                 model=self._name,
                 res_id=self.id
             )
+            return {}
+        else:
+            self.write({'pre_approved':True, 'final_approved':True})
+            self.write({'state': 'purchase', 'date_approve': fields.Datetime.now()})
+            self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
             return {}
