@@ -33,13 +33,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['purchase'],
+    'depends': ['purchase', 'sale'],
 
     # always loaded
     'data': [
-        # 'security/security.xml',
+        'security/security.xml',
         # 'security/ir.model.access.csv',
-        'views/templates.xml',
+        # 'security/security.xml',
         'views/purchase_views.xml',
         'reports/po_report.xml',
         'reports/rfq_report.xml',
