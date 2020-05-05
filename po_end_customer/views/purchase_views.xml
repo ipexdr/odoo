@@ -25,9 +25,9 @@
 						domain="[('is_company', '=', True)]" placeholder="Name, TIN, Email, or Reference"/>
 				</group>
 			</xpath>
-            <xpath expr="//button[@name='button_approve']" position="replace">
+            <!-- <xpath expr="//button[@name='button_approve']" position="replace">
                 <button name="button_approve" type="object" states='to approve' string="Approve Order" class="oe_highlight" groups="purchase.group_purchase_manager, po_end_customer.group_purchase_assistant"/>
-            </xpath>
+            </xpath> -->
 		</field>
 		</record>
 	</data>
