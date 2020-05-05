@@ -40,6 +40,7 @@
         # 'security/security.xml',
         # 'security/ir.model.access.csv',
         'views/templates.xml',
+        'security/security.xml',
         'views/purchase_views.xml',
         'reports/po_report.xml',
         'reports/rfq_report.xml',
