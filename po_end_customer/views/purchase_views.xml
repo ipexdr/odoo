@@ -6,7 +6,8 @@
 		<field name="inherit_id" ref="purchase.purchase_order_form"/>
 		<field name="arch" type="xml">
             <xpath expr="/form/header/button[@name='action_rfq_send']" position="before">
-				 <field name="is_user_assistant" invisible="1"/>
+				<field name="pre_approved" invisible="1"/>
+				<field name="is_user_assistant" invisible="1"/>
 			</xpath>
 			<xpath expr="/form/sheet/group/group/field[@name='partner_id']" position="after">
 				<field name="vendor_contact_id" widget="res_partner_many2one" domain="[('is_company', '=', False)]" context="{'show_vat': True}"
