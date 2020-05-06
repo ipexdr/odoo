@@ -14,8 +14,16 @@ class PurchaseOrder(models.Model):
 
     courier_id = fields.Many2one('res.partner', string='Courier', tracking=True)
     
+    is_user_assistant = fields.Boolean(compute='_is_user_assistant')
+    
     pre_approved = fields.Float(store=True, default=False)
     final_approved = fields.Float(store=True, default=False)
+    
+    @api.depends('user_id')
+    def _is_user_assistant(self):
+        if self.env.user.has_group('purchase.group_purchase_assistant'):
+            self.is_user_assistant = True
+
     
     # Overriding original method to allow two-people approval
     def button_approve(self, force=False):
