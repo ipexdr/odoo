@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-po_end_customer_order_assistant,po_end_customer.sale.order,sale.sale.order,po_end_customer.purchase_group_assistant,1,0,0,0
-po_end_customer_line_assistant,po_end_customer.sale.order.line,sale.sale.order.line,po_end_customer.purchase_group_assistant,1,0,0,0
+po_end_customer_order_assistant,po_end_customer.sale.order,sale.order,po_end_customer.purchase_group_assistant,1,0,0,0
+po_end_customer_line_assistant,po_end_customer.sale.order.line,sale.order.line,po_end_customer.purchase_group_assistant,1,0,0,0
