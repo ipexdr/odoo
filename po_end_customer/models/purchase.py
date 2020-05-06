@@ -76,6 +76,9 @@ class PurchaseOrder(models.Model):
             for user in my_users_group:
                 partner_ids.append(user.partner_id.id)
             
+            self.message_post(body="PO Pre-approved. Waiting for final approval.")
+            
+#             TODO: change the way the mail is being sent
             self.message_notify(
                 subject='Purchase Order pending for Approval',
                 body=msg,
