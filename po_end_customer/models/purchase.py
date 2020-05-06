@@ -23,6 +23,8 @@ class PurchaseOrder(models.Model):
     def _is_user_assistant(self):
         if self.env.user.has_group('purchase.group_purchase_assistant'):
             self.is_user_assistant = True
+        else:
+            self.is_user_assistant = False
 
     
     # Overriding original method to allow two-people approval
