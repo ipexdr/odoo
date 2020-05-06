@@ -14,17 +14,33 @@ class PurchaseOrder(models.Model):
 
     courier_id = fields.Many2one('res.partner', string='Courier', tracking=True)
     
-    is_user_assistant = fields.Boolean(compute='_is_user_assistant')
+#     is_user_assistant = fields.Boolean(compute='_is_user_assistant')
+#     is_user_manager = fields.Boolean(compute='_is_user_manager')
+    is_approve_visible = fields.Boolean(compute='_is_approve_visible', default=False)
     
     pre_approved = fields.Float(store=True, default=False)
     final_approved = fields.Float(store=True, default=False)
-    
+            
     @api.depends('user_id')
-    def _is_user_assistant(self):
-        if self.env.user.has_group('purchase.group_purchase_assistant'):
-            self.is_user_assistant = True
+    def _is_approve_visible(self):
+        
+        if self.env.user.has_group('purchase.group_purchase_manager'):
+            is_user_manager = True
+            is_user_assistant = False
         else:
-            self.is_user_assistant = False
+            is_user_manager = False
+            if self.env.user.has_group('po_end_customer.group_purchase_assistant'):
+                is_user_assistant = True
+            else:
+                is_user_assistant = False
+        
+        if self.state in ('to approve'):
+            if (is_user_assistant and not self.pre_approved) or (is_user_manager):
+                self.is_approve_visible = True
+            else:
+                self.is_approve_visible = False
+        else:
+            self.is_approve_visible = False
 
     
     # Overriding original method to allow two-people approval
