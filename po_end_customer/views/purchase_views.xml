@@ -26,7 +26,9 @@
 				</group>
 			</xpath>
             <xpath expr="//button[@name='button_approve']" position="replace">
-                <button name="button_approve" type="object" states='to approve' string="Approve Order" class="oe_highlight" groups="purchase.group_purchase_manager, po_end_customer.group_purchase_assistant"/>
+                <button name="button_approve" type="object" states='to approve' string="Approve Order" 
+				attrs="{'invisible': [('user_is_assistant', '=', True), ('pre_approved', '=', True)]}"
+				class="oe_highlight" groups="purchase.group_purchase_manager, po_end_customer.group_purchase_assistant"/>
             </xpath>
 		</field>
 		</record>
