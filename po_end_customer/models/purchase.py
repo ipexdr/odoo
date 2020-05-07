@@ -13,6 +13,9 @@ class PurchaseOrder(models.Model):
     vendor_contact_id = fields.Many2one('res.partner', string='Vendor Contact', tracking=True)
 
     courier_id = fields.Many2one('res.partner', string='Courier', tracking=True)
+
+    is_vendor_quote = fields.Boolean('Vendor Quote is attached', store=True, default=False)
+    is_customer_po = fields.Boolean('Customer PO is attached', store=True, default=False)
     
 #     is_user_assistant = fields.Boolean(compute='_is_user_assistant')
 #     is_user_manager = fields.Boolean(compute='_is_user_manager')

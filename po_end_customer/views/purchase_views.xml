@@ -20,6 +20,10 @@
 					placeholder="Name, Email or Company"/>
 					<field name="ref_customer_quote_id" widget="sale_order_many2one" domain="[('partner_id', '=', end_customer_id)]" placeholder="End Customer's Quoation ID"/>
 				</group>
+				<group>
+					<field name='is_vendor_quote' states='draft, sent'/>
+					<field name='is_customer_po' states='draft, sent'/>
+				</group>
 			</xpath>
 			<xpath expr="//group[@name='planning']" position="before">
 				<group>
