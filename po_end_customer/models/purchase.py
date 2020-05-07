@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo.exceptions import AccessError, UserError, ValidationError
+
 
 class PurchaseOrder(models.Model):
     _inherit = ['purchase.order']
@@ -16,7 +18,6 @@ class PurchaseOrder(models.Model):
 
     is_vendor_quote = fields.Boolean('Vendor Quote is attached', store=True, default=False)
     is_customer_po = fields.Boolean('Customer PO is attached', store=True, default=False)
-    
 #     is_user_assistant = fields.Boolean(compute='_is_user_assistant')
 #     is_user_manager = fields.Boolean(compute='_is_user_manager')
     is_approve_visible = fields.Boolean(compute='_is_approve_visible', default=False)
@@ -45,12 +46,32 @@ class PurchaseOrder(models.Model):
         else:
             self.is_approve_visible = False
 
-    
+    # Overriding original method to verify if required files
+    # are uploaded
+    def button_confirm(self):
+        for order in self:
+            if order.is_vendor_quote and order.is_customer_po:
+                if order.state not in ['draft', 'sent']:
+                    continue
+                order._add_supplier_to_product()
+                # Deal with double validation process
+                if order.company_id.po_double_validation == 'one_step'\
+                        or (order.company_id.po_double_validation == 'two_step'\
+                            and order.amount_total < self.env.company.currency_id._convert(
+                                order.company_id.po_double_validation_amount, order.currency_id, order.company_id, order.date_order or fields.Date.today()))\
+                        or order.user_has_groups('purchase.group_purchase_manager'):
+                    order.button_approve(override=True)
+                else:
+                    order.write({'state': 'to approve'})
+            else:
+                raise UserError("Unable to confirm order. Please check that the required files are attached.")
+        return True
+
     # Overriding original method to allow two-people approval
-    def button_approve(self, force=False):
+    def button_approve(self, force=False, override=False):
         # all_users = self.env['res.users'].search([('active', '=', True)])
         
-        if self.env.user.has_group('purchase.group_purchase_manager'):
+        if self.env.user.has_group('purchase.group_purchase_manager') or override:
             self.write({'pre_approved':True, 'final_approved':True})
             self.write({'state': 'purchase', 'date_approve': fields.Datetime.now()})
             self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
