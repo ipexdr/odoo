@@ -7,16 +7,13 @@
         <field name="priority" eval="25"/>
         <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('settings')]//div[hasclass('o_setting_right_pane')][1]/div[2]" position="after">
-                <div class="text-muted" attrs="{'invisible': [('po_order_approval', '=', False)]}">
-                    Purchase Order manager
-                </div>
-                <div class="content-group" attrs="{'invisible': [('po_order_approval', '=', False)]}">
-                    <div class="row mt16">
-                        <label for="po_manager" class="col-lg-4 o_light_label"/>
-                        <field name="po_manager"/>
+            <xpath expr="//div[@name='purchase_setting_container']/div/div[2]/div[2]" position="after">
+                    <div class="content-group" attrs="{'invisible': [('po_order_approval', '=', False)]}">                            
+                        <div class="row mt16">
+                            <label for="po_manager" class="col-lg-4 o_light_label"/>
+                            <field name="po_manager"/>
+                        </div>
                     </div>
-                </div>
             </xpath>
         </field>
     </record>
