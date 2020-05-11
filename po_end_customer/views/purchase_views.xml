@@ -8,10 +8,10 @@
             <xpath expr="/form/header/button[@name='action_rfq_send']" position="before">
 				<field name="is_approve_visible" invisible="1"/>
 			</xpath>
-			<xpath expr="/form/sheet/group/group/field[@name='partner_id']" position="after">
+			<!-- <xpath expr="/form/sheet/group/group/field[@name='partner_id']" position="after">
 				<field name="vendor_contact_id" widget="res_partner_many2one" domain="[('is_company', '=', False)]" context="{'show_vat': True}"
 				placeholder="Name, TIN, Email, or Reference"/>
-			</xpath>
+			</xpath> -->
 			<xpath expr="/form/sheet/group/group[2]" position="after">
 				<group>
 					<field name="end_customer_id" widget="res_partner_many2one" context="{'res_partner_search_mode':'customer', 'show_vat': True}"

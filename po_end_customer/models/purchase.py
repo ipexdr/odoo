@@ -12,15 +12,13 @@ class PurchaseOrder(models.Model):
     
     ref_customer_quote_id = fields.Many2one('sale.order', string='Customer Quote ID', tracking=True)
     
-    vendor_contact_id = fields.Many2one('res.partner', string='Vendor Contact', tracking=True)
+    # vendor_contact_id = fields.Many2one('res.partner', string='Vendor Contact', tracking=True)
 
     courier_id = fields.Many2one('res.partner', string='Courier', tracking=True)
 
     is_vendor_quote = fields.Boolean('Vendor Quote is attached', store=True, default=False)
     is_customer_po = fields.Boolean('Customer PO is attached', store=True, default=False)
 
-#     is_user_assistant = fields.Boolean(compute='_is_user_assistant')
-#     is_user_manager = fields.Boolean(compute='_is_user_manager')
     is_approve_visible = fields.Boolean(compute='_is_approve_visible', default=False)
     
     pre_approved = fields.Float(store=True, default=False)
