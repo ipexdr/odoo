@@ -27,6 +27,9 @@ class PurchaseOrder(models.Model):
             
     @api.depends('user_id')
     def _compute_user_access(self):
+        # If user is manager - access level = 2
+        # If user is assistant - access level = 1
+        # If user is user - access level = 0
         if self.env.user.has_group('purchase.group_manager'):
             self.user_access_level = 2
         elif self.env.user.has_group('po_end_customer.group_purchase_assistant'):
@@ -34,15 +37,15 @@ class PurchaseOrder(models.Model):
         else:
             self.user_access_level = 0
     
-    @api.depends('user_id')
+    @api.depends('user_id', 'user_access_level')
     def _is_approve_visible(self):
         
-        if self.env.user.has_group('purchase.group_purchase_manager'):
+        if self.user_access_level == 2:
             is_user_manager = True
             is_user_assistant = False
         else:
             is_user_manager = False
-            if self.env.user.has_group('po_end_customer.group_purchase_assistant'):
+            if self.user_access_level == 1:
                 is_user_assistant = True
             else:
                 is_user_assistant = False
