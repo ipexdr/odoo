@@ -19,6 +19,7 @@ class PurchaseOrder(models.Model):
     is_vendor_quote = fields.Boolean('Vendor Quote is attached', store=True, default=False)
     is_customer_po = fields.Boolean('Customer PO is attached', store=True, default=False)
 
+    can_send_po = fields.Boolean(compute = '_can_send_po')
     user_access_level = fields.Integer(compute='_compute_user_access', default=0)
     is_approve_visible = fields.Boolean(compute='_is_approve_visible', default=False)
     
@@ -36,6 +37,18 @@ class PurchaseOrder(models.Model):
             self.user_access_level = 1
         else:
             self.user_access_level = 0
+
+    @api.depends('user_access_level')
+    def _can_send_po(self):
+        user_access_level = self.user_access_level
+        
+        if self.env['ir.config_parameter'].sudo().get_param('lock_confirmed_po'):
+            if user_access_level > 0 and self.state in ('done', 'purchase'):
+                self.can_send_po = True
+            else:
+                self.can_send_po = False
+        else:
+            self.can_send_po = True
     
     @api.depends('user_id')
     def _is_approve_visible(self):
