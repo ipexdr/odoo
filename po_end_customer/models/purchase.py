@@ -19,11 +19,21 @@ class PurchaseOrder(models.Model):
     is_vendor_quote = fields.Boolean('Vendor Quote is attached', store=True, default=False)
     is_customer_po = fields.Boolean('Customer PO is attached', store=True, default=False)
 
+    user_access_level = fields.Integer(compute='_compute_user_access', default=0)
     is_approve_visible = fields.Boolean(compute='_is_approve_visible', default=False)
     
     pre_approved = fields.Float(store=True, default=False)
     final_approved = fields.Float(store=True, default=False)
             
+    @api.depends('user_id')
+    def _compute_user_access(self):
+        if self.env.user.has_group('purchase.group_manager'):
+            self.user_access_level = 2
+        elif self.env.user.has_group('po_end_customer.group_purchase_assistant'):
+            self.user_access_level = 1
+        else:
+            self.user_access_level = 0
+    
     @api.depends('user_id')
     def _is_approve_visible(self):
         
