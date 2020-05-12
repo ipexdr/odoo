@@ -2,7 +2,9 @@
 
 from odoo import models, fields, api
 from odoo.exceptions import AccessError, UserError, ValidationError
+import logging
 
+_logger = logging.getLogger(__name__)
 
 class PurchaseOrder(models.Model):
     _inherit = ['purchase.order']
@@ -31,24 +33,36 @@ class PurchaseOrder(models.Model):
         # If user is manager - access level = 2
         # If user is assistant - access level = 1
         # If user is user - access level = 0
-        if self.env.user.has_group('purchase.group_manager'):
+        _logger.info("_compute_user_access")
+        if self.env.user.has_group('purchase.group_purchase_manager'):
             self.user_access_level = 2
+            _logger.info("level 2")
         elif self.env.user.has_group('po_end_customer.group_purchase_assistant'):
             self.user_access_level = 1
+            _logger.info("level 1")
         else:
             self.user_access_level = 0
+            _logger.info("level 0")
 
     @api.depends('user_access_level')
     def _can_send_po(self):
-        user_access_level = self.user_access_level
+        _logger.info("_can_send_po")
         
-        if self.env['ir.config_parameter'].sudo().get_param('lock_confirmed_po'):
+        user_access_level = self.user_access_level
+        env_lock_conf_po = self.company_id.po_lock == 'lock'
+        
+        _logger.info(f"user level -> {user_access_level}")
+        _logger.info(f"lock conf PO -> {env_lock_conf_po}")
+        if env_lock_conf_po:
             if user_access_level > 0 and self.state in ('done', 'purchase'):
                 self.can_send_po = True
+                _logger.info(f"can send -> True")
             else:
                 self.can_send_po = False
+                _logger.info(f"can send -> False")
         else:
             self.can_send_po = True
+            _logger.info(f"can send -> True")
     
     @api.depends('user_id')
     def _is_approve_visible(self):
