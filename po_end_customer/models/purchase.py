@@ -12,19 +12,44 @@ class PurchaseOrder(models.Model):
     
     ref_customer_quote_id = fields.Many2one('sale.order', string='Customer Quote ID', tracking=True)
     
-    vendor_contact_id = fields.Many2one('res.partner', string='Vendor Contact', tracking=True)
+    # vendor_contact_id = fields.Many2one('res.partner', string='Vendor Contact', tracking=True)
 
     courier_id = fields.Many2one('res.partner', string='Courier', tracking=True)
 
     is_vendor_quote = fields.Boolean('Vendor Quote is attached', store=True, default=False)
     is_customer_po = fields.Boolean('Customer PO is attached', store=True, default=False)
-#     is_user_assistant = fields.Boolean(compute='_is_user_assistant')
-#     is_user_manager = fields.Boolean(compute='_is_user_manager')
+
+    can_send_po = fields.Boolean(compute = '_can_send_po')
+    user_access_level = fields.Integer(compute='_compute_user_access', default=0)
     is_approve_visible = fields.Boolean(compute='_is_approve_visible', default=False)
     
     pre_approved = fields.Float(store=True, default=False)
     final_approved = fields.Float(store=True, default=False)
             
+    @api.depends('user_id')
+    def _compute_user_access(self):
+        # If user is manager - access level = 2
+        # If user is assistant - access level = 1
+        # If user is user - access level = 0
+        if self.env.user.has_group('purchase.group_manager'):
+            self.user_access_level = 2
+        elif self.env.user.has_group('po_end_customer.group_purchase_assistant'):
+            self.user_access_level = 1
+        else:
+            self.user_access_level = 0
+
+    @api.depends('user_access_level')
+    def _can_send_po(self):
+        user_access_level = self.user_access_level
+        
+        if self.env['ir.config_parameter'].sudo().get_param('lock_confirmed_po'):
+            if user_access_level > 0 and self.state in ('done', 'purchase'):
+                self.can_send_po = True
+            else:
+                self.can_send_po = False
+        else:
+            self.can_send_po = True
+    
     @api.depends('user_id')
     def _is_approve_visible(self):
         
