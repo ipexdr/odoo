@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="26ff167b-7122-48b0-bc7a-b5c0c50112f9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/__manifest__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/controllers/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/controllers/controllers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/demo/demo.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/models/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/security/ir.model.access.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/security/security.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/static/src/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/views/templates.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/so_final_consumer/views/views.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="product-fields" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="SET_USER_NAME_GLOBALLY" value="false" />
+  </component>
+  <component name="ProjectId" id="1Y7bu7xqtY4eUVYChNWdulTspcK" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="TODO_SCOPE" value="All Places" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\pedro\PycharmProjects\odoo" />
+      <recent name="C:\Users\pedro\PycharmProjects\odoo\quote_fields\views" />
+      <recent name="C:\Users\pedro\PycharmProjects\odoo\quote_fields\models" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\pedro\PycharmProjects\odoo\quote_fields\static\src\css" />
+      <recent name="C:\Users\pedro\PycharmProjects\odoo\quote_fields\models" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\pedro\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="26ff167b-7122-48b0-bc7a-b5c0c50112f9" name="Default Changelist" comment="" />
+      <created>1582296799481</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1582296799481</updated>
+      <workItem from="1582296805371" duration="621000" />
+      <workItem from="1582297687321" duration="495000" />
+      <workItem from="1582300526457" duration="332000" />
+      <workItem from="1582310077564" duration="4469000" />
+      <workItem from="1582315818183" duration="1425000" />
+      <workItem from="1582317353427" duration="205000" />
+      <workItem from="1583174591760" duration="43000" />
+      <workItem from="1583174677796" duration="853000" />
+      <workItem from="1583176043470" duration="1804000" />
+      <workItem from="1583178369342" duration="2493000" />
+      <workItem from="1583239075787" duration="18418000" />
+      <workItem from="1583324122758" duration="11176000" />
+      <workItem from="1583345640879" duration="2791000" />
+      <workItem from="1583411724103" duration="3023000" />
+      <workItem from="1583497535247" duration="1600000" />
+      <workItem from="1583501628503" duration="5459000" />
+      <workItem from="1583523939367" duration="58000" />
+      <workItem from="1583628078994" duration="1653000" />
+      <workItem from="1583764057565" duration="2609000" />
+      <workItem from="1583781549286" duration="5636000" />
+      <workItem from="1583850609797" duration="5341000" />
+      <workItem from="1583865102766" duration="5591000" />
+      <workItem from="1583931484498" duration="2630000" />
+      <workItem from="1583935619795" duration="192000" />
+      <workItem from="1583936722736" duration="4873000" />
+      <workItem from="1583952951450" duration="8000" />
+      <workItem from="1583954872103" duration="1465000" />
+      <workItem from="1584018154367" duration="3079000" />
+      <workItem from="1584037383461" duration="3609000" />
+      <workItem from="1584106670372" duration="3969000" />
+      <workItem from="1584365285986" duration="5496000" />
+      <workItem from="1584446978655" duration="3258000" />
+      <workItem from="1584456988010" duration="250000" />
+      <workItem from="1584460449821" duration="3735000" />
+      <workItem from="1584546317349" duration="6000" />
+      <workItem from="1584632676267" duration="444000" />
+      <workItem from="1584649084025" duration="2173000" />
+      <workItem from="1584720176161" duration="52000" />
+      <workItem from="1584724730863" duration="2956000" />
+      <workItem from="1584968023491" duration="2878000" />
+      <workItem from="1585081785944" duration="1441000" />
+      <workItem from="1585146036087" duration="3054000" />
+      <workItem from="1585154230378" duration="675000" />
+      <workItem from="1585158786372" duration="194000" />
+      <workItem from="1585169579443" duration="2835000" />
+      <workItem from="1585248106937" duration="411000" />
+      <workItem from="1585512467737" duration="2836000" />
+      <workItem from="1585531745277" duration="257000" />
+      <workItem from="1585582913977" duration="2986000" />
+      <workItem from="1586189992983" duration="1832000" />
+      <workItem from="1586199621389" duration="9506000" />
+      <workItem from="1586269886991" duration="9716000" />
+      <workItem from="1586363713145" duration="1862000" />
+      <workItem from="1586368798576" duration="2050000" />
+      <workItem from="1586444794963" duration="2553000" />
+      <workItem from="1586450757621" duration="196000" />
+      <workItem from="1586713009471" duration="7706000" />
+      <workItem from="1586788697199" duration="11751000" />
+      <workItem from="1586891652957" duration="6277000" />
+      <workItem from="1586973822537" duration="4381000" />
+      <workItem from="1586979092037" duration="2037000" />
+      <workItem from="1586982087368" duration="5313000" />
+      <workItem from="1587052302370" duration="1877000" />
+      <workItem from="1587136591722" duration="768000" />
+      <workItem from="1587394173055" duration="11056000" />
+      <workItem from="1587497533993" duration="1350000" />
+      <workItem from="1587501716544" duration="458000" />
+      <workItem from="1587502201825" duration="2014000" />
+      <workItem from="1587505140334" duration="935000" />
+      <workItem from="1587507326080" duration="559000" />
+      <workItem from="1587507993134" duration="797000" />
+      <workItem from="1587583252656" duration="622000" />
+      <workItem from="1587584710577" duration="294000" />
+      <workItem from="1587586676387" duration="73000" />
+      <workItem from="1587656522992" duration="1510000" />
+    </task>
+    <task id="LOCAL-00110" summary="changed approved_by_discount to approved_by_discount">
+      <created>1585171840050</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1585171840050</updated>
+    </task>
+    <task id="LOCAL-00111" summary="changed approved_by_discount to approved_by_discount">
+      <created>1585172895674</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1585172895674</updated>
+    </task>
+    <task id="LOCAL-00112" summary="fixed for approved_by_margin and email works with approval by margin">
+      <created>1585248365424</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1585248365425</updated>
+    </task>
+    <task id="LOCAL-00113" summary="Approval mail url is dynamic now">
+      <created>1585517432014</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1585517432014</updated>
+    </task>
+    <task id="LOCAL-00114" summary="Approve btn in view evaluates hardcoded value instead of field">
+      <created>1585517470824</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1585517470824</updated>
+    </task>
+    <task id="LOCAL-00115" summary="Minor fixes">
+      <created>1585520209517</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1585520209517</updated>
+    </task>
+    <task id="LOCAL-00116" summary="Syntax minor fix">
+      <created>1585531769382</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1585531769382</updated>
+    </task>
+    <task id="LOCAL-00117" summary="Syntax minor fix">
+      <created>1585531973662</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1585531973662</updated>
+    </task>
+    <task id="LOCAL-00118" summary="Set 0.20 as minimal margin for lvl1 approval, 0.15 is margin for lvl2 approval">
+      <created>1585583091336</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1585583091336</updated>
+    </task>
+    <task id="LOCAL-00119" summary="Set 0.20 as minimal margin for lvl1 approval, 0.15 is margin for lvl2 approval">
+      <created>1585583167338</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1585583167338</updated>
+    </task>
+    <task id="LOCAL-00120" summary="mail sending fix - sending by group lvl">
+      <created>1585597051472</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1585597051472</updated>
+    </task>
+    <task id="LOCAL-00121" summary="confirm and ask for approval work in 'sent' state">
+      <created>1585599666243</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1585599666243</updated>
+    </task>
+    <task id="LOCAL-00122" summary="added fields to inherited product.template">
+      <created>1586301542274</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1586301542275</updated>
+    </task>
+    <task id="LOCAL-00123" summary="fixed pct &lt;span/&gt; in view">
+      <created>1586363800598</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1586363800599</updated>
+    </task>
+    <task id="LOCAL-00124" summary="added files to manifest and import">
+      <created>1586364695125</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1586364695125</updated>
+    </task>
+    <task id="LOCAL-00125" summary="fixed file extension in manifest">
+      <created>1586365119828</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1586365119829</updated>
+    </task>
+    <task id="LOCAL-00126" summary="_compute_list_price added and works as expected">
+      <created>1586450212366</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1586450212367</updated>
+    </task>
+    <task id="LOCAL-00127" summary="Changed standard_price (cost) label to List Price">
+      <created>1586450254504</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1586450254504</updated>
+    </task>
+    <task id="LOCAL-00128" summary="added inverse method _set_list_price to list_price">
+      <created>1586720056375</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1586720056375</updated>
+    </task>
+    <task id="LOCAL-00129" summary="fix division by zero en _set_list_price">
+      <created>1586720895614</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1586720895614</updated>
+    </task>
+    <task id="LOCAL-00130" summary="_set_list_price works without standard_price">
+      <created>1586788846450</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1586788846450</updated>
+    </task>
+    <task id="LOCAL-00131" summary="_set_list_price works without standard_price">
+      <created>1586790432089</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1586790432089</updated>
+    </task>
+    <task id="LOCAL-00132" summary="_set_list_price sets margin to 0">
+      <created>1586791144639</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1586791144639</updated>
+    </task>
+    <task id="LOCAL-00133" summary="rollback to setting _set_list_price">
+      <created>1586896938712</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1586896938713</updated>
+    </task>
+    <task id="LOCAL-00134" summary="_set_list_price works without standard_price">
+      <created>1586898136207</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1586898136208</updated>
+    </task>
+    <task id="LOCAL-00135" summary="_set_list_price default margin = 0">
+      <created>1586899687874</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1586899687874</updated>
+    </task>
+    <task id="LOCAL-00136" summary="removed compute and inverse from list_price">
+      <created>1586902479655</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1586902479655</updated>
+    </task>
+    <task id="LOCAL-00137" summary="_set_list_price is onchange instead of depends">
+      <created>1586902520013</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1586902520013</updated>
+    </task>
+    <task id="LOCAL-00138" summary="added compute and inverse to list_price">
+      <created>1586904358927</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1586904358927</updated>
+    </task>
+    <task id="LOCAL-00139" summary="try to override TestSaleProductAttributeValueSetup testcases">
+      <created>1586976757406</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1586976757406</updated>
+    </task>
+    <task id="LOCAL-00140" summary="removed testcases override">
+      <created>1586977717487</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1586977717487</updated>
+    </task>
+    <task id="LOCAL-00141" summary="removed tests from __init__.py imports">
+      <created>1586980263919</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1586980263920</updated>
+    </task>
+    <task id="LOCAL-00142" summary="get vendor discount pct from product_id">
+      <created>1586983851815</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1586983851815</updated>
+    </task>
+    <task id="LOCAL-00143" summary="tariff, tariff_cost, cost, admin_cost come form product_id">
+      <created>1586984273365</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1586984273365</updated>
+    </task>
+    <task id="LOCAL-00144" summary="removed final_cost to merge it with cost">
+      <created>1586984632707</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1586984632713</updated>
+    </task>
+    <task id="LOCAL-00145" summary="syntax error fix">
+      <created>1586987141465</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1586987141465</updated>
+    </task>
+    <task id="LOCAL-00146" summary="removed final_cost from sale_order.xml">
+      <created>1586987548315</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1586987548315</updated>
+    </task>
+    <task id="LOCAL-00147" summary="admin_fee is set in quote, not in product">
+      <created>1587052573777</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1587052573777</updated>
+    </task>
+    <task id="LOCAL-00148" summary="removed _set_list_price">
+      <created>1587054800908</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1587054800908</updated>
+    </task>
+    <task id="LOCAL-00149" summary="added extra discount">
+      <created>1587136900174</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1587136900174</updated>
+    </task>
+    <task id="LOCAL-00150" summary="spell check">
+      <created>1587137279749</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1587137279749</updated>
+    </task>
+    <task id="LOCAL-00151" summary="[FIX] Extra discount calculations">
+      <created>1587398484495</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1587398484495</updated>
+    </task>
+    <task id="LOCAL-00152" summary="[ADD] Approval by extra vendor discount&#10;&#10;Added the need for approval when the extra vendor discount is greater than the default, or lesser than the approved one.">
+      <created>1587425369101</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1587425369102</updated>
+    </task>
+    <task id="LOCAL-00153" summary="[FIX] Correct Sales Order URL&#10;&#10;Changed the SO URL's menu_id parameter to 192 - the previous one (172) throws an error when accessing the link.&#10;The action parameter in the URL is changed form 321 to 334 (IDK why, but it works).">
+      <created>1587498296129</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1587498296129</updated>
+    </task>
+    <task id="LOCAL-00154" summary="Clearing the merging mess">
+      <created>1587503617696</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1587503617698</updated>
+    </task>
+    <task id="LOCAL-00155" summary="Clearing the merging mess AGAIN">
+      <created>1587505480605</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1587505480605</updated>
+    </task>
+    <task id="LOCAL-00156" summary="Clearing the merging mess AGAIN aagain">
+      <created>1587507661198</created>
+      <option name="number" value="00156" />
+      <option name="presentableId" value="LOCAL-00156" />
+      <option name="project" value="LOCAL" />
+      <updated>1587507661198</updated>
+    </task>
+    <task id="LOCAL-00157" summary="Clearing the merging mess AGAIN aagain">
+      <created>1587507810790</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1587507810790</updated>
+    </task>
+    <task id="LOCAL-00158" summary="Add manufacturer field to model">
+      <created>1587508178839</created>
+      <option name="number" value="00158" />
+      <option name="presentableId" value="LOCAL-00158" />
+      <option name="project" value="LOCAL" />
+      <updated>1587508178839</updated>
+    </task>
+    <option name="localTasksCounter" value="159" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="_set_list_price default margin = 0" />
+    <MESSAGE value="removed compute and inverse from list_price" />
+    <MESSAGE value="_set_list_price is onchange instead of depends" />
+    <MESSAGE value="added compute and inverse to list_price" />
+    <MESSAGE value="try to override TestSaleProductAttributeValueSetup testcases" />
+    <MESSAGE value="removed testcases override" />
+    <MESSAGE value="removed tests from __init__.py imports" />
+    <MESSAGE value="get vendor discount pct from product_id" />
+    <MESSAGE value="tariff, tariff_cost, cost, admin_cost come form product_id" />
+    <MESSAGE value="removed final_cost to merge it with cost" />
+    <MESSAGE value="spell fix" />
+    <MESSAGE value="syntax error fix" />
+    <MESSAGE value="removed final_cost from sale_order.xml" />
+    <MESSAGE value="admin_fee is set in quote, not in product" />
+    <MESSAGE value="removed _set_list_price" />
+    <MESSAGE value="added extra discount" />
+    <MESSAGE value="spell check" />
+    <MESSAGE value="[FIX] Extra discount calculations" />
+    <MESSAGE value="[ADD] Approval by extra vendor discount" />
+    <MESSAGE value="[ADD] Approval by extra vendor discount&#10;&#10;Added the need for approval when the extra vendor discount is greater than the default, or lesser than the approved one." />
+    <MESSAGE value="[FIX] Correct Sales Order URL&#10;&#10;Changed the SO URL's menu_id parameter to 192 - the previous one (172) throws an error when accessing the link.&#10;The action parameter in the URL is changed form 321 to 334 (IDK why, but it works)." />
+    <MESSAGE value="Clearing the merging mess" />
+    <MESSAGE value="Clearing the merging mess AGAIN" />
+    <MESSAGE value="Clearing the merging mess AGAIN aagain" />
+    <MESSAGE value="Add manufacturer field to model" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add manufacturer field to model" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="449" y="148" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1586450649892">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="449" y="148" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.824@0.0.1536.824" timestamp="1586450649892" />
+    <state x="34" y="115" width="751" height="686" key="CommitChangelistDialog2" timestamp="1587508177859">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="227" y="0" width="1250" height="758" key="CommitChangelistDialog2/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1586984630876" />
+    <state x="34" y="115" width="751" height="686" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1587508177859" />
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1587507594308">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1587507594308" />
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1587504009806">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1587504009806" />
+    <state x="657" y="280" width="388" height="263" key="MultipleFileMergeDialog" timestamp="1587503967511">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="657" y="280" width="388" height="263" key="MultipleFileMergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1587503967511" />
+    <state x="277" y="55" key="SettingsEditor" timestamp="1586805977354">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="55" key="SettingsEditor/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1586805977354" />
+    <state x="277" y="55" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1586191095137" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1587508182078">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1366.0.1366.728@0.0.1536.824" timestamp="1586985235812" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1587508182078" />
+    <state x="578" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587507703799">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="578" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1587507703799" />
+    <state x="512" y="124" key="git4idea.branch.GitSmartOperationDialog" timestamp="1587505386939">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="512" y="124" key="git4idea.branch.GitSmartOperationDialog/0.0.1536.824@0.0.1536.824" timestamp="1587505386939" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1587412728150">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1587412728150" />
+  </component>
+</project>
