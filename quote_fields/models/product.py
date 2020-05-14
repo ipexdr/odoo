@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class ProductTemplate(models.Model):
     _inherit = ['product.template']
 
-    # overrided from product_template.py
+    # overrided from  product_template.py
     # list_price: catalog price, user defined
     list_price = fields.Float(
         'Sales Price', default=1.0,
