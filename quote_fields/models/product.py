@@ -75,7 +75,7 @@ class ProductTemplate(models.Model):
     @api.depends('vendor_discounted', 'standard_price')
     def _compute_fob_total(self):
         """
-        Takes product's list price (standard_price) and subtracts
+        Takes product's list price (standard_price) and  subtracts
         the discounted $amount (vendor_discounted).
         :return:
         """
