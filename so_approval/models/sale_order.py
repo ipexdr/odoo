@@ -48,9 +48,9 @@ class SaleOrder(models.Model):
         # TODO: Specify managers depending on extra vendor discount
 
         if self.min_margin <= self.var_lvl_2_margin:
-            my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager_2'))
+            my_users_group = all_users.filtered(lambda user: user.has_group('so_approval.so_approval_manager'))
         else:
-            my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager_1'))
+            my_users_group = all_users.filtered(lambda user: user.has_group('so_approval.so_approval_assistant'))
         so_number = self.name
 
         order_id = self.id
