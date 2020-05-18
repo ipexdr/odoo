@@ -21,6 +21,17 @@ class SaleOrder(models.Model):
 
     # TODO: set default min_margin, var_lvl_1_margin from settings page
 
+    # Overriding original state to add To Approve
+    state = fields.Selection([
+        ('draft', 'Quotation'),
+        ('sent', 'Quotation Sent'),
+        ('to approve', 'To Approve'),
+        ('sale', 'Sales Order'),
+        ('done', 'Locked'),
+        ('cancel', 'Cancelled'),
+        ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
+
+
     @api.depends('amount_total')
     def compute_min_margin(self):
         margins = []
