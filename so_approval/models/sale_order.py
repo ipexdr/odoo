@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class SaleOrder(models.Model):
     _inherit = ['sale.order']
+
     min_margin = fields.Float(store=True, default=0.30, compute='compute_min_margin')
     quote_approved = fields.Boolean(store=True, default=True)
 
@@ -18,7 +19,7 @@ class SaleOrder(models.Model):
     var_lvl_2_margin = 0.15
     std_min_margin = fields.Float(store=True, default=var_lvl_1_margin)
 
-    #     TODO: set default min_margin, var_lvl_1_margin from settings page
+    # TODO: set default min_margin, var_lvl_1_margin from settings page
 
     @api.depends('amount_total')
     def compute_min_margin(self):
@@ -36,9 +37,9 @@ class SaleOrder(models.Model):
         # TODO: Specify managers depending on extra vendor discount
 
         if self.min_margin <= self.var_lvl_2_margin:
-            my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager_2'))
+            my_users_group = all_users.filtered(lambda user: user.has_group('so_approval.so_approval_manager'))
         else:
-            my_users_group = all_users.filtered(lambda user: user.has_group('quote_fields.quote_fields_manager_1'))
+            my_users_group = all_users.filtered(lambda user: user.has_group('so_approval.so_approval_assistant'))
         so_number = self.name
 
         order_id = self.id

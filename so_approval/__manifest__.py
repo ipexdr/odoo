@@ -1,27 +1,14 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Quotation Extra Fields",
+    'name': "Sale Order Approval process",
 
     'summary': """
-        Adds extra fields to Sales quotations and SO""",
+        Allows for Sales Order approval process""",
 
     'description': """
-        IP Expert module for Sales, adds the fields:
-            - List Price
-            - Vendor Discount
-            - Discounted
-            - FOB Total
-            - Tariff (%)
-            - Tariff Cost
-            - Total Tariff Cost
-            - Cost
-            - Administration Costs
-            - Final Cost
-            - Total Final Cost
-            - Margin
-            - Profit Margin
-            - Profit
-            - Sell Price
+        Based on Purchase's approval process, adds the capability of
+        asking for a manager's approval in case some fields are out 
+        of their predefined values.
     """,
 
     'author': "IP Expert DR",
@@ -35,15 +22,14 @@
 
     # any module necessary for this one to work correctly
 
-    'depends': ['sale_management', 'purchase'],
+    'depends': ['sale_management', 'quote_fields'],
 
     # always loaded
     'data': [
         'data/ir_module_category_data.xml',
         'security/security.xml',
         # 'security/ir.model.access.csv',
-        'views/sale_order.xml',
-        'views/product_form.xml',
+        'views/sale_order.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -1,0 +1,11 @@
+<odoo>
+    <record id="so_approval_assistant" model="res.groups">
+        <field name="name">Assistant</field>
+        <field name="category_id" ref="so_approval.module_category_so_approval"/>
+    </record>
+    <record id="so_approval_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="implied_ids" eval="[(4, ref('so_approval_assistant'))]"/>
+        <field name="category_id" ref="so_approval.module_category_so_approval"/>
+    </record>
+</odoo>
