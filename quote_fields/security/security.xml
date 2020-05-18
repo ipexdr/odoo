@@ -1,14 +1,11 @@
 <odoo>
-        <record id="quote_fields_manager" model="res.groups">
-            <field name="name">Extra Quote Fields / Manager</field>
-<!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
-        </record>
-    <record id="quote_fields_manager_1" model="res.groups">
-        <field name="name">Extra Quote Fields / Lvl. 1 Manager</field>
-        <field name="implied_ids" eval="[(4, ref('quote_fields_manager'))]"/>
+    <record id="quote_fields_assistant" model="res.groups">
+        <field name="name">Assistant</field>
+        <field name="category_id" ref="quote_fields.module_category_quote_fields"/>
     </record>
-    <record id="quote_fields_manager_2" model="res.groups">
-        <field name="name">Extra Quote Fields / Lvl. 2 Manager</field>
-        <field name="implied_ids" eval="[(4, ref('quote_fields_manager_1'))]"/>
+    <record id="quote_fields_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="implied_ids" eval="[(4, ref('quote_fields_assistant'))]"/>
+        <field name="category_id" ref="quote_fields.module_category_quote_fields"/>
     </record>
 </odoo>
