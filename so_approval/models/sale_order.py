@@ -24,14 +24,48 @@ class SaleOrder(models.Model):
     # Overriding original state to add To Approve
     state = fields.Selection([
         ('draft', 'Quotation'),
-        ('sent', 'Quotation Sent'),
         ('to approve', 'To Approve'),
+        ('sent', 'Quotation Sent'),
         ('sale', 'Sales Order'),
         ('done', 'Locked'),
         ('cancel', 'Cancelled'),
         ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
 
 
+    def action_quotation_reject(self):
+
+        ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
+        self.ensure_one()
+        tmp_id = self.env['mail.template'].search([("name", "=", "email_template_reject_so")])
+        template_id = tmp_id.id
+        lang = self.env.context.get('lang')
+        template = self.env['mail.template'].browse(template_id)
+        
+        if template.lang:
+            lang = template._render_template(template.lang, 'sale.order', self.ids[0])
+        ctx = {
+            'default_model': 'sale.order',
+            'default_res_id': self.ids[0],
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': False,
+            'custom_layout': "mail.mail_notification_paynow",
+            'proforma': self.env.context.get('proforma', False),
+            'force_email': True,
+            'model_description': self.with_context(lang=lang).type_name,
+        }
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': ctx,
+        }
+
+    
     @api.depends('amount_total')
     def compute_min_margin(self):
         margins = []
@@ -111,10 +145,13 @@ class SaleOrder(models.Model):
             model=self._name,
             res_id=self.id
         )
+        
+        self.write({'state':'to approve'})
 
     def action_quotation_approve(self):
         for order in self:
             order.quote_approved = True
+            self.write({'state':'draft'})
             for line in order.order_line:
                 line.approved_extra_discount = line.extra_discount
                 if line.real_margin < line.min_appr_margin:
@@ -138,11 +175,14 @@ class SaleOrder(models.Model):
         for order in self:
             _logger.info(f'Order no. {order.name}')
             order.quote_margin_approved = self.approved_by_margin(order)
+            
             _logger.info(f"Margin approved - {order.quote_margin_approved}")
             order.quote_vendor_discount_approved = self.approved_by_extra_discount(order)
+            
             _logger.info(f"Discount approved - {order.quote_vendor_discount_approved}")
 
             if order.quote_margin_approved and order.quote_vendor_discount_approved:
                 self.quote_approved = True
+                self.write({'state':'draft'})
             else:
                 self.quote_approved = False
