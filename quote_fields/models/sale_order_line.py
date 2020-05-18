@@ -5,17 +5,12 @@ from odoo import models, fields, api
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
-
-    default_margin = 0.30
-    min_appr_margin = fields.Float('Minimum Approved Margin', store=True, default=0.20)
-
+    
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
 
     vendor_discount = fields.Float('Vendor Discount', store=True, default=0, compute='_compute_vendor_discount')
 
     extra_discount = fields.Float('Extra Vendor Discount', default=0)
-
-    approved_extra_discount = fields.Float('Approved Vendor discount', default=0)
 
     vendor_discounted = fields.Float('Discounted', store=True, readonly=True,
                                      compute='_compute_vendor_discounted')  # (Precio de lista) * (% Descuento fabricante)

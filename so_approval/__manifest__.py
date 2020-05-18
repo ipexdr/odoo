@@ -22,13 +22,13 @@
 
     # any module necessary for this one to work correctly
 
-    'depends': ['sale_management'],
+    'depends': ['sale_management', 'quote_fields'],
 
     # always loaded
     'data': [
         'security/security.xml',
         # 'security/ir.model.access.csv',
-        'views/sale_order.xml'
+        # 'views/sale_order.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
