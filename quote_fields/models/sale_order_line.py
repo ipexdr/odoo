@@ -5,7 +5,9 @@ from odoo import models, fields, api
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
-    
+
+    default_margin = 0.30
+
     list_price = fields.Float('List Price', compute='_compute_list_price', readonly=True, store=True)
 
     vendor_discount = fields.Float('Vendor Discount', store=True, default=0, compute='_compute_vendor_discount')
