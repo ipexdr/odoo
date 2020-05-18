@@ -22,11 +22,11 @@
 
                 <button name="action_quotation_send" position="before">
                     <button name="action_quotation_approve" string="Approve"
-                            type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager_1"
+                            type="object" class="oe_highlight" groups="quote_fields.po_approval_assistant"
                             attrs="{'invisible':['|',('min_margin', '&lt;=', 0.15),'|',('quote_approved','=',True), ('state', 'not in', ['draft', 'sent'])]}"/>
 
                     <button name="action_quotation_approve" string="Approve"
-                            type="object" class="oe_highlight" groups="quote_fields.quote_fields_manager_2"
+                            type="object" class="oe_highlight" groups="quote_fields.po_approval_manager"
                             attrs="{'invisible':['|',('min_margin', '&gt;', 0.15),'|',('quote_approved','=',True), ('state', 'not in', ['draft', 'sent'])]}"/>
 
                     <button name="action_ask_approval" string="Ask for Approval"

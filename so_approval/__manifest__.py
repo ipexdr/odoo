@@ -26,6 +26,7 @@
 
     # always loaded
     'data': [
+        'data/ir_module_category_data.xml',
         'security/security.xml',
         # 'security/ir.model.access.csv',
         'views/sale_order.xml'
