@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="log_message_wizard_view">
+            <field name="name">log.message.wizard.view</field>
+            <field name="model">log.message.wizard</field>
+            <!-- <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+            <field name="mode">primary</field> -->
+            <field name="groups_id" eval="[(4,ref('base.group_user'))]"/>
+            <field name="arch" type="xml">
+                <form string="Compose Message">
+                    <group>
+                        <field name="partner_id" widget="res_partner_many2one">
+                        <field name="message"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+<!-- 
+        <record id="action_email_compose_message_wizard" model="ir.actions.act_window">
+            <field name="name">Compose Email</field>
+            <field name="res_model">mail.compose.message</field>
+            <field name="binding_model_id" ref="mail.model_mail_compose_message"/>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record> -->
+    </data>
+</odoo>

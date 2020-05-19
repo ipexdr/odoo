@@ -26,6 +26,7 @@
     'data': [
         # 'security/security.xml',
         # 'security/ir.model.access.csv',
+        'wizard/log_message_wizard_view.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
