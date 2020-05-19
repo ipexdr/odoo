@@ -5,11 +5,18 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','in',['sent','to approve'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','in',['sent','to approve'])]}</attribute>
+                </xpath>
+                
+                
                 <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']"
                        position="after">
-
                     <field name="min_appr_margin" invisible="1"/>
-
                 </xpath>
 
                 <xpath expr="/form/header/field[@name='authorized_transaction_ids']" position="after">
@@ -18,7 +25,7 @@
                     <field name="std_min_margin" invisible="1"/>
                 </xpath>
 
-                <!-- TODO: Remove the hardcoded values for acion_quoation_send invisible fields -->
+                <!-- TODO: Remove the hardcoded values for action_quoation_send invisible fields -->
 
                 <button name="action_quotation_send" position="before">
                     <button name="action_quotation_approve" string="Approve"
