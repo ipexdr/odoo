@@ -18,7 +18,7 @@ class SaleOrder(models.Model):
     var_lvl_1_margin = 0.20
     var_lvl_2_margin = 0.15
     std_min_margin = fields.Float(store=True, default=var_lvl_1_margin)
-
+    
     # TODO: set default min_margin, var_lvl_1_margin from settings page
 
     # Overriding original state to add To Approve
@@ -36,20 +36,38 @@ class SaleOrder(models.Model):
 
         ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
         self.ensure_one()
-        tmp_id = self.env['mail.template'].search([("name", "=", "email_template_reject_so")])
+        tmp_id = self.env['mail.template'].search([("name", "=", "Sales Order: Rejected")])
         template_id = tmp_id.id
         lang = self.env.context.get('lang')
         template = self.env['mail.template'].browse(template_id)
         
         if template.lang:
             lang = template._render_template(template.lang, 'sale.order', self.ids[0])
+            
+
+#         self.env['mail.message'].create({'message_type': "notification",
+#                                          "subtype_id": self.env.ref("mail.mt_comment").id,  # subject type
+#                                          'body': "Body essage",
+#                                          'model': 'sale.order',
+#                                          'res_id': self.ids[0],
+#                                          'subject': "Message subject",
+#                                          'partner_ids': [self.user_id.partner_id.id],
+#                                          # partner to whom you send notification
+#                                          })
+
+#         self.message_post(
+#             subject='Message subject',
+#             body="Body esssage",
+#             partner_ids=[self.user_id.partner_id.id]
+#         )
+            
         ctx = {
             'default_model': 'sale.order',
             'default_res_id': self.ids[0],
             'default_use_template': bool(template_id),
             'default_template_id': template_id,
             'default_composition_mode': 'comment',
-            'mark_so_as_sent': False,
+            'mark_so_as_draft': True,
             'custom_layout': "mail.mail_notification_paynow",
             'proforma': self.env.context.get('proforma', False),
             'force_email': True,
@@ -64,7 +82,19 @@ class SaleOrder(models.Model):
             'target': 'new',
             'context': ctx,
         }
-
+    
+    
+#     Overriding original method to allow mark_so_as_draft
+    @api.returns('mail.message', lambda value: value.id)
+    def message_post(self, **kwargs):
+        if self.env.context.get('mark_so_as_sent'):
+            self.filtered(lambda o: o.state == 'draft').with_context(tracking_disable=True).write({'state': 'sent'})
+            self.env.company.sudo().set_onboarding_step_done('sale_onboarding_sample_quotation_state')
+            
+        elif self.env.context.get('mark_so_as_draft'):
+            self.filtered(lambda o: o.state == 'to approve').with_context(tracking_disable=True).write({'state': 'draft'})
+            self.write({})
+        return super(SaleOrder, self.with_context(mail_post_autofollow=True)).message_post(**kwargs)
     
     @api.depends('amount_total')
     def compute_min_margin(self):
