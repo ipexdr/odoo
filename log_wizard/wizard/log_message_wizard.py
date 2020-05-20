@@ -5,22 +5,25 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-class LogMessageWizard(model.TransistentModel):
+class LogMessageWizard(models.TransientModel):
     _name='log.message.wizard'
+    _description='Wizard to log a message in chatter'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    
-    def _get_partner_id(self):
-        return self.env[self._context['parent_model']].browse(self._context['user_id'])
 
-    @api.model
-    def _get_default_author(self):
-        return self.env.user.partner_id
-
-    partner_id = fields.Many2one('res.partner', string="To:", default=_get_partner_id)
-    author_id = fields.Many2one('res.partner', string='Author', default=_get_default_author)
-    message = fields.Char(default = f"Hello, {partner_id.name}")
+    message = fields.Html('Contents', default='', sanitize_style=True)
 
     def action_confirm(self):
         parent = self.env[self._context['parent_model']].browse(self._context['parent_id'])
-        msg = self.message
-        parent.message_post(body=msg)
+        msg_subject = self._context['subject']
+        
+        parent.message_post(
+            subject=msg_subject,
+            body=self.message,
+            partner_ids=[parent.user_id.partner_id.id]
+        )
+        
+        if self._context['to_state']:
+            # Change parent state if to_state context
+            parent.write({'state':self._context['to_state']})
+        
+        
