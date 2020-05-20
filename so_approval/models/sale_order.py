@@ -33,68 +33,33 @@ class SaleOrder(models.Model):
 
 
     def action_quotation_reject(self):
-
-        ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
-        self.ensure_one()
-        tmp_id = self.env['mail.template'].search([("name", "=", "Sales Order: Rejected")])
-        template_id = tmp_id.id
-        lang = self.env.context.get('lang')
-        template = self.env['mail.template'].browse(template_id)
+        view = self.env.ref('log_wizard.log_message_wizard_view')
+        wiz = self.env['log.message.wizard'].create({})      
+        model_description = self.type_name
+        wiz_name = f"Reject {model_description}"
+        wiz_subject = f"{model_description} rejected"
         
-        if template.lang:
-            lang = template._render_template(template.lang, 'sale.order', self.ids[0])
-            
-
-#         self.env['mail.message'].create({'message_type': "notification",
-#                                          "subtype_id": self.env.ref("mail.mt_comment").id,  # subject type
-#                                          'body': "Body essage",
-#                                          'model': 'sale.order',
-#                                          'res_id': self.ids[0],
-#                                          'subject': "Message subject",
-#                                          'partner_ids': [self.user_id.partner_id.id],
-#                                          # partner to whom you send notification
-#                                          })
-
-#         self.message_post(
-#             subject='Message subject',
-#             body="Body esssage",
-#             partner_ids=[self.user_id.partner_id.id]
-#         )
-            
         ctx = {
-            'default_model': 'sale.order',
-            'default_res_id': self.ids[0],
-            'default_use_template': bool(template_id),
-            'default_template_id': template_id,
-            'default_composition_mode': 'comment',
-            'mark_so_as_draft': True,
-            'custom_layout': "mail.mail_notification_paynow",
-            'proforma': self.env.context.get('proforma', False),
-            'force_email': True,
-            'model_description': self.with_context(lang=lang).type_name,
+            'subject': wiz_subject,
+            'partner_ids': self.ids[0],
+            'parent_model': self._name,
+            'parent_id': self.id,
+            'to_state': 'draft'        
         }
+        
         return {
+            'name': wiz_name,
             'type': 'ir.actions.act_window',
+            'view_type': 'form',
             'view_mode': 'form',
-            'res_model': 'mail.compose.message',
-            'views': [(False, 'form')],
-            'view_id': False,
+            'res_model': 'log.message.wizard',
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
             'target': 'new',
-            'context': ctx,
+            'res_id': wiz.id,
+            'context': ctx
         }
-    
-    
-#     Overriding original method to allow mark_so_as_draft
-    @api.returns('mail.message', lambda value: value.id)
-    def message_post(self, **kwargs):
-        if self.env.context.get('mark_so_as_sent'):
-            self.filtered(lambda o: o.state == 'draft').with_context(tracking_disable=True).write({'state': 'sent'})
-            self.env.company.sudo().set_onboarding_step_done('sale_onboarding_sample_quotation_state')
-            
-        elif self.env.context.get('mark_so_as_draft'):
-            self.filtered(lambda o: o.state == 'to approve').with_context(tracking_disable=True).write({'state': 'draft'})
-            self.write({})
-        return super(SaleOrder, self.with_context(mail_post_autofollow=True)).message_post(**kwargs)
+        
     
     @api.depends('amount_total')
     def compute_min_margin(self):
@@ -162,18 +127,16 @@ class SaleOrder(models.Model):
 
             msg += "</ul>"
 
-        msg += f"<p>Click <a href=\"{url}\">here</a> to view the order."
-
         partner_ids = []
         for user in my_users_group:
             partner_ids.append(user.partner_id.id)
 
-        self.message_notify(
+        self.message_post(
             subject='Quotation pending for Approval',
             body=msg,
-            partner_ids=tuple(partner_ids),
-            model=self._name,
-            res_id=self.id
+            partner_ids=tuple(partner_ids)
+#             model=self._name,
+#             res_id=self.id
         )
         
         self.write({'state':'to approve'})

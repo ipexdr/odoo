@@ -22,7 +22,7 @@
 
     # any module necessary for this one to work correctly
 
-    'depends': ['sale_management', 'quote_fields'],
+    'depends': ['sale_management', 'quote_fields', 'log_wizard'],
 
     # always loaded
     'data': [
