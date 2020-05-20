@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Sale Order Approval process",
+    'name': "Log Message Wizard",
 
     'summary': """
-        Allows for Sales Order approval process""",
+        Adds a new wizard to post log messages.""",
 
     'description': """
-        Based on Purchase's approval process, adds the capability of
-        asking for a manager's approval in case some fields are out 
-        of their predefined values.
+        
     """,
 
     'author': "IP Expert DR",
@@ -17,20 +15,18 @@
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Sales',
+    'category': 'Discuss',
     'version': '0.1',
 
     # any module necessary for this one to work correctly
 
-    'depends': ['sale_management', 'quote_fields', 'log_wizard'],
+    'depends': ['mail'],
 
     # always loaded
     'data': [
-        'data/ir_module_category_data.xml',
-        'security/security.xml',
+        # 'security/security.xml',
         # 'security/ir.model.access.csv',
-        'views/sale_order.xml',
-        'data/mail_data.xml'
+        'wizard/log_message_wizard_view.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

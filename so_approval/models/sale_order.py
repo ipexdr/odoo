@@ -18,20 +18,49 @@ class SaleOrder(models.Model):
     var_lvl_1_margin = 0.20
     var_lvl_2_margin = 0.15
     std_min_margin = fields.Float(store=True, default=var_lvl_1_margin)
-
+    
     # TODO: set default min_margin, var_lvl_1_margin from settings page
 
     # Overriding original state to add To Approve
     state = fields.Selection([
         ('draft', 'Quotation'),
-        ('sent', 'Quotation Sent'),
         ('to approve', 'To Approve'),
+        ('sent', 'Quotation Sent'),
         ('sale', 'Sales Order'),
         ('done', 'Locked'),
         ('cancel', 'Cancelled'),
         ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
 
 
+    def action_quotation_reject(self):
+        view = self.env.ref('log_wizard.log_message_wizard_view')
+        wiz = self.env['log.message.wizard'].create({})      
+        model_description = self.type_name
+        wiz_name = f"Reject {model_description}"
+        wiz_subject = f"{model_description} rejected"
+        
+        ctx = {
+            'subject': wiz_subject,
+            'partner_ids': self.ids[0],
+            'parent_model': self._name,
+            'parent_id': self.id,
+            'to_state': 'draft'        
+        }
+        
+        return {
+            'name': wiz_name,
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'log.message.wizard',
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
+            'target': 'new',
+            'res_id': wiz.id,
+            'context': ctx
+        }
+        
+    
     @api.depends('amount_total')
     def compute_min_margin(self):
         margins = []
@@ -98,23 +127,24 @@ class SaleOrder(models.Model):
 
             msg += "</ul>"
 
-        msg += f"<p>Click <a href=\"{url}\">here</a> to view the order."
-
         partner_ids = []
         for user in my_users_group:
             partner_ids.append(user.partner_id.id)
 
-        self.message_notify(
+        self.message_post(
             subject='Quotation pending for Approval',
             body=msg,
-            partner_ids=tuple(partner_ids),
-            model=self._name,
-            res_id=self.id
+            partner_ids=tuple(partner_ids)
+#             model=self._name,
+#             res_id=self.id
         )
+        
+        self.write({'state':'to approve'})
 
     def action_quotation_approve(self):
         for order in self:
             order.quote_approved = True
+            self.write({'state':'draft'})
             for line in order.order_line:
                 line.approved_extra_discount = line.extra_discount
                 if line.real_margin < line.min_appr_margin:
@@ -138,11 +168,14 @@ class SaleOrder(models.Model):
         for order in self:
             _logger.info(f'Order no. {order.name}')
             order.quote_margin_approved = self.approved_by_margin(order)
+            
             _logger.info(f"Margin approved - {order.quote_margin_approved}")
             order.quote_vendor_discount_approved = self.approved_by_extra_discount(order)
+            
             _logger.info(f"Discount approved - {order.quote_vendor_discount_approved}")
 
             if order.quote_margin_approved and order.quote_vendor_discount_approved:
                 self.quote_approved = True
+                self.write({'state':'draft'})
             else:
                 self.quote_approved = False
