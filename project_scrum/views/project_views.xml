@@ -28,8 +28,8 @@
 		<field name="inherit_id" ref="project.view_task_kanban"/>
 		<field name="arch" type="xml">
 			<xpath expr="//strong[hasclass('o_kanban_record_title')]" position="after">
-				<t t-if="record.iteration">
-                    <br/>
+				<br/>
+                <t t-if="record.iteration">
 					<field name='iteration'/>
 				</t>
 			</xpath>
