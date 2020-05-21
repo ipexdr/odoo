@@ -9,5 +9,4 @@ _logger = logging.getLogger(__name__)
 class Task(models.Model):
     _inherit = "project.task"
 
-    iteration = fields.Char('Iteration')
-        
+    iteration = fields.Char(string='Iteration', default='Backlog', required=True, tracking=True)
