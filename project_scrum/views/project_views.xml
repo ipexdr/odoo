@@ -1,0 +1,14 @@
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="quick_create_task_form_inherit">
+		<field name="name">project.task.form.quick_create.inherit</field>
+		<field name="model">project.task</field>
+		<field name="inherit_id" ref="project.quick_create_task_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='user_id']" position="after">
+				<field name='iteration'/>
+			</xpath>
+		</field>
+		</record>
+	</data>
+</odoo>
