@@ -31,6 +31,43 @@ class SaleOrder(models.Model):
         ('cancel', 'Cancelled'),
         ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
 
+    # Overriding original action_cancel to ask for approval if user is not assistant nor manager
+    def action_cancel(self):
+        if not self.env.user.has_group('so_approval.so_approval_assistant'):
+            # Getting all assistant/manager users
+            all_users = self.env['res.users'].search([('active', '=', True)])
+            my_users_group = all_users.filtered(lambda user: user.has_group('so_approval.so_approval_assistant'))
+
+            partner_ids = []
+            for user in my_users_group:
+                partner_ids.append(user.partner_id.id)
+            _logger.info(f"Action cancel - so approval assistants {partner_ids}")
+            view = self.env.ref('log_wizard.log_message_wizard_view')
+            wiz = self.env['log.message.wizard'].create({})      
+            model_description = self.type_name
+            wiz_name = f"{model_description} cancellation request"
+            
+            ctx = {
+                'subject': wiz_name,
+                'partner_ids': partner_ids,
+                'parent_model': self._name,
+                'parent_id': self.id,
+            }
+            
+            return {
+                'name': wiz_name,
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'log.message.wizard',
+                'views': [(view.id, 'form')],
+                'view_id': view.id,
+                'target': 'new',
+                'res_id': wiz.id,
+                'context': ctx
+            }
+        else:
+            return self.write({'state': 'cancel'})
 
     def action_quotation_reject(self):
         view = self.env.ref('log_wizard.log_message_wizard_view')
@@ -41,7 +78,7 @@ class SaleOrder(models.Model):
         
         ctx = {
             'subject': wiz_subject,
-            'partner_ids': self.ids[0],
+            'partner_ids': self.user_id.partner_id.id,
             'parent_model': self._name,
             'parent_id': self.id,
             'to_state': 'draft'        

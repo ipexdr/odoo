@@ -19,10 +19,11 @@ class LogMessageWizard(models.TransientModel):
         parent.message_post(
             subject=msg_subject,
             body=self.message,
-            partner_ids=[parent.user_id.partner_id.id]
+            # partner_ids=[parent.user_id.partner_id.id]
+            partner_ids=self._context['partner_ids']
         )
         
-        if self._context['to_state']:
+        if 'to_state' in self._context.keys():
             # Change parent state if to_state context
             parent.write({'state':self._context['to_state']})
         
