@@ -1,5 +1,16 @@
 <odoo>
 	<data>
+		<record id="view_task_search_form_inherit" model="ir.ui.view">
+            <field name="name">project.task.search.form.inherit</field>
+            <field name="model">project.task</field>
+			<field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//filter[@name='stage']" position="after">
+					<filter string="Iteration" name="iteration" context="{'group_by':'iteration'}"/>
+			   </xpath>
+            </field>
+        </record>
+
 		<record model="ir.ui.view" id="quick_create_task_form_inherit">
 		<field name="name">project.task.form.quick_create.inherit</field>
 		<field name="model">project.task</field>
@@ -10,9 +21,7 @@
 			</xpath>
 		</field>
 		</record>
-	</data>
 
-	<data>
 		<record model="ir.ui.view" id="view_task_kanban_inherit">
 		<field name="name">>project.task.kanban.inherit</field>
 		<field name="model">project.task</field>
@@ -26,9 +35,7 @@
 			</xpath>
 		</field>
 		</record>
-	</data>
-	
-	<data>
+
 		<record model="ir.ui.view" id="view_task_form2_inherit">
 		<field name="name">>project.task.form.inherit</field>
 		<field name="model">project.task</field>
