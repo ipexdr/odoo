@@ -88,6 +88,6 @@
             </field>
         </record>
         
-        <menuitem action="open_project_task_form" id="menu_project_task_config_project" name="Project Stages" parent="project.menu_project_config" sequence="4" groups="base.group_no_one"/>
+        <menuitem action="open_project_task_form" id="menu_project_task_config_project" name="Project Stages" parent="project.menu_project_config" sequence="4" groups="project.group_project_manager"/>
 	</data>
 </odoo>
