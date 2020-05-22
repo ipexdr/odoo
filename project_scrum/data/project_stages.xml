@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <record id="project_stage_to_do" model="project.stage">
             <field name="name">To Do</field>
         </record>

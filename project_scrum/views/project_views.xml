@@ -5,9 +5,6 @@
             <field name="model">project.project</field>
 			<field name="inherit_id" ref="project.view_project_kanban"/>
             <field name="arch" type="xml">
-                <xpath expr="//kanban" position="attributes">
-                    <attribute name="default_group_by">stage_id</attribute>
-                </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="stage_id" options='{"group_by_tooltip": {"description": "Description"}}'/>
                 </xpath>
@@ -22,6 +19,17 @@
                <xpath expr="//filter[@name='stage']" position="after">
 					<filter string="Iteration" name="iteration" context="{'group_by':'iteration'}"/>
 			   </xpath>
+            </field>
+        </record>
+        
+        <record id="view_project_project_filter_inherit" model="ir.ui.view">
+            <field name="name">project.project.select.inherit</field>
+            <field name="model">project.project</field>
+			<field name="inherit_id" ref="project.view_project_project_filter"/>            
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='Partner']" position="after">
+                    <filter string="Stage" name="stage" context="{'group_by': 'stage_id'}"/>
+                </xpath>
             </field>
         </record>
 
