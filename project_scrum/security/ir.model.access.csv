@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_quote_fields_quote_fields,quote_fields.quote_fields,model_quote_fields_quote_fields,base.group_user,1,1,1,1
+access_project_stage_manager,project.stage,model_project_stage,project.group_project_manager,1,1,1,1
