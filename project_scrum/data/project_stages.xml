@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="project_stage_to_do" model="project.stage">
+            <field name="name">To Do</field>
+        </record>
+    </data>
+</odoo>
