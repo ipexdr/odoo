@@ -1,12 +1,12 @@
 <odoo>
     <data>
-        <record model="ir.ui.view" id="sale_order_view_inherit">
-            <field name="name">sale.order.view.inherit</field>
+        <record model="ir.ui.view" id="sale_order_view_inherit_full_discount">
+            <field name="name">sale.order.view.inherit.full_discount</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='order_date']" position="after">
-                    <field name='full_discount'/>
+                <xpath expr="//field[@name='date_order']" position="after">
+                    <field name="full_discount" groups="product.group_discount_per_so_line"/>
                 </xpath>
             </field>
         </record>

@@ -11,9 +11,16 @@ class SaleOrder(models.Model):
 
     full_discount = fields.Float(store=True, default=0, string="Quotation Discount (%)")
 
-    @api.depends('full_discount')
+    @api.onchange('full_discount')
     def _set_full_discount(self):
         for order in self:
             for line in order.order_line:
-                if not line.discount:
-                    line.discount = line.full_discount
+                if order.full_discount:
+                    # If full discount != 0, each empty
+                    # discount field will be = full discount
+                    if not line.discount:
+                        line.discount = order.full_discount
+                else:
+                    # In case full discount == 0, then
+                    # every discount field = 0
+                    line.discount = 0
