@@ -11,8 +11,17 @@ class SaleOrder(models.Model):
 
     full_discount = fields.Float(store=True, default=0, string="Quotation Discount (%)")
     quote_discounted = fields.Float(string="Discounted Amount", compute='_compute_quote_discount')
-    undiscounted_total = fields.Float()
+    undiscounted_total = fields.Float(compute='_compute_undiscounted_total')
 
+    @api.depends('amount_untaxed', 'amount_tax')
+    def _compute_undiscounted_total(self):
+        """
+        Computes the undiscounted total of SO.
+        """
+        for order in self:
+            order.undiscounted_total = order.amount_untaxed + order.amount_tax
+            
+    
     @api.depends('full_discount', 'amount_total')
     def _compute_quote_discount(self):
         """
@@ -37,6 +46,5 @@ class SaleOrder(models.Model):
             order.update({
                 'amount_untaxed': amount_untaxed,
                 'amount_tax': amount_tax,
-                'amount_total': (amount_untaxed + amount_tax) - order.quote_discounted,
-                'undiscounted_total': amount_untaxed + amount_tax,
+                'amount_total': (amount_untaxed + amount_tax) - order.quote_discounted
             })
