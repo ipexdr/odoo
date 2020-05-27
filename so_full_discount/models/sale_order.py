@@ -11,7 +11,7 @@ class SaleOrder(models.Model):
 
     full_discount = fields.Float(store=True, default=0, string="Quotation Discount (%)")
     quote_discounted = fields.Float(string="Discounted Amount", compute='_compute_quote_discount')
-    undiscounted_total = fields.Float(compute='_amount_all')
+    undiscounted_total = fields.Float()
 
     @api.depends('full_discount', 'amount_total')
     def _compute_quote_discount(self):

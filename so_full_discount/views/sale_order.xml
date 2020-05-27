@@ -9,9 +9,8 @@
                     <field name="full_discount" groups="product.group_discount_per_so_line"/>
                 </xpath>
                 <xpath expr="//field[@name='amount_tax']" position="after">
-                <!-- TODO: Make invisible if full_didscount == 0 -->
-                    <field name="quote_discounted" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                    <field name="undiscounted_total" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                    <field name="quote_discounted" widget='monetary' attrs="{'invisible': [('full_discount', '=', 0)]}" options="{'currency_field': 'currency_id'}"/>
+                    <field name="undiscounted_total" widget='monetary' attrs="{'invisible': [('full_discount', '=', 0)]}" options="{'currency_field': 'currency_id'}"/>
                 </xpath>
             </field>
         </record>
