@@ -10,17 +10,33 @@ class SaleOrder(models.Model):
     _inherit = ['sale.order']
 
     full_discount = fields.Float(store=True, default=0, string="Quotation Discount (%)")
+    quote_discounted = fields.Float(string="Discounted Amount", compute='_compute_quote_discount')
+    undiscounted_total = fields.Float(compute='_amount_all')
 
-    @api.onchange('full_discount')
-    def _set_full_discount(self):
+    @api.depends('full_discount', 'amount_total')
+    def _compute_quote_discount(self):
+        """
+        Compute the SO's general discount
+        """
         for order in self:
+            if order.full_discount:
+                order.quote_discounted = order.amount_total * (order.full_discount * 0.01)
+            else:
+                order.quote_discounted = 0
+    
+    @api.depends('order_line.price_total', 'quote_discounted')
+    def _amount_all(self):
+        """
+        Compute the total amounts of the SO.
+        """
+        for order in self:
+            amount_untaxed = amount_tax = 0.0
             for line in order.order_line:
-                if order.full_discount:
-                    # If full discount != 0, each empty
-                    # discount field will be = full discount
-                    if not line.discount:
-                        line.discount = order.full_discount
-                else:
-                    # In case full discount == 0, then
-                    # every discount field = 0
-                    line.discount = 0
+                amount_untaxed += line.price_subtotal
+                amount_tax += line.price_tax
+            order.update({
+                'amount_untaxed': amount_untaxed,
+                'amount_tax': amount_tax,
+                'amount_total': (amount_untaxed + amount_tax) - order.quote_discounted,
+                'undiscounted_total': amount_untaxed + amount_tax,
+            })
