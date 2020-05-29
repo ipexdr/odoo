@@ -33,7 +33,50 @@ class PurchaseOrder(models.Model):
     
     pre_approved = fields.Float(store=True, default=False)
     final_approved = fields.Float(store=True, default=False)
+    
+    
+    # Overriding original action_cancel to ask for approval if user is not assistant nor manager
+    def button_cancel(self):
+        if not self.env.user.has_group('po_end_customer.group_purchase_assistant'):
+            # Getting all assistant/manager users
+            all_users = self.env['res.users'].search([('active', '=', True)])
+            my_users_group = all_users.filtered(lambda user: user.has_group('po_end_customer.group_purchase_assistant'))
+
+            partner_ids = []
+            for user in my_users_group:
+                partner_ids.append(user.partner_id.id)
+            _logger.info(f"Action cancel - po approval assistants {partner_ids}")
+            view = self.env.ref('log_wizard.log_message_wizard_view')
+            wiz = self.env['log.message.wizard'].create({})      
+            model_description = self.type_name
+            wiz_name = f"{model_description} cancellation request"
             
+            ctx = {
+                'subject': wiz_name,
+                'partner_ids': partner_ids,
+                'parent_model': self._name,
+                'parent_id': self.id,
+            }
+            
+            return {
+                'name': wiz_name,
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'log.message.wizard',
+                'views': [(view.id, 'form')],
+                'view_id': view.id,
+                'target': 'new',
+                'res_id': wiz.id,
+                'context': ctx
+            }
+        else:
+            for order in self:
+                for inv in order.invoice_ids:
+                    if inv and inv.state not in ('cancel', 'draft'):
+                        raise UserError("Unable to cancel this purchase order. You must first cancel the related vendor bills.")
+            self.write({'state': 'cancel'})
+
     @api.depends('user_id')
     def _compute_user_access(self):
         # If user is manager - access level = 2
