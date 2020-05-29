@@ -48,7 +48,7 @@ class PurchaseOrder(models.Model):
             _logger.info(f"Action cancel - po approval assistants {partner_ids}")
             view = self.env.ref('log_wizard.log_message_wizard_view')
             wiz = self.env['log.message.wizard'].create({})      
-            model_description = self.type_name
+            model_description = 'PO'
             wiz_name = f"{model_description} cancellation request"
             
             ctx = {
