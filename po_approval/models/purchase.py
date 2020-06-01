@@ -20,7 +20,7 @@ class PurchaseOrder(models.Model):
     
     # Overriding original action_cancel to ask for approval if user is not assistant nor manager
     def button_cancel(self):
-        if not self.env.user.has_group('po_approval.group_purchase_assistant'):
+        if not self.env.user.has_group('po_approval.group_purchase_assistant') and self.state not in ('draft'):
             # Getting all assistant/manager users
             all_users = self.env['res.users'].search([('active', '=', True)])
             my_users_group = all_users.filtered(lambda user: user.has_group('po_approval.group_purchase_assistant'))
@@ -28,11 +28,11 @@ class PurchaseOrder(models.Model):
             partner_ids = []
             for user in my_users_group:
                 partner_ids.append(user.partner_id.id)
+                
             _logger.info(f"Action cancel - po approval assistants {partner_ids}")
             view = self.env.ref('log_wizard.log_message_wizard_view')
             wiz = self.env['log.message.wizard'].create({})      
-            model_description = 'PO'
-            wiz_name = f"{model_description} cancellation request"
+            wiz_name = "PO cancellation request"
             
             ctx = {
                 'subject': wiz_name,
@@ -58,7 +58,30 @@ class PurchaseOrder(models.Model):
                 for inv in order.invoice_ids:
                     if inv and inv.state not in ('cancel', 'draft'):
                         raise UserError("Unable to cancel this purchase order. You must first cancel the related vendor bills.")
-            self.write({'state': 'cancel'})
+            
+            view = self.env.ref('log_wizard.log_message_wizard_view')
+            wiz = self.env['log.message.wizard'].create({})      
+            wiz_name = "RFQ cancellation reason"
+            
+            ctx = {
+                'subject': wiz_name,
+                'to_state': 'cancel',
+                'parent_model': self._name,
+                'parent_id': self.id,
+            }
+            
+            return {
+                'name': wiz_name,
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'log.message.wizard',
+                'views': [(view.id, 'form')],
+                'view_id': view.id,
+                'target': 'new',
+                'res_id': wiz.id,
+                'context': ctx
+            }
 
     @api.depends('user_id')
     def _compute_user_access(self):
@@ -132,14 +155,12 @@ class PurchaseOrder(models.Model):
 
             order_id = self.id
 
-            domain = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-
-            url = f"{domain}/web#id={order_id}&action=316&model=purchase.order&view_type=form&cids=1&menu_id=188"
-
             msg = f"<p>The Purchase Order <b>{po_number}</b> needs final approval.</p>"
             msg += f"<p><b>Vendor</b>: {self.partner_id.name}</p>"
-            msg += f"<p><b>End Customer</b>: {self.end_customer_id.name}</p>"
-            msg += f"<p>Click <b><a href=\"{url}\">here</a></b> to view the order."
+            try:
+                msg += f"<p><b>End Customer</b>: {self.end_customer_id.name}</p>"
+            except:
+                pass
 
             
             all_users = self.env['res.users'].search([('active', '=', True)])
@@ -151,7 +172,7 @@ class PurchaseOrder(models.Model):
                 partner_ids.append(user.partner_id.id)
                         
 
-            self.message_notify(
+            self.message_post(
                 subject='Purchase Order pending for Approval',
                 body=msg,
                 partner_ids=tuple(partner_ids),
