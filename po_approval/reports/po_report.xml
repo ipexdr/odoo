@@ -1,0 +1,52 @@
+<odoo>
+  <data>
+    <template id="report_purchaseorder_document_inherit" inherit_id="purchase.report_purchaseorder_document">
+      <xpath expr="//t[@t-set='address']" position='replace'>
+        <t t-set="address">
+            <strong>Vendor:</strong><br/>
+            <span t-field="o.partner_id.parent_id.name"/><br/>
+            <span t-field="o.partner_id.parent_id.street"/><br/>
+            <span t-field="o.partner_id.parent_id.city"/><br/>
+<!--             <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: False, &quot;phone_icons&quot;: True}"/> -->
+            <p t-if="o.partner_id.parent_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></p>
+            <strong>Contact:</strong>
+            <div t-field="o.partner_id.name"/>
+            <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;mobile&quot;, &quot;phone&quot;, &quot;email&quot;], &quot;no_marker&quot;: False, &quot;phone_icons&quot;: True}" />
+        </t>
+      </xpath>
+
+      <xpath expr="//t[@t-if='o.dest_address_id']" position='replace'>
+        <t t-if="o.dest_address_id or o.end_customer_id or o.courier_id">
+            <t t-set="information_block">
+              <t t-if="o.dest_address_id">
+                <strong>Shipping address:</strong>
+                <div t-if="o.dest_address_id">
+                    <div t-field="o.dest_address_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" name="purchase_shipping_address"/>
+                </div>
+              </t>
+              <t t-if="o.end_customer_id"> 
+                <strong>End Customer:</strong><br/>
+                <span t-field="o.end_customer_id.name"/><br/>
+                <span t-field="o.end_customer_id.street"/><br/>
+                <span t-field="o.end_customer_id.city"/><br/>
+                
+<!--                 <div t-field="o.end_customer_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: False, &quot;phone_icons&quot;: True}"/> -->
+<!--                 <p t-if="o.end_customer_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></p> -->
+                <t t-if="o.end_contact_id">
+                    <br/>
+                    <strong>Contact:</strong>
+                    <div t-field="o.end_contact_id.name"/>
+                    <div t-field="o.end_contact_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;mobile&quot;, &quot;phone&quot;, &quot;email&quot;], &quot;no_marker&quot;: False, &quot;phone_icons&quot;: True}" />
+                </t>
+              </t>
+              <t t-if="o.courier_id"> 
+                <br/>
+                <strong>Courier:</strong>
+                <div t-field="o.courier_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: False, &quot;phone_icons&quot;: True}"/>
+              </t> 
+            </t>
+        </t> 
+      </xpath>
+    </template>
+  </data>
+</odoo>

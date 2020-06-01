@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- <record id="purchase.action_report_purchase_order_landscape" model="ir.actions.report">
+            <field name="paperformat_id" ref="po_end_customer.paperformat_us_landscape"/>
+        </record> -->
+    </data>
+</odoo>
