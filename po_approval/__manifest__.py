@@ -31,9 +31,6 @@
         # 'security/ir.model.access.csv',
         'views/purchase_views.xml',
         'views/res_config_settings_views.xml',
-        'reports/po_report.xml',
-        'reports/rfq_report.xml',
-        'data/paperformat_us_landscape.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
