@@ -44,6 +44,22 @@ class PurchaseOrder(models.Model):
                         or order.user_has_groups('purchase.group_purchase_manager'):
                     order.button_approve(override=True)
                 else:
+                    all_users = self.env['res.users'].search([('active', '=', True)])
+
+                    managers = all_users.filtered(lambda user: user.has_group('purchase.group_purchase_manager'))
+                    assistants = all_users.filtered(lambda user: user.has_group('po_approval.group_purchase_assistant'))
+
+                    partner_ids = []
+                    for user in assistants:
+                        if user not in managers:
+                            partner_ids.append(user.partner_id.id)
+                        
+                    self.message_post(
+                        subject="PO Waiting for Pre-Approval",
+                        body=f"The PO {self.name} needs a review for pre-approval.",
+                        partner_ids=partner_ids
+                    )
+                    
                     order.write({'state': 'to approve'})
             else:
                 raise UserError("Unable to confirm order. Please check that the required files are attached.")

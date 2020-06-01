@@ -153,8 +153,6 @@ class PurchaseOrder(models.Model):
             self.pre_approved = True
             po_number = self.name
 
-            order_id = self.id
-
             msg = f"<p>The Purchase Order <b>{po_number}</b> needs final approval.</p>"
             msg += f"<p><b>Vendor</b>: {self.partner_id.name}</p>"
             try:
@@ -171,7 +169,6 @@ class PurchaseOrder(models.Model):
             for user in my_users_group:
                 partner_ids.append(user.partner_id.id)
                         
-
             self.message_post(
                 subject='Purchase Order pending for Approval',
                 body=msg,
