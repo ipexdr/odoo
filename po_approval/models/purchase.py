@@ -10,7 +10,7 @@ class PurchaseOrder(models.Model):
     _inherit = ['purchase.order']
 
 
-    can_send_po = fields.Boolean(compute = '_can_send_po')
+#     can_send_po = fields.Boolean(compute = '_can_send_po')
     user_access_level = fields.Integer(compute='_compute_user_access', default=0)
     is_approve_visible = fields.Boolean(compute='_is_approve_visible', default=False)
     
@@ -99,25 +99,25 @@ class PurchaseOrder(models.Model):
             self.user_access_level = 0
             _logger.info("level 0")
 
-    @api.depends('user_access_level')
-    def _can_send_po(self):
-        _logger.info("_can_send_po")
+#     @api.depends('user_access_level')
+#     def _can_send_po(self):
+#         _logger.info("_can_send_po")
         
-        user_access_level = self.user_access_level
-        env_lock_conf_po = self.company_id.po_lock == 'lock'
+#         user_access_level = self.user_access_level
+#         env_lock_conf_po = self.company_id.po_lock == 'lock'
         
-        _logger.info(f"user level -> {user_access_level}")
-        _logger.info(f"lock conf PO -> {env_lock_conf_po}")
-        if env_lock_conf_po:
-            if user_access_level > 0 and self.state in ('done', 'purchase'):
-                self.can_send_po = True
-                _logger.info(f"can send -> True")
-            else:
-                self.can_send_po = False
-                _logger.info(f"can send -> False")
-        else:
-            self.can_send_po = True
-            _logger.info(f"can send -> True")
+#         _logger.info(f"user level -> {user_access_level}")
+#         _logger.info(f"lock conf PO -> {env_lock_conf_po}")
+#         if env_lock_conf_po:
+#             if user_access_level > 0 and self.state in ('done', 'purchase'):
+#                 self.can_send_po = True
+#                 _logger.info(f"can send -> True")
+#             else:
+#                 self.can_send_po = False
+#                 _logger.info(f"can send -> False")
+#         else:
+#             self.can_send_po = True
+#             _logger.info(f"can send -> True")
     
     @api.depends('user_id')
     def _is_approve_visible(self):

@@ -27,7 +27,18 @@ class PurchaseOrder(models.Model):
     is_vendor_quote = fields.Boolean('Vendor Quote is attached', store=True, default=False)
     is_customer_po = fields.Boolean('Customer PO is attached', store=True, default=False)
     
+    # module_po_approval_installed = fields.Boolean(
+    #                        compute='_compute_module_po_approval_installed',
+    #                        string='Is PO Approval installed?')
 
+    # @api.depends()
+    # def _compute_module_po_approval_installed(self):
+    #     po_approval_installed = self.env['ir.module.module'].search([('name', '=', 'po_approval')])
+    #     module_po_approval_installed = True if module and module.state == 'installed' else False
+    #     for record in self:
+    #          # no need for update when you set only one field just use normal asignement 
+    #         record.module_po_approval_installed = module_po_approval_installed
+    
     # Overriding original method to verify if required files
     # are uploaded
     def button_confirm(self):
@@ -44,6 +55,7 @@ class PurchaseOrder(models.Model):
                         or order.user_has_groups('purchase.group_purchase_manager'):
                     order.button_approve(override=True)
                 else:
+#                     if order.module_po_approval_installed:
                     all_users = self.env['res.users'].search([('active', '=', True)])
 
                     managers = all_users.filtered(lambda user: user.has_group('purchase.group_purchase_manager'))
@@ -53,7 +65,7 @@ class PurchaseOrder(models.Model):
                     for user in assistants:
                         if user not in managers:
                             partner_ids.append(user.partner_id.id)
-                        
+
                     self.message_post(
                         subject="PO Waiting for Pre-Approval",
                         body=f"The PO {self.name} needs a review for pre-approval.",
