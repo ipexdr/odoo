@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class Task(models.Model):
     _inherit = "project.task"
 
-    support_user_ids = fields.Many2many('res.users', string="Support Contact")
+    support_user_ids = fields.Many2many('res.users', string="Support Contact", domain="[('id', '!=', user_id.id)]")
     
     @api.onchange('user_id')
     def _onchange_support_user_ids(self):
