@@ -57,12 +57,17 @@ class Task(models.Model):
                 else:
                     message = f"{msg_names} has been unassigned from the task {self.name}."
             
-            # _logger.info(support_partners)
+            # If used in 'Invited employees' project, user wont recieve
+            # the message, but not the project itself
             self.message_post(
                 subject=f"You have been assigned as support to {self.name}" if assigned else f"You have been unnassigned from {self.name}",
                 body=message,
                 partner_ids = support_partners
             )
+            
+            self.message_subscribe(list(support_partners))
+
+            # TODO: Add full compatibility to 'Invited Employees' projects
     
     def write(self, vals):
         # Storing old data for comparison
