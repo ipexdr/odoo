@@ -25,7 +25,7 @@ class Task(models.Model):
         else:
             return {'domain':{'support_user_ids':[]}}
         
-    def notify_support_users(self, users=None):
+    def notify_support_users(self, users=None, assigned=True):
         """
         Takes the many2many field partner_ids and notifies them about
         the task assignation.
@@ -47,13 +47,19 @@ class Task(models.Model):
             msg_names = ', '.join(names) if len(support_partners) > 1 else names[0]
 
             if len(support_partners) > 1:
-                message = f"{msg_names} have been assigned as a support contact to the task {self.name}."
+                if assigned:
+                    message = f"{msg_names} have been assigned as a support contact to the task {self.name}."
+                else:
+                    message = f"{msg_names} have been unassigned from the task {self.name}."
             else:
-                message = f"{msg_names} has been assigned as a support contact to the task {self.name}."
+                if assigned:
+                    message = f"{msg_names} has been assigned as a support contact to the task {self.name}."
+                else:
+                    message = f"{msg_names} has been unassigned from the task {self.name}."
             
-            _logger.info(support_partners)
+            # _logger.info(support_partners)
             self.message_post(
-                subject=f"You have been assigned as support to {self.name}",
+                subject=f"You have been assigned as support to {self.name}" if assigned else f"You have been unnassigned from {self.name}",
                 body=message,
                 partner_ids = support_partners
             )
@@ -73,11 +79,19 @@ class Task(models.Model):
         # new users to be notified
         if pre_ids != post_ids:
             new_users = set()
-            
+            # Checking new users
             for user in post_ids:
                 if user not in pre_ids:
                     new_users.add(user)
+
+            # Checking removed users
+            removed_users = set()
+            for old_user in pre_ids:
+                if old_user not in post_ids:
+                    removed_users.add(old_user)
+
             self.notify_support_users(users=new_users)
+            self.notify_support_users(users=removed_users, assigned=False)
             
         return res
         
