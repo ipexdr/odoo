@@ -9,6 +9,10 @@ _logger = logging.getLogger(__name__)
 class Lead(models.Model):
     _inherit = "crm.lead"
     
-    # The field wont show the user currently logged in - if the user can already see the opportunity, there's no 
-    # need to add himself.
-    shared_users_id = fields.Many2many('res.users', string="Shared Contacts", domain="[('id', '!=', uid)]")
+    # The field will only show salesmen
+    shared_users_id = fields.Many2many(
+        'res.users', 
+        string="Share with Users", 
+        domain=lambda self: [("groups_id", "in", self.env.ref("sales_team.group_sale_salesman").id)])
+
+    # TODO: Assigned salesman (user_id) must not appear in field
