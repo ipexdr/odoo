@@ -9,4 +9,4 @@ _logger = logging.getLogger(__name__)
 class Task(models.Model):
     _inherit = "crm.lead"
 
-    shared_users_id = fields.Many2many('res.users', string="Shared Contacts", domain="[('id', '!=', user_id.id)])")
+    shared_users_id = fields.Many2many('res.users', string="Shared Contacts", domain="[('id', '!=', user_id.id)]")
