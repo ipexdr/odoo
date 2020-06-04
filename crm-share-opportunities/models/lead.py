@@ -6,7 +6,9 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-class Task(models.Model):
+class Lead(models.Model):
     _inherit = "crm.lead"
-
-    shared_users_id = fields.Many2many('res.users', string="Shared Contacts", domain="[('id', '!=', user_id.id)]")
+    
+    # The field wont show the user currently logged in - if the user can already see the opportunity, there's no 
+    # need to add himself.
+    shared_users_id = fields.Many2many('res.users', string="Shared Contacts", domain="[('id', '!=', uid)]")
