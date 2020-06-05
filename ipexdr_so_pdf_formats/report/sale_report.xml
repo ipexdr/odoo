@@ -2,28 +2,29 @@
 <odoo>
     <data>
         <template id="report_saleorder_document_withname" inherit_id="sale.report_saleorder_document">
-            <field name="arch" type="xml">
-				<xpath expr="//td[@name='td_name']" position="before">
-                    <td name='td_product_id'/><span t-field="line.product_id"/></td>
-				</xpath>
-			</field>
+            <xpath expr="//th[@name='th_description']" position="before">
+                <th name="th_part_number" class="text-left">Part Number</th>
+			</xpath>
+			<xpath expr="//td[@name='td_name']" position="before">
+                <td name='td_product_id'><span t-field="line.product_id"/></td>
+			</xpath>
         </template>
 
         <template id="report_saleorder_withname">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
-                    <t t-call="sale.report_saleorder_document_withname" t-lang="doc.partner_id.lang"/>
+                    <t t-call="ipexdr_so_pdf_formats.report_saleorder_document_withname" t-lang="doc.partner_id.lang"/>
                 </t>
             </t>
         </template>
         <report 
             id="action_report_saleorder_withname"
-            string="Quotation / Order (with Product Code)"
+            string="Quotation / Order (with Part Number)"
             model="sale.order" 
             report_type="qweb-pdf"
-            file="sale.report_saleorder_withname" 
-            name="sale.report_saleorder_withname"
+            file="ipexdr_so_pdf_formats.report_saleorder_withname" 
+            name="ipexdr_so_pdf_formats.report_saleorder_withname"
             print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
         />
-
+    </data>
 </odoo>
