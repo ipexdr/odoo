@@ -27,25 +27,9 @@
             name="ipexdr_so_pdf_formats.report_saleorder_withname"
             print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
         />
-
-<!--         <record id="sale.mail_template_sale_confirmation" model="mail.template">
-            <field name="name">Sales Order: Confirmation Email (w/ PN)</field>
-            <field name="inherit_id" ref="sale.mail_template_sale_confirmation"/>
-            <field name="model_id" ref="sale.model_sale_order"/>
-            <field name="inherit_id" ref="sale.mail_template_sale_confirmation"/>
-            <field name="report_template" ref="action_report_saleorder_withname"/>
-        </record>
-
-        <record id="sale.email_template_edi_sale" model="mail.template">
-            <field name="name">Sales Order: Send by email (w/ PN)</field>
-            <field name="inherit_id" ref="sale.email_template_edi_sale"/>
-            <field name="model_id" ref="sale.model_sale_order"/>
-        
-            <field name="inherit_id" ref="sale.email_template_edi_sale"/>
-            <field name="model_id" ref="sale.model_sale_order"/>
-            <field name="report_template" ref="action_report_saleorder_withname"/>
-        </record> -->
-        
+    </data>
+    
+    <data noupdate="1">
         <record id="email_template_edi_sale_withname" model="mail.template">
             <field name="name">Sales Order: Send by email (w/ PN)</field>
             <field name="model_id" ref="sale.model_sale_order"/>
