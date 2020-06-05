@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="report_saleorder_document_withname" inherit_id="sale.report_saleorder_document">
+        <template id="report_saleorder_document_withname" inherit_id="sale.report_saleorder_document" primary="True">
             <xpath expr="//th[@name='th_description']" position="before">
                 <th name="th_part_number" class="text-left">Part Number</th>
 			</xpath>
@@ -17,6 +17,7 @@
                 </t>
             </t>
         </template>
+
         <report 
             id="action_report_saleorder_withname"
             string="Quotation / Order (with Part Number)"
@@ -26,5 +27,13 @@
             name="ipexdr_so_pdf_formats.report_saleorder_withname"
             print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
         />
+
+        <record id="mail_template_sale_confirmation_withname" inherit_id="sale.mail_template_sale_confirmation" primary="True">
+            <field name="report_template" ref="action_report_saleorder_withname"/>
+        </record>
+
+        <record id="email_template_edi_sale_withname" primary="True">
+            <field name="report_template" ref="action_report_saleorder_withname"/>
+        </record>
     </data>
 </odoo>
