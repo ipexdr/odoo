@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_saleorder_document_withname" inherit_id="sale.report_saleorder_document">
+            <field name="arch" type="xml">
+				<xpath expr="//td[@name='td_name']" position="before">
+                    <td name='td_product_id'/><span t-field="line.product_id"/></td>
+				</xpath>
+			</field>
+        </template>
+
+        <template id="report_saleorder_withname">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="sale.report_saleorder_document_withname" t-lang="doc.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+        <report 
+            id="action_report_saleorder_withname"
+            string="Quotation / Order (with Product Code)"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="sale.report_saleorder_withname" 
+            name="sale.report_saleorder_withname"
+            print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
+        />
+
+</odoo>
