@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
     _inherit = ['sale.order']
 
     min_margin = fields.Float(store=True, default=0.30, compute='compute_min_margin')
-    quote_approved = fields.Boolean(store=True, default=True)
+    quote_approved = fields.Boolean(compute='set_approval', default=True)
 
     quote_margin_approved = fields.Boolean(store=True, default=True)
     quote_vendor_discount_approved = fields.Boolean(store=True, default=True)
@@ -98,7 +98,7 @@ class SaleOrder(models.Model):
         }
         
     
-    @api.depends('amount_total')
+    @api.depends('order_line.discount')
     def compute_min_margin(self):
         margins = []
         for order in self:
@@ -200,7 +200,7 @@ class SaleOrder(models.Model):
                     return False
         return True
 
-    @api.onchange('amount_total')
+    @api.depends('order_line.discount', 'order_line.extra_discount')
     def set_approval(self):
         for order in self:
             _logger.info(f'Order no. {order.name}')
@@ -213,6 +213,7 @@ class SaleOrder(models.Model):
 
             if order.quote_margin_approved and order.quote_vendor_discount_approved:
                 self.quote_approved = True
-                self.write({'state':'draft'})
+                if self.state in ('to approve'):
+                    self.write({'state':'draft'})
             else:
                 self.quote_approved = False
