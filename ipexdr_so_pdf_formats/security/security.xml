@@ -1,0 +1,12 @@
+<!-- <data noupdate="0">
+    <record id="crm_rule_shared_lead" model="ir.rule">
+        <field name="name">Shared Leads</field>
+        <field ref="crm.model_crm_lead" name="model_id"/>
+        <field name="domain_force">[('shared_users_id','in',user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+    </record>
+</data> -->
