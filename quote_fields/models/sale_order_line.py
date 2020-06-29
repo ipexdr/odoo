@@ -145,6 +145,11 @@ class SaleOrderLine(models.Model):
 
     @api.depends('profit_margin', 'cost', 'product_uom_qty')
     def _compute_sell_price(self):
-        for line in self:
-            line.sell_price = line.cost + line.profit_margin
-            line.price_unit = line.sell_price
+        # TODO: Bank Reconciliation menu doesn't find payment Amount -- must find why
+            for line in self:
+                line.sell_price = line.cost + line.profit_margin
+                
+                # To avoid trouble when invoicing, the unit price wont be
+                # computed in Sales Order status
+                if 'sale' not in line.state:
+                    line.price_unit = line.sell_price
