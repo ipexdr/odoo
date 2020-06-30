@@ -150,6 +150,6 @@ class SaleOrderLine(models.Model):
                 line.sell_price = line.cost + line.profit_margin
                 
                 # To avoid trouble when invoicing, the unit price wont be
-                # computed in Sales Order status
-                if 'sale' not in line.state:
+                # computed in Sales Order or Locked status
+                if line.state not in ('sale', 'done'):
                     line.price_unit = line.sell_price
