@@ -12,3 +12,8 @@
 	path = pdeoleo/ipexdr-odoo-crm-share-opportunities
 	url = git@github.com:pdeoleo/ipexdr-odoo-crm-share-opportunities.git
 	branch = master
+
+[submodule "pdeoleo/ipexdr-odoo-po-approval"]
+	path = pdeoleo/ipexdr-odoo-po-approval
+	url = git@github.com:pdeoleo/ipexdr-odoo-po-approval.git
+	branch = master
