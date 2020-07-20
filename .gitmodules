@@ -2,3 +2,8 @@
 	path = odoo-dominicana/l10n-dominicana
 	url = git@github.com:odoo-dominicana/l10n-dominicana.git
 	branch = 13.0
+
+[submodule "pdeoleo/ipexdr-odoo-log-wizard"]
+	path = ipexdr/ipexdr_odoo_log_wizard
+	url = git@github.com:pdeoleo/ipexdr-odoo-log-wizard.git
+	branch = master
