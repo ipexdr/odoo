@@ -27,3 +27,8 @@
 	path = pdeoleo/ipexdr-odoo-project-multi-assign
 	url = git@github.com:pdeoleo/ipexdr-odoo-project-multi-assign.git
 	branch = master
+
+[submodule "pdeoleo/ipexdr-odoo-project-scrum"]
+	path = pdeoleo/ipexdr-odoo-project-scrum
+	url = git@github.com:pdeoleo/ipexdr-odoo-project-scrum.git
+	branch = master
