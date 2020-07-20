@@ -32,3 +32,8 @@
 	path = pdeoleo/ipexdr-odoo-project-scrum
 	url = git@github.com:pdeoleo/ipexdr-odoo-project-scrum.git
 	branch = master
+
+[submodule "pdeoleo/ipexdr-odoo-so-approval"]
+	path = pdeoleo/ipexdr-odoo-so-approval
+	url = git@github.com:pdeoleo/ipexdr-odoo-so-approval.git
+	branch = master
