@@ -7,3 +7,8 @@
 	path = pdeoleo/ipexdr-odoo-log-wizard
 	url = git@github.com:pdeoleo/ipexdr-odoo-log-wizard.git
 	branch = master
+
+[submodule "pdeoleo/ipexdr-odoo-crm-share-opportunities"]
+	path = pdeoleo/ipexdr-odoo-crm-share-opportunities
+	url = git@github.com:pdeoleo/ipexdr-odoo-crm-share-opportunities.git
+	branch = master
