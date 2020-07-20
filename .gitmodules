@@ -47,3 +47,8 @@
 	path = pdeoleo/ipexdr-so-pdf-formats
 	url = git@github.com:pdeoleo/ipexdr-so-pdf-formats.git
 	branch = master
+
+[submodule "pdeoleo/ipexdr-odoo-quote-fields"]
+	path = pdeoleo/ipexdr-odoo-quote-fields
+	url = git@github.com:pdeoleo/ipexdr-odoo-quote-fields.git
+	branch = master
