@@ -17,3 +17,8 @@
 	path = pdeoleo/ipexdr-odoo-po-approval
 	url = git@github.com:pdeoleo/ipexdr-odoo-po-approval.git
 	branch = master
+
+[submodule "pdeoleo/ipexdr-odoo-po-end-customer"]
+	path = pdeoleo/ipexdr-odoo-po-end-customer
+	url = git@github.com:pdeoleo/ipexdr-odoo-po-end-customer.git
+	branch = master
