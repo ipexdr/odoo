@@ -12,3 +12,8 @@
 	path = ipexdr/ipexdr-odoo-log-wizard
 	url = git@github.com:pdeoleo/ipexdr-odoo-log-wizard.git
 	branch = master
+
+[submodule "pdeoleo/ipexdr-odoo-log-wizard"]
+	path = pdeoleo/ipexdr-odoo-log-wizard
+	url = git@github.com:pdeoleo/ipexdr-odoo-log-wizard.git
+	branch = master
