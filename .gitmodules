@@ -7,3 +7,8 @@
 	path = ipexdr/ipexdr_odoo_log_wizard
 	url = git@github.com:pdeoleo/ipexdr-odoo-log-wizard.git
 	branch = master
+
+[submodule "ipexdr/ipexdr-odoo-log-wizard"]
+	path = ipexdr/ipexdr-odoo-log-wizard
+	url = git@github.com:pdeoleo/ipexdr-odoo-log-wizard.git
+	branch = master
