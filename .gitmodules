@@ -42,3 +42,8 @@
 	path = pdeoleo/ipexdr-odoo-so-full-discount
 	url = git@github.com:pdeoleo/ipexdr-odoo-so-full-discount.git
 	branch = master
+
+[submodule "pdeoleo/ipexdr-so-pdf-formats"]
+	path = pdeoleo/ipexdr-so-pdf-formats
+	url = git@github.com:pdeoleo/ipexdr-so-pdf-formats.git
+	branch = master
