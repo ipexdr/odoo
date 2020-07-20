@@ -22,3 +22,8 @@
 	path = pdeoleo/ipexdr-odoo-po-end-customer
 	url = git@github.com:pdeoleo/ipexdr-odoo-po-end-customer.git
 	branch = master
+
+[submodule "pdeoleo/ipexdr-odoo-project-multi-assign"]
+	path = pdeoleo/ipexdr-odoo-project-multi-assign
+	url = git@github.com:pdeoleo/ipexdr-odoo-project-multi-assign.git
+	branch = master
