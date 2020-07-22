@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sale_order_purchase_assistant,po_end_customer.sale.order,sale.sale_order,po_end_customer.group_purchase_assistant,1,0,0,0
-access_sale_order_line_purchase_assistant,po_end_customer.sale.order.line,sale.sale_order_line,po_end_customer.group_purchase_assistant,1,0,0,0
