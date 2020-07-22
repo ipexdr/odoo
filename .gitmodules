@@ -2,3 +2,8 @@
 	path = odoo-dominicana/l10n-dominicana
 	url = git@github.com:odoo-dominicana/l10n-dominicana.git
 	branch = 13.0
+
+[submodule "pdeoleo/ipexdr-odoo-purchase"]
+	path = pdeoleo/ipexdr-odoo-purchase
+	url = git@github.com:pdeoleo/ipexdr-odoo-purchase.git
+	branch = master
