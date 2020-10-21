@@ -1,0 +1,34 @@
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="purchase_order_form_inherit">
+		<field name="name">purchase.order.form.inherit</field>
+		<field name="model">purchase.order</field>
+		<field name="inherit_id" ref="purchase.purchase_order_form"/>
+		<field name="arch" type="xml">
+			<!-- <xpath expr="/form/sheet/group/group/field[@name='partner_id']" position="after">
+				<field name="vendor_contact_id" widget="res_partner_many2one" domain="[('is_company', '=', False)]" context="{'show_vat': True}"
+				placeholder="Name, TIN, Email, or Reference"/>
+			</xpath> -->
+			<xpath expr="/form/sheet/group/group[2]" position="after">
+				<group>
+					<field name="end_customer_id" widget="res_partner_many2one" context="{'res_partner_search_mode':'customer', 'show_vat': True}"
+					placeholder="Name, TIN, Email, or Reference"/>
+					<field name="end_contact_id" widget="res_partner_many2one" domain="[('parent_id', '=', end_customer_id), ('is_company', '=', False)]" context="{'show_vat': True}"
+					placeholder="Name, Email or Company"/>
+					<field name="ref_customer_quote_id" widget="sale_order_many2one" domain="['|', ('partner_id', '=', end_customer_id), ('partner_id', '=', end_contact_id)]" placeholder="End Customer's Quoation ID"/>
+				</group>
+				<group>
+					<field name='is_vendor_quote' states='draft,sent'/>
+					<field name='is_customer_po' states='draft,sent'/>
+				</group>
+			</xpath>
+			<xpath expr="//group[@name='planning']" position="before">
+				<group>
+					<field name="courier_id" widget="res_partner_many2one" context="{'show_vat': True}"
+						domain="[('is_company', '=', True)]" placeholder="Name, TIN, Email, or Reference"/>
+				</group>
+			</xpath>
+		</field>
+		</record>
+	</data>
+</odoo>

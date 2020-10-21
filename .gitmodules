@@ -3,22 +3,22 @@
 	url = git@github.com:odoo-dominicana/l10n-dominicana.git
 	branch = 13.0
 
-[submodule "pdeoleo/ipexdr-odoo-purchase"]
-	path = pdeoleo/ipexdr-odoo-purchase
-	url = git@github.com:pdeoleo/ipexdr-odoo-purchase.git
-	branch = master
+# [submodule "pdeoleo/ipexdr-odoo-purchase"]
+# 	path = pdeoleo/ipexdr-odoo-purchase
+# 	url = git@github.com:pdeoleo/ipexdr-odoo-purchase.git
+# 	branch = master
 
-[submodule "pdeoleo/ipexdr-odoo-sales"]
-	path = pdeoleo/ipexdr-odoo-sales
-	url = git@github.com:pdeoleo/ipexdr-odoo-sales.git
-	branch = master
+# [submodule "pdeoleo/ipexdr-odoo-sales"]
+# 	path = pdeoleo/ipexdr-odoo-sales
+# 	url = git@github.com:pdeoleo/ipexdr-odoo-sales.git
+# 	branch = master
 
-[submodule "pdeoleo/ipexdr-odoo-project"]
-	path = pdeoleo/ipexdr-odoo-project
-	url = git@github.com:pdeoleo/ipexdr-odoo-project.git
-	branch = master
+# [submodule "pdeoleo/ipexdr-odoo-project"]
+# 	path = pdeoleo/ipexdr-odoo-project
+# 	url = git@github.com:pdeoleo/ipexdr-odoo-project.git
+# 	branch = master
 
-[submodule "pdeoleo/ipexdr-odoo-misc"]
-	path = pdeoleo/ipexdr-odoo-misc
-	url = git@github.com:pdeoleo/ipexdr-odoo-misc.git
-	branch = master
+# [submodule "pdeoleo/ipexdr-odoo-misc"]
+# 	path = pdeoleo/ipexdr-odoo-misc
+# 	url = git@github.com:pdeoleo/ipexdr-odoo-misc.git
+# 	branch = master
