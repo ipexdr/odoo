@@ -23,7 +23,7 @@
     'version': '1.1.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['purchase', 'ipx_log_wizard'],
+    'depends': ['purchase', 'log_wizard'],
 
     # always loaded
     'data': [
