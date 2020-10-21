@@ -1,0 +1,11 @@
+<odoo noupdate="1">
+    <record id="unique_sequence_id" model="ir.sequence">
+       <field name="name">NCF Gasto Menor</field>
+       <field name="code">ncf.gasto.menor</field>
+       <field name="active">TRUE</field>
+       <field name="prefix">B13</field>
+       <field name="padding">8</field>
+       <field name="number_next">1</field>
+       <field name="number_increment">1</field>
+    </record>
+</odoo>
