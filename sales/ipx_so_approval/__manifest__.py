@@ -22,7 +22,7 @@
 
     # any module necessary for this one to work correctly
 
-    'depends': ['sale_management', 'ipx_quote_fields', 'ipx_log_wizard'],
+    'depends': ['sale_management', 'ipx_quote_fields', 'log_wizard'],
 
     # always loaded
     'data': [
