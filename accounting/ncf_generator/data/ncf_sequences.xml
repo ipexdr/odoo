@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data>
         <record id="ncf_gasto_menor" model="ir.sequence">
         <field name="name">NCF Gasto Menor</field>
         <field name="code">ncf.gasto.menor</field>
