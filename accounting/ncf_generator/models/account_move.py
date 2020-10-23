@@ -7,6 +7,28 @@ _logger = logging.getLogger(__name__)
 
 class AccountMove(models.Model):
     _inherit = ['account.move']
+
+    def set_ncf(self, ncf_type):
+        for move in self:
+            ncf = self.env['ir.sequence'].get(move.ncf_type)
+            return ncf
+        
+    def default_ncf_type(self, ncf_types):
+        return ncf_types[0][0]
+    
+    def get_ncf(self, ncf_type):
+        for move in self:
+            sequence = self.env['ir.sequence'].search([('code','=',move.ncf_type)])
+            ncf = sequence.get_next_char(sequence.number_next_actual)
+            return ncf
+    
+    @api.onchange('ncf_type')
+    def change_ncf(self):
+        for move in self:
+            move.ncf = self.get_ncf(move.ncf_type)
+    
+    #TODO: Depends on ncf_type to change ncf
+    #TODO: [no priority] Depends on ncf to change type
     
     NCF_TYPES = [
         ('ncf.gasto.menor', 'Gasto Menor'),
@@ -19,30 +41,7 @@ class AccountMove(models.Model):
         ('ncf.nota.debito', 'Nota Debito')
     ]
     
-    ncf = fields.Char('NCF')
-    ncf_type = fields.Selection(NCF_TYPES, string='NCF Type')
+    ncf = fields.Char('NCF', default='')
+    ncf_type = fields.Selection(NCF_TYPES, string='NCF Type', default=NCF_TYPES[0][0])
     
-    @api.onchange('ncf_type')
-    def change_ncf(self):
-        for move in self:
-            if move.ncf_type:
-                # Takes next sequence value without affecting the sequence counter
-                sequence = self.env['ir.sequence'].search([('code','=',move.ncf_type)])
-                next = sequence.get_next_char(sequence.number_next_actual) or ''
-                move.write({'ncf': next})
-            else:
-                move.write({'ncf': ''})
-
-    # on create method
-    @api.model
-    def create(self, vals):
-        move = super(AccountMove, self).create(vals)
-        if move.ncf_type and move.ncf:
-            sequence = self.env['ir.sequence'].search([('code','=',move.ncf_type)])
-            # Applies the sequence value and adds to the sequence counter
-            if move.ncf == sequence.get_next_char(sequence.number_next_actual):
-                self.env['ir.sequence'].get(move.ncf_type)
-            
-        return move
-
-# TODO: On write method
+    # TODO: On write method to affect the sequence
