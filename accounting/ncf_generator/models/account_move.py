@@ -25,7 +25,7 @@ class AccountMove(models.Model):
         
     @api.constrains('ncf')
     def _check_ncf_length(self):
-        if len(self.ncf) < 11:
+        if len(self.ncf) in range(1, 11):
            raise ValidationError('NCF is shorter than 11 characters')
         elif len(self.ncf) > 11:
            raise ValidationError('NCF is longer than 11 characters')

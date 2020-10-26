@@ -14,7 +14,7 @@ class TestAccountMoveNCF(TransactionCase):
         account_move_form = Form(self.account_move)
             
         with self.assertRaises(ValidationError):
-            account_move_form.ncf = 'XXX'
+            account_move_form.ncf = 'XXXXXXXXXX'
             account_move_form.save()
             
     def test_ncf_char_max_length(self):
