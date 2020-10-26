@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo.tests import TransactionCase, tagged, Form
 
-@tagged('ncf')
+@tagged('ncf', 'post_install', '-at_install')
 class TestAccountMoveNCF(TransactionCase):
     def setUp(self):
         super(TestAccountMoveNCF, self).setUp()
