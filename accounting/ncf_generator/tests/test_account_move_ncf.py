@@ -26,6 +26,7 @@ class TestAccountMoveNCF(TransactionCase):
         
     def test_auto_ncf_save_sequence(self):
         '''Ensure that NCF is saved and next one is generated correctly afterwards (when assigned automatically)
+
         -Assuming ncf.gasto.menor sequence parameters:
         --Prefix	      B13
         --Sequence Size	  8
@@ -34,19 +35,22 @@ class TestAccountMoveNCF(TransactionCase):
         '''
         
         form1 = Form(self.account_move)
-        form1.ncf_type = 'ncf.gasto.menor'    
+        form1.ncf_type = 'ncf.gasto.menor'
+        sequence = self.env['ir.sequence'].next_by_code(form1.ncf_type)
         form1.save()
-        self.assertEqual(form1.ncf, 'B1300000001')
+        self.assertEqual(form1.ncf, sequence)
         
         form2 = Form(self.account_move)
         form2.ncf_type = 'ncf.gasto.menor'
+        sequence = self.env['ir.sequence'].next_by_code(form2.ncf_type)
         form2.save()
-        self.assertEqual(form2.ncf, 'B1300000002')
+        self.assertEqual(form2.ncf, sequence)
         
         form3 = Form(self.account_move)
         form3.ncf_type = 'ncf.gasto.menor'
+        sequence = self.env['ir.sequence'].next_by_code(form3.ncf_type)
         form3.save()
-        self.assertEqual(form3.ncf, 'B1300000003')
+        self.assertEqual(form3.ncf, sequence)
         
         
     # TODO: Test when move is saved/created
