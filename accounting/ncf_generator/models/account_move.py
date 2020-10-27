@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = ['account.move']
 
-    def set_ncf(self, ncf_type):
+    def set_ncf(self):
         for move in self:
             ncf = self.env['ir.sequence'].get(move.ncf_type)
             return ncf
@@ -17,7 +17,7 @@ class AccountMove(models.Model):
     def default_ncf_type(self, ncf_types):
         return ncf_types[0][0]
     
-    def get_ncf(self, ncf_type):
+    def get_ncf(self):
         for move in self:
             sequence = self.env['ir.sequence'].search([('code','=',move.ncf_type)])
             ncf = sequence.get_next_char(sequence.number_next_actual)
@@ -34,10 +34,15 @@ class AccountMove(models.Model):
     @api.onchange('ncf_type')
     def change_ncf(self):
         for move in self:
-            move.ncf = self.get_ncf(move.ncf_type)
-    
-    #TODO: Depends on ncf_type to change ncf
-    #TODO: [no priority] Depends on ncf to change type
+            move.ncf = self.get_ncf()
+            
+    @api.model
+    def create(self, values):
+        """Override default Odoo create function and extend."""
+        move = super(AccountMove, self).create(values)
+        if move.ncf == move.get_ncf():
+            move.set_ncf()
+        return move
     
     NCF_TYPES = [
         ('ncf.gasto.menor', 'Gasto Menor'),
