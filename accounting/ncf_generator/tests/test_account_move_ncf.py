@@ -52,6 +52,19 @@ class TestAccountMoveNCF(TransactionCase):
         form3.save()
         self.assertEqual(form3.ncf, sequence)
         
+    def test_unique_ncf(self):
+        '''Ensure an exception is raised if a NCF is already taken'''
+        
+        form1 = Form(self.account_move)
+        form1.ncf_type ='ncf.gasto.menor'
+        form1.save()
+        
+        form2 = Form(self.account_move)
+        form2.ncf = form1.ncf
+        
+        with self.assertRaises(ValidationError):
+            form2.save()
+            
         
     # TODO: Test when move is saved/created
     
