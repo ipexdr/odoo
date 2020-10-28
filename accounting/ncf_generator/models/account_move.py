@@ -54,7 +54,7 @@ class AccountMove(models.Model):
     @api.onchange('ncf_type')
     def change_ncf(self):
         for move in self:
-            move.ncf = self.get_ncf()
+            move.ncf = move.get_ncf()
             
     @api.model
     def create(self, values):
