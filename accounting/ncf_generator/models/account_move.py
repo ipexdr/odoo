@@ -57,6 +57,8 @@ class AccountMove(models.Model):
         for move in self:
             if move.ncf_type:
                 move.ncf = move.get_ncf()
+            else:
+                move.ncf = ''
             
     @api.model
     def create(self, values):
