@@ -25,8 +25,9 @@
     # always loaded
     'data': [
         'data/ncf_sequences.xml',
+        'data/ncf_sequence_views.xml',
         # 'security/security.xml',
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/account_move_views.xml'
     ],
     # only loaded in demonstration mode
