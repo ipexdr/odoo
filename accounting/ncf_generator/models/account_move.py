@@ -54,7 +54,8 @@ class AccountMove(models.Model):
     @api.onchange('ncf_type')
     def change_ncf(self):
         for move in self:
-            move.ncf = move.get_ncf()
+            if move.ncf_type:
+                move.ncf = move.get_ncf()
             
     @api.model
     def create(self, values):
@@ -65,6 +66,7 @@ class AccountMove(models.Model):
         return move
     
     NCF_TYPES = [
+        (False, 'N/A'),
         ('ncf.gasto.menor', 'Gasto Menor'),
         ('ncf.prov.informal', 'Proveedor Informal'),
         ('ncf.con.final', 'Consumidor Final'),
@@ -76,6 +78,6 @@ class AccountMove(models.Model):
     ]
     
     ncf = fields.Char('NCF', default='', size=11)
-    ncf_type = fields.Selection(NCF_TYPES, string='NCF Type', default='')
+    ncf_type = fields.Selection(NCF_TYPES, string='NCF Type', default=False)
     
     # TODO: On write method to affect the sequence
