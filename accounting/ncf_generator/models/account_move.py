@@ -11,7 +11,7 @@ class AccountMove(models.Model):
 
     def set_ncf(self):
         for move in self:
-            ncf = self.env['ir.sequence'].next_by_code(move.ncf_type)
+            ncf = move.env['ir.sequence'].next_by_code(move.ncf_type)
             return ncf
         
     def default_ncf_type(self, ncf_types):
@@ -19,7 +19,7 @@ class AccountMove(models.Model):
     
     def get_ncf(self):
         for move in self:
-            sequence = self.env['ir.sequence'].search([('code','=',move.ncf_type)])
+            sequence = move.env['ir.sequence'].search([('code','=',move.ncf_type)])
             ncf = sequence.get_next_char(sequence.number_next_actual)
             return ncf
         
