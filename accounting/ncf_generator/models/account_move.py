@@ -34,21 +34,22 @@ class AccountMove(models.Model):
     @api.constrains('ncf')
     def _check_unique_ncf(self):
         for move in self:
-            # Getting all the invoices (hopefully 1) with the same ncf
-            invoices = self.env['account.move'].search([('ncf','=',move.ncf)])
-            
-            if len(invoices) > 1:
-                error_text = f"NCF {move.ncf} is already taken by {len(invoices)-1} invoice(s).\n"
+            if move.ncf:
+                # Getting all the invoices (hopefully 1) with the same ncf
+                invoices = self.env['account.move'].search([('ncf','=',move.ncf)])
                 
-                # Getting invoices attributes to show as a description in Exception window
-                for invoice in invoices[1:]:
+                if len(invoices) > 1:
+                    error_text = f"NCF {move.ncf} is already taken by {len(invoices)-1} invoice(s).\n"
                     
-                    inv_name = invoice.name if invoice.name != '/' else "Unposted invoice"
-                    inv_partner = invoice.partner_id.name if invoice.partner_id.name else "No partner assigned"
-                    inv_date = invoice.date if invoice.date else "No date assigned"
-                    
-                    error_text += f"- {inv_name} | {inv_partner} | {inv_date}\n"
-                raise ValidationError(error_text)
+                    # Getting invoices attributes to show as a description in Exception window
+                    for invoice in invoices[1:]:
+                        
+                        inv_name = invoice.name if invoice.name != '/' else "Unposted invoice"
+                        inv_partner = invoice.partner_id.name if invoice.partner_id.name else "No partner assigned"
+                        inv_date = invoice.date if invoice.date else "No date assigned"
+                        
+                        error_text += f"- {inv_name} | {inv_partner} | {inv_date}\n"
+                    raise ValidationError(error_text)
     
     @api.onchange('ncf_type')
     def change_ncf(self):
