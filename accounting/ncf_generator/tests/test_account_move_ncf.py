@@ -18,7 +18,7 @@ class TestAccountMoveNCF(TransactionCase):
             account_move_form.save()
             
     def test_ncf_char_max_length(self):
-        '''Ensure the length of the NCF is equals to 11 even if it is given more characters, after been saved'''
+        '''Ensure the length of the NCF is equals to 11 even if it is given more characters, after saved'''
         form = Form(self.account_move)
         form.ncf = 'XXXXXXXXXXXXX'
         form.save()

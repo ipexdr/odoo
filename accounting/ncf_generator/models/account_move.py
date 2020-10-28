@@ -76,6 +76,6 @@ class AccountMove(models.Model):
     ]
     
     ncf = fields.Char('NCF', default='', size=11)
-    ncf_type = fields.Selection(NCF_TYPES, string='NCF Type', default=NCF_TYPES[0][0])
+    ncf_type = fields.Selection(NCF_TYPES, string='NCF Type', default='')
     
     # TODO: On write method to affect the sequence
