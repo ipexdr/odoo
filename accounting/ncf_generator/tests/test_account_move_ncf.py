@@ -27,7 +27,7 @@ class TestAccountMoveNCF(TransactionCase):
     def test_auto_ncf_save_sequence(self):
         '''Ensure that NCF is saved and next one is generated correctly afterwards (when assigned automatically)
 
-        -Assuming ncf.gasto.menor sequence parameters:
+        -Assuming gasto.menor sequence parameters:
         --Prefix	      B13
         --Sequence Size	  8
         --Step	          1
@@ -35,20 +35,20 @@ class TestAccountMoveNCF(TransactionCase):
         '''
         
         form1 = Form(self.account_move)
-        form1.ncf_type = 'ncf.gasto.menor'
-        sequence = self.env['ir.sequence'].next_by_code(form1.ncf_type)
+        form1.ncf_type = 'gasto.menor'
+        sequence = self.env['ncf_generator.ncf_sequence'].next_by_code(form1.ncf_type)
         form1.save()
         self.assertEqual(form1.ncf, sequence)
         
         form2 = Form(self.account_move)
-        form2.ncf_type = 'ncf.gasto.menor'
-        sequence = self.env['ir.sequence'].next_by_code(form2.ncf_type)
+        form2.ncf_type = 'gasto.menor'
+        sequence = self.env['ncf_generator.ncf_sequence'].next_by_code(form2.ncf_type)
         form2.save()
         self.assertEqual(form2.ncf, sequence)
         
         form3 = Form(self.account_move)
-        form3.ncf_type = 'ncf.gasto.menor'
-        sequence = self.env['ir.sequence'].next_by_code(form3.ncf_type)
+        form3.ncf_type = 'gasto.menor'
+        sequence = self.env['ncf_generator.ncf_sequence'].next_by_code(form3.ncf_type)
         form3.save()
         self.assertEqual(form3.ncf, sequence)
         
@@ -56,7 +56,7 @@ class TestAccountMoveNCF(TransactionCase):
         '''Ensure an exception is raised if a NCF is already taken'''
         
         form1 = Form(self.account_move)
-        form1.ncf_type ='ncf.gasto.menor'
+        form1.ncf_type ='gasto.menor'
         form1.save()
         
         form2 = Form(self.account_move)
@@ -78,18 +78,18 @@ class TestAccountMoveNCF(TransactionCase):
         self.account_move_form = Form(self.env['account.move'])
         
         
-        self.account_move_form.ncf_type = 'ncf.gasto.menor'
-        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type)])
+        self.account_move_form.ncf_type = 'gasto.menor'
+        sequence = self.env['ncf_generator.ncf_sequence'].search([('code','=',self.account_move_form.ncf_type)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
         self.account_move_form.ncf_type = 'ncf.con.final'
-        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type)])
+        sequence = self.env['ncf_generator.ncf_sequence'].search([('code','=',self.account_move_form.ncf_type)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
         self.account_move_form.ncf_type = 'ncf.reg.especial'
-        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type)])
+        sequence = self.env['ncf_generator.ncf_sequence'].search([('code','=',self.account_move_form.ncf_type)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
