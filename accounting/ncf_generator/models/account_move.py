@@ -11,7 +11,7 @@ class AccountMove(models.Model):
 
     def set_ncf(self):
         for move in self:
-            ncf = move.env['ir.sequence'].next_by_code(move.ncf_type)
+            ncf = self.env['ir.sequence'].next_by_code(move.ncf_type)
             return ncf
         
     def default_ncf_type(self, ncf_types):
@@ -19,7 +19,7 @@ class AccountMove(models.Model):
     
     def get_ncf(self):
         for move in self:
-            sequence = move.env['ir.sequence'].search([('code','=',move.ncf_type)])
+            sequence = self.env['ir.sequence'].search([('code','=',move.ncf_type)])
             ncf = sequence.get_next_char(sequence.number_next_actual)
             return ncf
         
@@ -60,7 +60,7 @@ class AccountMove(models.Model):
     def create(self, values):
         """Override default Odoo create function and extend."""
         move = super(AccountMove, self).create(values)
-        if move.ncf == move.get_ncf():
+        if move.ncf_type and (move.ncf == move.get_ncf()):
             move.set_ncf()
         return move
     
