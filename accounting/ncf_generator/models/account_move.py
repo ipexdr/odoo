@@ -9,9 +9,16 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = ['account.move']
 
+    def _get_ncf_types(self):
+        records = self.env['ncf_generator.ncf_sequence'].search()
+        ncf_types = [('', 'N/A')]
+        for record in records:
+            ncf_types.append((record.code, record.name))
+        return ncf_types
+
     def set_ncf(self):
         for move in self:
-            ncf = self.env['ir.sequence'].next_by_code(move.ncf_type)
+            ncf = self.env['ncf_generator.ncf_sequence'].next_by_code(move.ncf_type)
             return ncf
         
     def default_ncf_type(self, ncf_types):
@@ -19,7 +26,7 @@ class AccountMove(models.Model):
     
     def get_ncf(self):
         for move in self:
-            sequence = self.env['ir.sequence'].search([('code','=',move.ncf_type)])
+            sequence = self.env['ncf_generator.ncf_sequence'].search([('code','=',move.ncf_type)])
             ncf = sequence.get_next_char(sequence.number_next_actual)
             return ncf
         
@@ -68,19 +75,7 @@ class AccountMove(models.Model):
             move.set_ncf()
         return move
     
-    NCF_TYPES = [
-        ('', 'N/A'),
-        ('ncf.gasto.menor', 'Gasto Menor'),
-        ('ncf.prov.informal', 'Proveedor Informal'),
-        ('ncf.con.final', 'Consumidor Final'),
-        ('ncf.gubernamental', 'Gubernamental'),
-        ('ncf.reg.especial', 'Regimen Especial'),
-        ('ncf.credito.fiscal', 'Credito Fiscal'),
-        ('ncf.nota.credito', 'Nota Credito'),
-        ('ncf.nota.debito', 'Nota Debito')
-    ]
-    
     ncf = fields.Char('NCF', default='', size=11)
-    ncf_type = fields.Selection(NCF_TYPES, string='NCF Type', default='')
+    ncf_type = fields.Selection(_get_ncf_types, string='NCF Type', default='')
     
     # TODO: On write method to affect the sequence
