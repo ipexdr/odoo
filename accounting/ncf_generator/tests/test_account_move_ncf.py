@@ -83,12 +83,12 @@ class TestAccountMoveNCF(TransactionCase):
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
-        self.account_move_form.ncf_type = 'ncf.con.final'
+        self.account_move_form.ncf_type = 'con.final'
         sequence = self.env['ncf_generator.ncf_sequence'].search([('code','=',self.account_move_form.ncf_type)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
-        self.account_move_form.ncf_type = 'ncf.reg.especial'
+        self.account_move_form.ncf_type = 'reg.especial'
         sequence = self.env['ncf_generator.ncf_sequence'].search([('code','=',self.account_move_form.ncf_type)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
