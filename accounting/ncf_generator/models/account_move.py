@@ -10,7 +10,7 @@ class AccountMove(models.Model):
     _inherit = ['account.move']
 
     def _get_ncf_types(self):
-        records = self.env['ncf_generator.ncf_sequence'].search()
+        records = self.env['ncf_generator.ncf_sequence'].search([])
         ncf_types = [('', 'N/A')]
         for record in records:
             ncf_types.append((record.code, record.name))
