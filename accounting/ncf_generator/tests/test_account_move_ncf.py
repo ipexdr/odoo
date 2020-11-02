@@ -66,10 +66,6 @@ class TestAccountMoveNCF(TransactionCase):
             form2.save()
             
         
-    # TODO: Test when move is saved/created
-    
-    # TODO: ??? Test when input used NCF
-        
     def test_form_ncf_onchange(self):
         '''
         Testing if the NCF is the right one after triggering onchange on ncf_type
@@ -93,3 +89,10 @@ class TestAccountMoveNCF(TransactionCase):
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
+    # if journal is in ncf_sequence, the ncf_sequence must be able to be selected in an account_move from that journal
+    def test_journal_in_ncf_sequence(self):
+        pass
+
+    # if journal is no in ncf_sequence, can't be selected in account_move
+    def test_journal_not_in_ncf_sequence(self):
+        pass
