@@ -96,11 +96,43 @@ class TestAccountMoveNCF(TransactionCase):
             'name':'test ncf'
         })
         self.assertTrue(ncf_seq)
-        
-    # if journal is in ncf_sequence, the ncf_sequence must be able to be selected in an account_move from that journal
-    def test_journal_in_ncf_sequence(self):
-        pass
 
-    # if journal is no in ncf_sequence, can't be selected in account_move
-    def test_journal_not_in_ncf_sequence(self):
+    # account.move.type will be used to know which ncf sequences will be available.
+
+        # selection=[
+        #     ('entry', 'Journal Entry'),
+        #     ('out_invoice', 'Customer Invoice'),
+        #     ('out_refund', 'Customer Credit Note'),
+        #     ('in_invoice', 'Vendor Bill'),
+        #     ('in_refund', 'Vendor Credit Note'),
+        #     ('out_receipt', 'Sales Receipt'),
+        #     ('in_receipt', 'Purchase Receipt'),
+        # ]
+
+
+    # if move type is in ncf_sequence, the ncf_sequence must be able to be selected and
+    # saved in an account_move of that type
+    def test_move_type_in_ncf_sequence(self):
+        
+        form = Form(self.account_move)
+        
+        move_types = []
+        move_types.append(self.env['ncf_generator.move_type'].search([('code','=',form.type)]).id)
+        
+        ncf_seq = self.env['ncf_generator.ncf_sequence'].create({
+            'code':'test.ncf.seq',
+            'name':'test ncf',
+            'move_type_ids': move_types,
+            'padding': 8,
+            'number_increment': 1,
+            'prefix':'XXX'
+        })
+        ncf = ncf_seq.get_next_char(ncf_seq.number_next_actual)
+        
+        form.ncf_type = ncf_seq.code
+        form.save()
+        self.assertEqual(ncf, form.ncf)
+
+    # if move type is no in ncf_sequence, can't be selected in account_move
+    def test_move_type_not_in_ncf_sequence(self):
         pass
