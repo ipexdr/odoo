@@ -12,5 +12,7 @@ class NcfSequence(models.Model):
     _description = 'NCF Sequence'
     _order = 'name'
 
+    
+    move_type_ids = fields.Many2many('ncf_generator.move_type', string="Move Types")
     due_date = fields.Date(string='Due Date', default=fields.Date.context_today)
     number_last = fields.Integer('Last Number')

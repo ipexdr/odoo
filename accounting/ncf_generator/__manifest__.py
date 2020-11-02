@@ -16,7 +16,7 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Accounting',
-    'version': '0.8.2',
+    'version': '0.8.4',
 
     # any module necessary for this one to work correctlyy
 
@@ -25,7 +25,7 @@
     # always loaded
     'data': [
         'data/ncf_sequences.xml',
-        # 'security/security.xml',
+        'data/account_move_types.xml',
         'security/ir.model.access.csv',
         'views/ncf_sequence_views.xml',
         'views/account_move_views.xml'

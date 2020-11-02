@@ -25,6 +25,7 @@
                         <field name="name"/>
                         <field name="implementation"/>
                         <field name="due_date"/>
+                        <field name="move_type_ids" widget="many2many_tags"/>
                       </group>
                       <group>
                         <field name="code"/>
