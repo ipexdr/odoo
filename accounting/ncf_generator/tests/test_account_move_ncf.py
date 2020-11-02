@@ -73,7 +73,6 @@ class TestAccountMoveNCF(TransactionCase):
         
         self.account_move_form = Form(self.env['account.move'])
         
-        
         self.account_move_form.ncf_type = 'gasto.menor'
         sequence = self.env['ncf_generator.ncf_sequence'].search([('code','=',self.account_move_form.ncf_type)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
@@ -89,13 +88,19 @@ class TestAccountMoveNCF(TransactionCase):
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
-
-    # account.move.type will be used to know which ncf sequences will be available.
-
-    # if move type is in ncf_sequence, the ncf_sequence must be able to be selected in an account_move from that journal
-    def test_move_type_in_ncf_sequence(self):
+    def test_ncf_sequence_create(self):
+        '''Try to create a ncf_sequence object.'''
+        
+        ncf_seq = self.env['ncf_generator.ncf_sequence'].create({
+            'code':'test.ncf.sequence',
+            'name':'test ncf'
+        })
+        self.assertTrue(ncf_seq)
+        
+    # if journal is in ncf_sequence, the ncf_sequence must be able to be selected in an account_move from that journal
+    def test_journal_in_ncf_sequence(self):
         pass
 
-    # if move type is no in ncf_sequence, can't be selected in account_move
-    def test_move_type_not_in_ncf_sequence(self):
+    # if journal is no in ncf_sequence, can't be selected in account_move
+    def test_journal_not_in_ncf_sequence(self):
         pass
