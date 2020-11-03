@@ -142,7 +142,7 @@ class TestAccountMoveNCF(TransactionCase):
         move_types = []
         move_types.extend(move_type.id for move_type in self.env['ncf_generator.move_type'].search([]))
         _logger.info(f"move_types after extension => {move_types}")
-        move_types.remove(form.type)
+        move_types.remove(self.env['ncf_generator.move_type'].search([('code','=',form.type)]).id)
         _logger.info(f"move_types after delete exclusion => {move_types}")
         
         ncf_seq = self.env['ir.sequence'].create({
