@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-        <record id="ncf_gasto_menor" model="ncf_generator.ncf_sequence">
+        <record id="ncf_gasto_menor" model="ir.sequence">
             <field name="name">NCF Gasto Menor</field>
             <field name="code">gasto.menor</field>
             <field name="active">TRUE</field>
@@ -9,8 +9,9 @@
             <field name="padding">8</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
+            <field name="is_ncf">True</field>
         </record>
-        <record id="ncf_proveedor_informal" model="ncf_generator.ncf_sequence">
+        <record id="ncf_proveedor_informal" model="ir.sequence">
             <field name="name">Proveedor Informal</field>
             <field name="code">prov.informal</field>
             <field name="active">TRUE</field>
@@ -18,8 +19,9 @@
             <field name="padding">8</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
+            <field name="is_ncf">True</field>
         </record>
-        <record id="ncf_consumidor_final" model="ncf_generator.ncf_sequence">
+        <record id="ncf_consumidor_final" model="ir.sequence">
             <field name="name">Consumidor Final</field>
             <field name="code">con.final</field>
             <field name="active">TRUE</field>
@@ -27,8 +29,9 @@
             <field name="padding">8</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
+            <field name="is_ncf">True</field>
         </record>
-        <record id="ncf_gubernamental" model="ncf_generator.ncf_sequence">
+        <record id="ncf_gubernamental" model="ir.sequence">
             <field name="name">Gubernamental</field>
             <field name="code">gubernamental</field>
             <field name="active">TRUE</field>
@@ -36,8 +39,9 @@
             <field name="padding">8</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
+            <field name="is_ncf">True</field>
         </record>
-        <record id="ncf_regimen_especial" model="ncf_generator.ncf_sequence">
+        <record id="ncf_regimen_especial" model="ir.sequence">
             <field name="name">Regimen Especial</field>
             <field name="code">reg.especial</field>
             <field name="active">TRUE</field>
@@ -45,8 +49,9 @@
             <field name="padding">8</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
+            <field name="is_ncf">True</field>
         </record>
-        <record id="ncf_credito_fiscal" model="ncf_generator.ncf_sequence">
+        <record id="ncf_credito_fiscal" model="ir.sequence">
             <field name="name">Credito Fiscal</field>
             <field name="code">credito.fiscal</field>
             <field name="active">TRUE</field>
@@ -54,8 +59,9 @@
             <field name="padding">8</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
+            <field name="is_ncf">True</field>
         </record>
-        <record id="ncf_nota_credito" model="ncf_generator.ncf_sequence">
+        <record id="ncf_nota_credito" model="ir.sequence">
             <field name="name">Nota Credito</field>
             <field name="code">nota.credito</field>
             <field name="active">TRUE</field>
@@ -63,8 +69,9 @@
             <field name="padding">8</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
+            <field name="is_ncf">True</field>
         </record>
-        <record id="ncf_nota_debito" model="ncf_generator.ncf_sequence">
+        <record id="ncf_nota_debito" model="ir.sequence">
             <field name="name">Nota Debito</field>
             <field name="code">nota.debito</field>
             <field name="active">TRUE</field>
@@ -72,6 +79,7 @@
             <field name="padding">8</field>
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
+            <field name="is_ncf">True</field>
         </record>
     </data>
 </odoo>

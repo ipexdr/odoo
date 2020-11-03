@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from odoo.tests import TransactionCase, tagged, Form
 from odoo.exceptions import ValidationError
-from odoo.addons.account.tests.account_test_savepoint import AccountTestInvoicingCommon
+import logging
+
+_logger = logging.getLogger(__name__)
 
 @tagged('ncf', 'post_install', '-at_install')
 class TestAccountMoveNCF(TransactionCase):
@@ -36,19 +38,19 @@ class TestAccountMoveNCF(TransactionCase):
         
         form1 = Form(self.account_move)
         form1.ncf_type = 'gasto.menor'
-        sequence = self.env['ncf_generator.ncf_sequence'].next_by_code(form1.ncf_type)
+        sequence = self.env['ir.sequence'].next_by_code(form1.ncf_type)
         form1.save()
         self.assertEqual(form1.ncf, sequence)
         
         form2 = Form(self.account_move)
         form2.ncf_type = 'gasto.menor'
-        sequence = self.env['ncf_generator.ncf_sequence'].next_by_code(form2.ncf_type)
+        sequence = self.env['ir.sequence'].next_by_code(form2.ncf_type)
         form2.save()
         self.assertEqual(form2.ncf, sequence)
         
         form3 = Form(self.account_move)
         form3.ncf_type = 'gasto.menor'
-        sequence = self.env['ncf_generator.ncf_sequence'].next_by_code(form3.ncf_type)
+        sequence = self.env['ir.sequence'].next_by_code(form3.ncf_type)
         form3.save()
         self.assertEqual(form3.ncf, sequence)
         
@@ -74,24 +76,24 @@ class TestAccountMoveNCF(TransactionCase):
         self.account_move_form = Form(self.env['account.move'])
         
         self.account_move_form.ncf_type = 'gasto.menor'
-        sequence = self.env['ncf_generator.ncf_sequence'].search([('code','=',self.account_move_form.ncf_type)])
+        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
         self.account_move_form.ncf_type = 'con.final'
-        sequence = self.env['ncf_generator.ncf_sequence'].search([('code','=',self.account_move_form.ncf_type)])
+        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
         self.account_move_form.ncf_type = 'reg.especial'
-        sequence = self.env['ncf_generator.ncf_sequence'].search([('code','=',self.account_move_form.ncf_type)])
+        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
     def test_ncf_sequence_create(self):
         '''Try to create a ncf_sequence object.'''
         
-        ncf_seq = self.env['ncf_generator.ncf_sequence'].create({
+        ncf_seq = self.env['ir.sequence'].create({
             'code':'test.ncf.sequence',
             'name':'test ncf'
         })
@@ -119,7 +121,7 @@ class TestAccountMoveNCF(TransactionCase):
         move_types = []
         move_types.append(self.env['ncf_generator.move_type'].search([('code','=',form.type)]).id)
         
-        ncf_seq = self.env['ncf_generator.ncf_sequence'].create({
+        ncf_seq = self.env['ir.sequence'].create({
             'code':'test.ncf.seq',
             'name':'test ncf',
             'move_type_ids': move_types,
@@ -135,4 +137,24 @@ class TestAccountMoveNCF(TransactionCase):
 
     # if move type is no in ncf_sequence, can't be selected in account_move
     def test_move_type_not_in_ncf_sequence(self):
-        pass
+        form = Form(self.account_move)
+        
+        move_types = []
+        move_types.extend(move_type.id for move_type in self.env['ncf_generator.move_type'].search([]))
+        _logger.info(f"move_types after extension => {move_types}")
+        move_types.remove(form.type)
+        _logger.info(f"move_types after delete exclusion => {move_types}")
+        
+        ncf_seq = self.env['ir.sequence'].create({
+            'code':'test.ncf.seq',
+            'name':'test ncf',
+            'move_type_ids': move_types,
+            'padding': 8,
+            'number_increment': 1,
+            'prefix':'XXX'
+        })
+
+        with self.assertRaises(ValidationError):
+            # Raise when move type isn't in ncf sequence
+            form.ncf_type = ncf_seq.code
+            form.save()
