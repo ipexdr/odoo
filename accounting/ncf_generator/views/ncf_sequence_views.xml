@@ -29,7 +29,7 @@
         
         <record id="action_ncf_sequence" model="ir.actions.act_window">
             <field name="name">NCF Sequence</field>
-            <field name="res_model">ir.sequences</field>
+            <field name="res_model">ir.sequence</field>
 <!--             <field name="view_type">form</field> -->
             <field name="view_mode">list,form</field>
             <field name="domain">[('is_ncf', '=', True)]</field>
