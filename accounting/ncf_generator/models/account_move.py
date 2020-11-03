@@ -8,26 +8,20 @@ _logger = logging.getLogger(__name__)
 
 class AccountMove(models.Model):
     _inherit = ['account.move']
-
+    
     def _get_ncf_types(self):
-        records = self.env['ir.sequence'].search([])
-        ncf_types = [('', 'N/A')]
-        for record in records:
-            ncf_types.append((record.code, record.name))
-        return ncf_types
-
-    def set_ncf(self):
-        for move in self:
-            ncf = self.env['ir.sequence'].next_by_code(move.ncf_type)
-            return ncf
-        
-    def default_ncf_type(self, ncf_types):
-        return ncf_types[0][0]
+        pass
     
     def get_ncf(self):
         for move in self:
-            sequence = self.env['ir.sequence'].search([('code','=',move.ncf_type)])
+            _logger.info(f"Move's ncf_type var -> {move.ncf_type}")
+            sequence = move.ncf_type
             ncf = sequence.get_next_char(sequence.number_next_actual)
+            return ncf
+        
+    def set_ncf(self):
+        for move in self:
+            ncf = self.env['ir.sequence'].next_by_code(move.ncf_type.code)
             return ncf
         
     @api.constrains('ncf')
@@ -35,8 +29,10 @@ class AccountMove(models.Model):
         for move in self:
             if move.ncf:
                 if len(move.ncf) in range(1, 11):
+                    _logger.info(f"NCF => {move.ncf}")
                     raise ValidationError('NCF is shorter than 11 characters')
                 elif len(move.ncf) > 11:
+                    _logger.info(f"NCF => {move.ncf}")
                     raise ValidationError('NCF is longer than 11 characters')
     
     @api.constrains('ncf')
@@ -75,7 +71,9 @@ class AccountMove(models.Model):
             move.set_ncf()
         return move
     
-    ncf = fields.Char('NCF', default='', size=11)
-    ncf_type = fields.Selection(_get_ncf_types, string='NCF Type', default='')
+#     TODO: Set ncf and ncf_type as available only in states other than draft
     
-    # TODO: On write method to affect the sequence
+    ncf = fields.Char('NCF', default='', size=11)
+#     TODO: fix this -- set domain from self move type
+    ncf_type = fields.Many2one('ir.sequence', string='NCF Type', domain="[(type, 'in', )]")
+    

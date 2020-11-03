@@ -37,20 +37,20 @@ class TestAccountMoveNCF(TransactionCase):
         '''
         
         form1 = Form(self.account_move)
-        form1.ncf_type = 'gasto.menor'
-        sequence = self.env['ir.sequence'].next_by_code(form1.ncf_type)
+        form1.ncf_type = self.env['ir.sequence'].search([('is_ncf','=',True)])[0]
+        sequence = self.env['ir.sequence'].next_by_code(form1.ncf_type.code)
         form1.save()
         self.assertEqual(form1.ncf, sequence)
         
         form2 = Form(self.account_move)
-        form2.ncf_type = 'gasto.menor'
-        sequence = self.env['ir.sequence'].next_by_code(form2.ncf_type)
+        form2.ncf_type = self.env['ir.sequence'].search([('is_ncf','=',True)])[0]
+        sequence = self.env['ir.sequence'].next_by_code(form2.ncf_type.code)
         form2.save()
         self.assertEqual(form2.ncf, sequence)
         
         form3 = Form(self.account_move)
-        form3.ncf_type = 'gasto.menor'
-        sequence = self.env['ir.sequence'].next_by_code(form3.ncf_type)
+        form3.ncf_type = self.env['ir.sequence'].search([('is_ncf','=',True)])[0]
+        sequence = self.env['ir.sequence'].next_by_code(form3.ncf_type.code)
         form3.save()
         self.assertEqual(form3.ncf, sequence)
         
@@ -58,7 +58,7 @@ class TestAccountMoveNCF(TransactionCase):
         '''Ensure an exception is raised if a NCF is already taken'''
         
         form1 = Form(self.account_move)
-        form1.ncf_type ='gasto.menor'
+        form1.ncf_type = self.env['ir.sequence'].search([('is_ncf','=',True)])[0]
         form1.save()
         
         form2 = Form(self.account_move)
@@ -75,18 +75,18 @@ class TestAccountMoveNCF(TransactionCase):
         
         self.account_move_form = Form(self.env['account.move'])
         
-        self.account_move_form.ncf_type = 'gasto.menor'
-        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type)])
+        self.account_move_form.ncf_type = self.env['ir.sequence'].search([('is_ncf','=',True)])[0]
+        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type.code)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
-        self.account_move_form.ncf_type = 'con.final'
-        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type)])
+        self.account_move_form.ncf_type = self.env['ir.sequence'].search([('is_ncf','=',True)])[1]
+        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type.code)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
-        self.account_move_form.ncf_type = 'reg.especial'
-        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type)])
+        self.account_move_form.ncf_type = self.env['ir.sequence'].search([('is_ncf','=',True)])[2]
+        sequence = self.env['ir.sequence'].search([('code','=',self.account_move_form.ncf_type.code)])
         ncf = sequence.get_next_char(sequence.number_next_actual)
         self.assertEqual(self.account_move_form.ncf, ncf)
         
@@ -117,6 +117,7 @@ class TestAccountMoveNCF(TransactionCase):
     def test_move_type_in_ncf_sequence(self):
         
         form = Form(self.account_move)
+        form.save()
         
         move_types = []
         move_types.append(self.env['ncf_generator.move_type'].search([('code','=',form.type)]).id)
@@ -127,23 +128,23 @@ class TestAccountMoveNCF(TransactionCase):
             'move_type_ids': move_types,
             'padding': 8,
             'number_increment': 1,
-            'prefix':'XXX'
+            'prefix':'XXX',
+            'is_ncf': True
         })
         ncf = ncf_seq.get_next_char(ncf_seq.number_next_actual)
         
-        form.ncf_type = ncf_seq.code
-        form.save()
+        form.ncf_type = ncf_seq
         self.assertEqual(ncf, form.ncf)
 
     # if move type is no in ncf_sequence, can't be selected in account_move
     def test_move_type_not_in_ncf_sequence(self):
         form = Form(self.account_move)
+        form.save()
+        _logger.info(f"Move type -> {form.type}")
         
         move_types = []
-        move_types.extend(move_type.id for move_type in self.env['ncf_generator.move_type'].search([]))
-        _logger.info(f"move_types after extension => {move_types}")
-        move_types.remove(self.env['ncf_generator.move_type'].search([('code','=',form.type)]).id)
-        _logger.info(f"move_types after delete exclusion => {move_types}")
+        move_types.extend(move_type.id for move_type in self.env['ncf_generator.move_type'].search([('code','!=',form.type)]))
+        _logger.info(f"move_types available => {move_types}")
         
         ncf_seq = self.env['ir.sequence'].create({
             'code':'test.ncf.seq',
@@ -151,10 +152,11 @@ class TestAccountMoveNCF(TransactionCase):
             'move_type_ids': move_types,
             'padding': 8,
             'number_increment': 1,
-            'prefix':'XXX'
+            'prefix':'XXX',
+            'is_ncf': True
         })
 
         with self.assertRaises(ValidationError):
             # Raise when move type isn't in ncf sequence
-            form.ncf_type = ncf_seq.code
+            form.ncf_type = ncf_seq
             form.save()

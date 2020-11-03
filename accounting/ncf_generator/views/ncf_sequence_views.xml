@@ -9,6 +9,7 @@
                 </xpath>
                 <xpath expr="//field[@name='implementation']" position="after">
                     <field name="due_date"/>
+                    <field name="move_type_ids" widget="many2many_tags"/>
                 </xpath>
             </field>
 		</record>
