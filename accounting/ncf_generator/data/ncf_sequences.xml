@@ -10,6 +10,7 @@
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
             <field name="is_ncf">True</field>
+            <field name="move_type_ids" eval="[(6, 0, [ref('in_invoice')])]"/>
         </record>
         <record id="ncf_proveedor_informal" model="ir.sequence">
             <field name="name">Proveedor Informal</field>
@@ -20,6 +21,7 @@
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
             <field name="is_ncf">True</field>
+            <field name="move_type_ids" eval="[(6, 0, [ref('in_invoice')])]"/>
         </record>
         <record id="ncf_consumidor_final" model="ir.sequence">
             <field name="name">Consumidor Final</field>
@@ -30,6 +32,7 @@
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
             <field name="is_ncf">True</field>
+            <field name="move_type_ids" eval="[(6, 0, [ref('out_invoice')])]"/>
         </record>
         <record id="ncf_gubernamental" model="ir.sequence">
             <field name="name">Gubernamental</field>
@@ -40,6 +43,7 @@
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
             <field name="is_ncf">True</field>
+            <field name="move_type_ids" eval="[(6, 0, [ref('out_invoice')])]"/>
         </record>
         <record id="ncf_regimen_especial" model="ir.sequence">
             <field name="name">Regimen Especial</field>
@@ -50,6 +54,7 @@
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
             <field name="is_ncf">True</field>
+            <field name="move_type_ids" eval="[(6, 0, [ref('out_invoice')])]"/>
         </record>
         <record id="ncf_credito_fiscal" model="ir.sequence">
             <field name="name">Credito Fiscal</field>
@@ -60,6 +65,7 @@
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
             <field name="is_ncf">True</field>
+            <field name="move_type_ids" eval="[(6, 0, [ref('out_invoice')])]"/>
         </record>
         <record id="ncf_nota_credito" model="ir.sequence">
             <field name="name">Nota Credito</field>
@@ -70,6 +76,7 @@
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
             <field name="is_ncf">True</field>
+            <field name="move_type_ids" eval="[(6, 0, [ref('in_refund'), ref('out_refund')])]"/>
         </record>
         <record id="ncf_nota_debito" model="ir.sequence">
             <field name="name">Nota Debito</field>
@@ -80,6 +87,7 @@
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
             <field name="is_ncf">True</field>
+            <field name="move_type_ids" eval="[(6, 0, [ref('in_refund'), ref('out_refund')])]"/>
         </record>
     </data>
 </odoo>
