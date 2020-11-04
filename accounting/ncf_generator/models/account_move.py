@@ -9,8 +9,17 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = ['account.move']
     
-    def _get_ncf_types(self):
-        pass
+    @api.depends('type')
+    def _get_ncf_types_domain(self):
+        for move in self:
+            final_ncf_types = []
+            ncf_types = self.env['ir.sequence'].search([('is_ncf','=',True)])
+            for ncf_type in ncf_types:
+                if move.type in [move_type.code for move_type in ncf_types.move_type_ids]:
+                    final_ncf_types.append(ncf_type)
+            move.ncf_type_list = final_ncf_types
+            
+
     
     def get_ncf(self):
         for move in self:
@@ -74,6 +83,9 @@ class AccountMove(models.Model):
 #     TODO: Set ncf and ncf_type as available only in states other than draft
     
     ncf = fields.Char('NCF', default='', size=11)
+    ncf_type_list = fields.Many2many('ir.sequence',store=True,compute=_get_ncf_types_domain)
 #     TODO: fix this -- set domain from self move type
-    ncf_type = fields.Many2one('ir.sequence', string='NCF Type', domain="[(type, 'in', )]")
+    ncf_type = fields.Many2one('ir.sequence', string='NCF Type')
+#         ncf_type = fields.Many2one('ir.sequence', string='NCF Type', domain=[(type, 'in', _get_ncf_types())])
+
     

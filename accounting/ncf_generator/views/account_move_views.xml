@@ -6,7 +6,8 @@
 		<field name="inherit_id" ref="account.view_move_form"/>
 		<field name="arch" type="xml">
             <xpath expr="//field[@name='ref']" position="after">
-				<field name="ncf_type"/>
+                <field name="ncf_type_list" invisible="1"/>
+				<field name="ncf_type" domain="[('type','in',ncf_type_list)]" />
                 <field name="ncf"/>
 			</xpath>
 		</field>

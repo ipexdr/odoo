@@ -135,7 +135,7 @@ class TestAccountMoveNCF(TransactionCase):
         
         form.ncf_type = ncf_seq
         self.assertEqual(ncf, form.ncf)
-
+        
     # if move type is no in ncf_sequence, can't be selected in account_move
     def test_move_type_not_in_ncf_sequence(self):
         form = Form(self.account_move)
