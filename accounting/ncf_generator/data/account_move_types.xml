@@ -31,3 +31,8 @@
         </record>
     </data>
 </odoo>
+
+
+<!-- INVOICE - B01 B02 B14 B15 
+BILL - B11, B13
+NOTA CREDITO/DEBITO - 04, 03 -->

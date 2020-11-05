@@ -24,8 +24,8 @@
 
     # always loaded
     'data': [
-        'data/ncf_sequences.xml',
         'data/account_move_types.xml',
+        'data/ncf_sequences.xml',
         'security/ir.model.access.csv',
         'views/ncf_sequence_views.xml',
         'views/account_move_views.xml'
