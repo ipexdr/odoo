@@ -17,7 +17,8 @@ class AccountMove(models.Model):
             for ncf_type in ncf_types:
                 if move.type in [move_type.code for move_type in ncf_types.move_type_ids]:
                     final_ncf_types.append(ncf_type)
-            move.ncf_type_list = final_ncf_types
+            if final_ncf_types:
+                move.ncf_type_list = final_ncf_types
             
 
     
