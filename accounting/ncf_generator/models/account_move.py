@@ -16,7 +16,7 @@ class AccountMove(models.Model):
             ncf_types = self.env['ir.sequence'].search([('is_ncf','=',True)])
             for ncf_type in ncf_types:
                 if move.type in [move_type.code for move_type in ncf_types.move_type_ids]:
-                    final_ncf_types.append(ncf_type)
+                    final_ncf_types.append((4, ncf_type.id))
             if final_ncf_types:
                 move.ncf_type_list = final_ncf_types
             
