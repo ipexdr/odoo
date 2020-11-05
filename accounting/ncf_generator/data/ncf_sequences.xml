@@ -10,7 +10,7 @@
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
             <field name="is_ncf">True</field>
-            <field name="move_type_ids" eval="[(6, 0, [ref('move_type.move_type.in_invoice')])]"/>
+            <field name="move_type_ids" eval="[(6, 0, [ref('move_type.in_invoice')])]"/>
         </record>
         <record id="ncf_proveedor_informal" model="ir.sequence">
             <field name="name">Proveedor Informal</field>
