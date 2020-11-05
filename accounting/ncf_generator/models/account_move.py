@@ -12,17 +12,13 @@ class AccountMove(models.Model):
     @api.depends('type')
     def _get_ncf_types_domain(self):
         for move in self:
-            _logger.info(f"GETTING DOMAIN FOR {move.type}")
-            domain = [('id', '=', -1)]
             final_ncf_types = []
             ncf_types = move.env['ir.sequence'].search([('is_ncf','=',True)])
-            _logger.info(f"found ncf types -> {[ncf_type.name for ncf_type in ncf_types]}")
             for ncf_type in ncf_types:
                 if move.type in [move_type.code for move_type in ncf_type.move_type_ids]:
                     final_ncf_types.append(ncf_type.id)
-            _logger.info(f"final ncf types -> {final_ncf_types}")
-            if final_ncf_types:
-                move.ncf_type_list = final_ncf_types
+            
+            move.ncf_type_list = final_ncf_types
     
     def get_ncf(self):
         for move in self:
