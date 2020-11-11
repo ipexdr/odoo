@@ -140,11 +140,9 @@ class TestAccountMoveNCF(TransactionCase):
     def test_move_type_not_in_ncf_sequence(self):
         form = Form(self.account_move)
         form.save()
-        _logger.info(f"Move type -> {form.type}")
         
         move_types = []
         move_types.extend(move_type.id for move_type in self.env['ncf_generator.move_type'].search([('code','!=',form.type)]))
-        _logger.info(f"move_types available => {move_types}")
         
         ncf_seq = self.env['ir.sequence'].create({
             'code':'test.ncf.seq',

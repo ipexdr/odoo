@@ -63,6 +63,13 @@ class AccountMove(models.Model):
                         error_text += f"- {inv_name} | {inv_partner} | {inv_date}\n"
                     raise ValidationError(error_text)
     
+    @api.constrains('ncf_type')
+    def _check_available_ncf_type(self):
+        for move in self:
+            if move.ncf_type:
+                if move.type not in [move_type.code for move_type in move.ncf_type.move_type_ids]:
+                    raise ValidationError("NCF Type not valid")
+    
     @api.onchange('ncf_type')
     def change_ncf(self):
         for move in self:
