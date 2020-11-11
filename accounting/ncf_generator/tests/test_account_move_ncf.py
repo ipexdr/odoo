@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from odoo.addons.account.tests.account_test_savepoint import AccountTestInvoicingCommon
 from odoo.tests import TransactionCase, tagged, Form
 from odoo.exceptions import ValidationError
+from odoo import fields
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -134,6 +136,7 @@ class TestAccountMoveNCF(TransactionCase):
         ncf = ncf_seq.get_next_char(ncf_seq.number_next_actual)
         
         form.ncf_type = ncf_seq
+        form.save()
         self.assertEqual(ncf, form.ncf)
         
     # if move type is no in ncf_sequence, can't be selected in account_move
@@ -158,3 +161,158 @@ class TestAccountMoveNCF(TransactionCase):
             # Raise when move type isn't in ncf sequence
             form.ncf_type = ncf_seq
             form.save()
+
+@tagged('post_install', '-at_install')
+class TestAccountMoveInInvoiceOnchanges(AccountTestInvoicingCommon):
+
+    @classmethod
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+
+        cls.invoice = cls.init_invoice('in_invoice')
+
+        cls.product_line_vals_1 = {
+            'name': cls.product_a.name,
+            'product_id': cls.product_a.id,
+            'account_id': cls.product_a.property_account_expense_id.id,
+            'partner_id': cls.partner_a.id,
+            'product_uom_id': cls.product_a.uom_id.id,
+            'quantity': 1.0,
+            'discount': 0.0,
+            'price_unit': 800.0,
+            'price_subtotal': 800.0,
+            'price_total': 920.0,
+            'tax_ids': cls.product_a.supplier_taxes_id.ids,
+            'tax_line_id': False,
+            'currency_id': False,
+            'amount_currency': 0.0,
+            'debit': 800.0,
+            'credit': 0.0,
+            'date_maturity': False,
+            'tax_exigible': True,
+        }
+        cls.product_line_vals_2 = {
+            'name': cls.product_b.name,
+            'product_id': cls.product_b.id,
+            'account_id': cls.product_b.property_account_expense_id.id,
+            'partner_id': cls.partner_a.id,
+            'product_uom_id': cls.product_b.uom_id.id,
+            'quantity': 1.0,
+            'discount': 0.0,
+            'price_unit': 160.0,
+            'price_subtotal': 160.0,
+            'price_total': 208.0,
+            'tax_ids': cls.product_b.supplier_taxes_id.ids,
+            'tax_line_id': False,
+            'currency_id': False,
+            'amount_currency': 0.0,
+            'debit': 160.0,
+            'credit': 0.0,
+            'date_maturity': False,
+            'tax_exigible': True,
+        }
+        cls.tax_line_vals_1 = {
+            'name': cls.tax_purchase_a.name,
+            'product_id': False,
+            'account_id': cls.company_data['default_account_tax_purchase'].id,
+            'partner_id': cls.partner_a.id,
+            'product_uom_id': False,
+            'quantity': 1.0,
+            'discount': 0.0,
+            'price_unit': 144.0,
+            'price_subtotal': 144.0,
+            'price_total': 144.0,
+            'tax_ids': [],
+            'tax_line_id': cls.tax_purchase_a.id,
+            'currency_id': False,
+            'amount_currency': 0.0,
+            'debit': 144.0,
+            'credit': 0.0,
+            'date_maturity': False,
+            'tax_exigible': True,
+        }
+        cls.tax_line_vals_2 = {
+            'name': cls.tax_purchase_b.name,
+            'product_id': False,
+            'account_id': cls.company_data['default_account_tax_purchase'].id,
+            'partner_id': cls.partner_a.id,
+            'product_uom_id': False,
+            'quantity': 1.0,
+            'discount': 0.0,
+            'price_unit': 24.0,
+            'price_subtotal': 24.0,
+            'price_total': 24.0,
+            'tax_ids': [],
+            'tax_line_id': cls.tax_purchase_b.id,
+            'currency_id': False,
+            'amount_currency': 0.0,
+            'debit': 24.0,
+            'credit': 0.0,
+            'date_maturity': False,
+            'tax_exigible': True,
+        }
+        cls.term_line_vals_1 = {
+            'name': '',
+            'product_id': False,
+            'account_id': cls.company_data['default_account_payable'].id,
+            'partner_id': cls.partner_a.id,
+            'product_uom_id': False,
+            'quantity': 1.0,
+            'discount': 0.0,
+            'price_unit': -1128.0,
+            'price_subtotal': -1128.0,
+            'price_total': -1128.0,
+            'tax_ids': [],
+            'tax_line_id': False,
+            'currency_id': False,
+            'amount_currency': 0.0,
+            'debit': 0.0,
+            'credit': 1128.0,
+            'date_maturity': fields.Date.from_string('2019-01-01'),
+            'tax_exigible': True,
+        }
+        cls.move_vals = {
+            'partner_id': cls.partner_a.id,
+            'currency_id': cls.company_data['currency'].id,
+            'journal_id': cls.company_data['default_journal_purchase'].id,
+            'date': fields.Date.from_string('2019-01-01'),
+            'fiscal_position_id': False,
+            'invoice_payment_ref': '',
+            'invoice_payment_term_id': cls.pay_terms_a.id,
+            'amount_untaxed': 960.0,
+            'amount_tax': 168.0,
+            'amount_total': 1128.0,
+        }
+
+    def setUp(self):
+        super(TestAccountMoveInInvoiceOnchanges, self).setUp()
+        self.assertInvoiceValues(self.invoice, [
+            self.product_line_vals_1,
+            self.product_line_vals_2,
+            self.tax_line_vals_1,
+            self.tax_line_vals_2,
+            self.term_line_vals_1,
+        ], self.move_vals)
+        
+    def test_reversal_from_invoice(self):
+        '''Test credit note creation from an invoice with ncf.
+        Reversal must have the invoice ncf in mod_ncf field'''
+        
+        inv_form = Form(self.invoice)
+#         inv_form = Form(self.env['account.move'].with_context(default_type='in_invoice'))
+        inv_form.partner_id = self.partner_a
+        inv_form.ncf = "XXXXXXXXXXX"
+        inv = inv_form.save()
+        inv.post()
+        
+        move_reversal = self.env['account.move.reversal'].with_context(active_model="account.move", active_ids=inv.ids).create({
+            'date': fields.Date.from_string('2019-02-01'),
+            'reason': 'no reason',
+            'refund_method': 'refund',
+        })
+        reversal = move_reversal.reverse_moves()
+        reverse_move = self.env['account.move'].browse(reversal['res_id'])
+        self.assertEquals((inv.ncf, inv.id), (reversal_move.mod_ncf, reversal_move.parent_move_id))
+        
+        
+        
