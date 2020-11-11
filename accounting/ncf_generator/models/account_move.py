@@ -81,6 +81,10 @@ class AccountMove(models.Model):
     
 #     TODO: Set ncf and ncf_type as available only in states other than draft
     
+#     ===NCF Fields===
     ncf = fields.Char('NCF', default='', size=11)
     ncf_type_list = fields.Many2many('ir.sequence',store=True,compute=_get_ncf_types_domain)   # Avaliable ncf types according to the move type
     ncf_type = fields.Many2one('ir.sequence', string='NCF Type')
+#     ===REVERSAL fields===
+    parent_move_id= fields.Many2one('account.move', string='Parent Invoice', help="The move affected by the reversal.", domain="[('type','not in', ['in_refund', 'out_refund'])]")
+    mod_ncf = fields.Char('Modified NCF', related='parent_move_id.ncf', readonly=True)
