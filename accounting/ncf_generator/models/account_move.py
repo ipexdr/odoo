@@ -89,8 +89,9 @@ class AccountMove(models.Model):
 
     def _reverse_move_vals(self, default_values, cancel=True):
         move_vals = super(AccountMove, self)._reverse_move_vals(default_values)
+
+        move_vals['parent_move_id'] = move_vals['reversed_entry_id'] if 'reversed_entry_id' in move_vals else False
         
-        move_vals['parent_move_id'] = move_vals['reversed_entry_id'] if move_vals['reversed_entry_id'] else False
         move_vals['ncf'] = ''
         move_vals['ncf_type'] = self.env['ir.sequence'].search([('code','=','out_refund')])
         
