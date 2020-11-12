@@ -6,6 +6,7 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+
 class MoveType(models.Model):
     _name = 'ncf_generator.move_type'
     _description = 'Move Type'
@@ -13,4 +14,3 @@ class MoveType(models.Model):
 
     name = fields.Char("Name")
     code = fields.Char("Code")
-    
