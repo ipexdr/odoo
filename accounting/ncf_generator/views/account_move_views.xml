@@ -6,8 +6,13 @@
 		<field name="inherit_id" ref="account.view_move_form"/>
 		<field name="arch" type="xml">
             <xpath expr="//field[@name='ref']" position="after">
-				<field name="ncf_type"/>
+                <field name="type" invisible="1"/>
+                <field name="ncf_type_list" invisible="1"/>
+				<field name="ncf_type" domain="[('id','in',ncf_type_list)]" />
                 <field name="ncf"/>
+				<!-- Reversal Fields -->
+                <field name="parent_move_id" attrs="{'invisible':[('type', 'not in', ['in_refund', 'out_refund'])]}"/>
+                <field name="mod_ncf" attrs="{'invisible':[('type', 'not in', ['in_refund', 'out_refund'])]}"/>
 			</xpath>
 		</field>
 		</record>
