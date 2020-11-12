@@ -312,7 +312,7 @@ class TestAccountMoveInInvoiceOnchanges(AccountTestInvoicingCommon):
         })
         reversal = move_reversal.reverse_moves()
         reversal_move = self.env['account.move'].browse(reversal['res_id'])
-        self.assertEquals((inv.ncf, inv.id), (reversal_move.mod_ncf, reversal_move.parent_move_id))
+        self.assertEquals((inv.ncf, inv), (reversal_move.mod_ncf, reversal_move.parent_move_id))
         
         
         
