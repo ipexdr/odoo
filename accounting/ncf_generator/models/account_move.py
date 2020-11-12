@@ -3,6 +3,7 @@
 from odoo import api, fields, models, _
 import logging
 from odoo.exceptions import ValidationError
+from odoo.tools.profiler import profile
 
 _logger = logging.getLogger(__name__)
 
@@ -85,6 +86,16 @@ class AccountMove(models.Model):
         if move.ncf_type and (move.ncf == move.get_ncf()):
             move.set_ncf()
         return move
+
+    def _reverse_move_vals(self, default_values, cancel=True):
+        move_vals = super(AccountMove, self)._reverse_move_vals(default_values)
+        
+        move_vals['parent_move_id'] = move_vals['reversed_entry_id']
+        move_vals['ncf'] = ''
+        move_vals['ncf_type'] = self.env['ir.sequence'].search([('code','=','out_refund')])
+        
+        return move_vals
+        
     
 #     TODO: Set ncf and ncf_type as available only in states other than draft
     
