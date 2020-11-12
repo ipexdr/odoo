@@ -20,7 +20,7 @@ class AccountMove(models.Model):
                     final_ncf_types.append(ncf_type.id)
             
             move.ncf_type_list = final_ncf_types
-    
+            
     def get_ncf(self):
         for move in self:
 #             _logger.info(f"Move's ncf_€type var -> {move.ncf_type}")
@@ -86,6 +86,14 @@ class AccountMove(models.Model):
         if move.ncf_type and (move.ncf == move.get_ncf()):
             move.set_ncf()
         return move
+    
+    def write(self, values):
+        """Override default Odoo write function and extend."""
+        for move in self:
+            res = super(AccountMove, self).write(values)
+            if move.ncf_type and (move.ncf == move.get_ncf()):
+                move.set_ncf()
+            return res
 
     def _reverse_move_vals(self, default_values, cancel=True):
         move_vals = super(AccountMove, self)._reverse_move_vals(default_values)
