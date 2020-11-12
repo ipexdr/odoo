@@ -28,8 +28,8 @@ class TestAccountMoveNCF(TransactionCase):
         form.save()
         self.assertEqual(len(form.ncf), 11)
         
-    def test_auto_ncf_save_sequence(self):
-        '''Ensure that NCF is saved and next one is generated correctly afterwards (when assigned automatically)'''
+    def test_ncf_after_move_create(self):
+        '''Ensure that NCF is saved when move is created and next one is generated correctly afterwards (when assigned automatically)'''
         
         ncf_seq = self.env['ir.sequence'].create({
             'code':'test.ncf.seq',
@@ -55,6 +55,33 @@ class TestAccountMoveNCF(TransactionCase):
         form3.ncf_type = ncf_seq
         form3.save()
         self.assertEqual(form3.ncf, "XXX00000003")
+
+    def test_ncf_after_move_write(self):
+        '''Ensure that NCF is saved and set after the move has been saved'''
+
+        ncf_seq = self.env['ir.sequence'].create({
+                'code':'test.ncf.seq',
+                'name':'test ncf',
+                'move_type_ids': self.env['ncf_generator.move_type'].search([('code','=','entry')]),
+                'padding': 8,
+                'number_increment': 1,
+                'prefix':'XXX',
+                'is_ncf': True
+            })
+
+        form1 = Form(self.account_move)
+        form1.save()
+        form1.ncf_type = ncf_seq
+        form1.save()
+        _logger.info(f"Form1 ncf -> {form1.ncf}")
+        
+        form2 = Form(self.account_move)
+        form2.save()
+        form2.ncf_type = ncf_seq
+        form2.save()
+        _logger.info(f"Form2 ncf -> {form2.ncf}")
+        
+        self.assertEqual(form2.ncf, "XXX00000002")
         
     def test_unique_ncf(self):
         '''Ensure an exception is raised if a NCF is already taken'''
