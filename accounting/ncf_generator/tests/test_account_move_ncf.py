@@ -29,32 +29,32 @@ class TestAccountMoveNCF(TransactionCase):
         self.assertEqual(len(form.ncf), 11)
         
     def test_auto_ncf_save_sequence(self):
-        '''Ensure that NCF is saved and next one is generated correctly afterwards (when assigned automatically)
-
-        -Assuming gasto.menor sequence parameters:
-        --Prefix	      B13
-        --Sequence Size	  8
-        --Step	          1
-        --Next Number	  3
-        '''
+        '''Ensure that NCF is saved and next one is generated correctly afterwards (when assigned automatically)'''
         
+        ncf_seq = self.env['ir.sequence'].create({
+            'code':'test.ncf.seq',
+            'name':'test ncf',
+            'move_type_ids': self.env['ncf_generator.move_type'].search([('code','=','entry')]),
+            'padding': 8,
+            'number_increment': 1,
+            'prefix':'XXX',
+            'is_ncf': True
+        })
+                
         form1 = Form(self.account_move)
-        form1.ncf_type = self.env['ir.sequence'].search([('is_ncf','=',True)])[0]
-        sequence = self.env['ir.sequence'].next_by_code(form1.ncf_type.code)
+        form1.ncf_type = ncf_seq
         form1.save()
-        self.assertEqual(form1.ncf, sequence)
+        self.assertEqual(form1.ncf, "XXX00000001")
         
         form2 = Form(self.account_move)
-        form2.ncf_type = self.env['ir.sequence'].search([('is_ncf','=',True)])[0]
-        sequence = self.env['ir.sequence'].next_by_code(form2.ncf_type.code)
+        form2.ncf_type = ncf_seq
         form2.save()
-        self.assertEqual(form2.ncf, sequence)
+        self.assertEqual(form2.ncf, "XXX00000002")
         
         form3 = Form(self.account_move)
-        form3.ncf_type = self.env['ir.sequence'].search([('is_ncf','=',True)])[0]
-        sequence = self.env['ir.sequence'].next_by_code(form3.ncf_type.code)
+        form3.ncf_type = ncf_seq
         form3.save()
-        self.assertEqual(form3.ncf, sequence)
+        self.assertEqual(form3.ncf, "XXX00000003")
         
     def test_unique_ncf(self):
         '''Ensure an exception is raised if a NCF is already taken'''
@@ -100,19 +100,6 @@ class TestAccountMoveNCF(TransactionCase):
             'name':'test ncf'
         })
         self.assertTrue(ncf_seq)
-
-    # account.move.type will be used to know which ncf sequences will be available.
-
-        # selection=[
-        #     ('entry', 'Journal Entry'),
-        #     ('out_invoice', 'Customer Invoice'),
-        #     ('out_refund', 'Customer Credit Note'),
-        #     ('in_invoice', 'Vendor Bill'),
-        #     ('in_refund', 'Vendor Credit Note'),
-        #     ('out_receipt', 'Sales Receipt'),
-        #     ('in_receipt', 'Purchase Receipt'),
-        # ]
-
 
     # if move type is in ncf_sequence, the ncf_sequence must be able to be selected and
     # saved in an account_move of that type
