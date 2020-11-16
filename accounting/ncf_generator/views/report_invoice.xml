@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="report_invoice_document_inherited" inherit_id="account.report_invoice_document">
-        <xpath expr="//h2/row/div" position="after">
+        <xpath expr="//div/div" position="after">
             <div class="row">
                 <div id="informations" class="col-6">
                     <!-- <h2>
