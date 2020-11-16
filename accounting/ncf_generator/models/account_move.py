@@ -113,7 +113,7 @@ class AccountMove(models.Model):
     ncf = fields.Char('NCF', default='', size=11)
     # Avaliable ncf types according to the move type
     ncf_type_list = fields.Many2many(
-        'ir.sequence', store=True, compute=_get_ncf_types_domain)
+        'ir.sequence', compute=_get_ncf_types_domain)
     ncf_type = fields.Many2one('ir.sequence', string='NCF Type')
 #     ===REVERSAL fields===
     parent_move_id = fields.Many2one('account.move', string='Parent Invoice',
