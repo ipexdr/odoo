@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template
+    id="report_invoice_document_inherited_ncf_generator"
+    inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@name='reference']" position="after">
+            <div class="col-auto mw-100 mb-2" t-if="o.ncf">
+                <strong>NCF:</strong>
+                <p class="m-0" t-field="o.ncf" />
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="(o.type == 'out_refund' or o.type == 'in_refund') and (o.mod_ncf != False)">
+                <strong>NCF modificado:</strong>
+                <p class="m-0" t-field="o.ncf" />
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.ncf_type.due_date">
+                <strong>NCF válido hasta:</strong>
+                <p class="m-0" t-field="o.ncf_type.due_date"/>
+            </div>
+        </xpath>        
+    </template>
+</odoo>

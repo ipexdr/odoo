@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template
+    id="external_layout_standard_no_company_info"
+    inherit_id="web.external_layout_standard">
+        <xpath expr="//div/div[3]" position="replace"></xpath>
+    </template>
+</odoo>
+<!-- MAAAYBE turn them into primary templates to keep the original one working -->
+<!-- <odoo>
+    <template
+    id="external_layout_standard_no_company_info"
+    inherit_id="web.external_layout_standard">
+        <xpath expr="//div/div[3]" position="replace"></xpath>
+    </template>
+</odoo> -->
