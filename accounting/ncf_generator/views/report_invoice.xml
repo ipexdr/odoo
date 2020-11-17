@@ -14,7 +14,7 @@
             </div>
             <div class="col-auto mw-100 mb-2" t-if="o.ncf_type.due_date">
                 <strong>NCF válido hasta:</strong>
-                <p class="m-0" t-field="o.ncf_type.due_date" />
+                <p class="m-0" t-field="o.ncf_type.due_date"/>
             </div>
         </xpath>        
     </template>

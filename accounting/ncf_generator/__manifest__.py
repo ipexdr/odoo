@@ -29,7 +29,8 @@
         'security/ir.model.access.csv',
         'views/ncf_sequence_views.xml',
         'views/account_move_views.xml',
-        'views/report_invoice.xml'
+        'web_external_layout.xml',
+        'views/report_invoice.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
