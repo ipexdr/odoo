@@ -20,8 +20,6 @@ class PurchaseOrder(models.Model):
     
     ref_customer_quote_id = fields.Many2one('sale.order', string='Customer Quote ID', tracking=True)
     
-    # vendor_contact_id = fields.Many2one('res.partner', string='Vendor Contact', tracking=True)
-
     courier_id = fields.Many2one('res.partner', string='Courier', tracking=True)
 
     is_vendor_quote = fields.Boolean('Vendor Quote is attached', store=True, default=False)
@@ -43,7 +41,11 @@ class PurchaseOrder(models.Model):
     # are uploaded
     def button_confirm(self):
         for order in self:
-            if order.is_vendor_quote and order.is_customer_po:
+            ### ONLY FOR TESTING PURPOSES ###
+            #- CHANGE TO ORIGINAL LINE WHEN MOVING TO PRODUCTION -#
+            
+            # if order.is_vendor_quote and order.is_customer_po:
+            if True: 
                 if order.state not in ['draft', 'sent']:
                     continue
                 order._add_supplier_to_product()
