@@ -30,7 +30,7 @@
         'security/security.xml',
         # 'security/ir.model.access.csv',
         'views/sale_order.xml',
-        'data/mail_data.xml'
+        'data/mail_data.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
