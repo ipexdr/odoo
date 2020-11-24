@@ -15,7 +15,7 @@ class PurchaseOrder(models.Model):
         'cancel': [('readonly', True)],
     }
 
-    end_customer_id = fields.Many2one('res.partner', string='End Customer', tracking=True, required=True, states=READONLY_STATES)
+    end_customer_id = fields.Many2one('res.partner', string='End Customer', tracking=True, states=READONLY_STATES)
     end_contact_id = fields.Many2one('res.partner', string='Contact', tracking=True, states=READONLY_STATES)
     
     ref_customer_quote_id = fields.Many2one('sale.order', string='Customer Quote ID', tracking=True)
@@ -55,7 +55,6 @@ class PurchaseOrder(models.Model):
                         or order.user_has_groups('purchase.group_purchase_manager'):
                     order.button_approve(override=True)
                 else:
-#                     if order.module_po_approval_installed:
                     all_users = self.env['res.users'].search([('active', '=', True)])
 
                     managers = all_users.filtered(lambda user: user.has_group('purchase.group_purchase_manager'))
