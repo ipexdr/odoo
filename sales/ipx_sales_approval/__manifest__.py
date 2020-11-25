@@ -29,7 +29,7 @@
         'security/security.xml',
         # 'security/ir.model.access.csv',
         'views/sale_order.xml',
-        'views/product_price_views.xml'
+        'views/product_price_views.xml',
         'data/mail_data.xml',
     ],
     # only loaded in demonstration mode
