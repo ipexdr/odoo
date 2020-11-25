@@ -21,7 +21,7 @@
 
     # any module necessary for this one to work correctly
 
-    'depends': ['sale_management', 'log_wizard'],
+    'depends': ['sale_management', 'log_wizard', 'sales_margin_percentage'],
 
     # always loaded
     'data': [
@@ -29,6 +29,7 @@
         'security/security.xml',
         # 'security/ir.model.access.csv',
         'views/sale_order.xml',
+        'views/product_price_views.xml'
         'data/mail_data.xml',
     ],
     # only loaded in demonstration mode

@@ -9,15 +9,15 @@ _logger = logging.getLogger(__name__)
 class SaleOrder(models.Model):
     _inherit = ['sale.order']
 
-    min_margin = fields.Float(store=True, default=0.30, compute='compute_min_margin')
-    quote_approved = fields.Boolean(compute='set_approval', default=True)
+    # min_margin = fields.Float(store=True, default=0.30, compute='compute_min_margin')
+    # quote_approved = fields.Boolean(compute='set_approval', default=True)
 
-    quote_margin_approved = fields.Boolean(store=True, default=True)
-    quote_vendor_discount_approved = fields.Boolean(store=True, default=True)
+    # quote_margin_approved = fields.Boolean(store=True, default=True)
+    # quote_vendor_discount_approved = fields.Boolean(store=True, default=True)
 
-    var_lvl_1_margin = 0.20
-    var_lvl_2_margin = 0.15
-    std_min_margin = fields.Float(store=True, default=var_lvl_1_margin)
+    # var_lvl_1_margin = 0.20
+    # var_lvl_2_margin = 0.15
+    # std_min_margin = fields.Float(store=True, default=var_lvl_1_margin)
     
     # TODO: set default min_margin, var_lvl_1_margin from settings page
 
@@ -114,9 +114,9 @@ class SaleOrder(models.Model):
         # TODO: Specify managers depending on extra vendor discount
 
         if self.min_margin <= self.var_lvl_2_margin:
-            my_users_group = all_users.filtered(lambda user: user.has_group('so_approval.so_approval_manager'))
+            my_users_group = all_users.filtered(lambda user: user.has_group('ipx_sales_approval.ipx_sales_approval_manager'))
         else:
-            my_users_group = all_users.filtered(lambda user: user.has_group('so_approval.so_approval_assistant'))
+            my_users_group = all_users.filtered(lambda user: user.has_group('ipx_sales_approval.ipx_sales_approval_assistant'))
         so_number = self.name
 
         order_id = self.id

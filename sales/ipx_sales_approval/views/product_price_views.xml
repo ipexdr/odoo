@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_pricelist_item_form_view" model="ir.ui.view">
+            <field name="name">product.pricelist.item.form</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='pricelist_rule_advanced']//field[@name='price_max_margin']"
+                        position="after">
+                        <field name="default_margin"/>
+                </xpath>
+        </record>
+    </data>
+</odoo>
