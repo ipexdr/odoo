@@ -136,8 +136,15 @@ class SaleOrder(models.Model):
 
         self.write({'state': 'to approve'})
 
+    def action_quotation_approve(self):
+        for line in self.order_line:
+            line.approved_margin = line.get_profit_margin()
+
     is_approved = fields.Boolean(
         'Is Approved', store=True, compute='compute_order_approval')
+
+    tmp_approve_level = fields.Integer('Approve level', default = 0)
+            
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
@@ -152,15 +159,31 @@ class SaleOrderLine(models.Model):
             line.min_margin = line.order_id.pricelist_id._get_min_margin(
                 line.product_id)
 
-    @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id', 'price_unit')
+    @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id', 'price_unit', '')
     def compute_line_approved(self):
-        non_decimal = re.compile(r'[^\d.]+')
         for line in self:
-            profit_margin = float(non_decimal.sub('', line.margin_percentage))
-            if profit_margin < line.approved_margin:
-                line.is_approved = False
+            if line.num_profit_margin < line.approved_margin and line.num_profit_margin < line.low_margin:
+                line.is_approved = False    
             else:
                 line.is_approved = True
+        
+        tmp_approve_level = 0
+        
+        for line in self:
+            if not line.is_approved:
+                if line.num_profit_margin < line.min_margin and tmp_approve_level < 2:
+                    tmp_approve_level = 2
+                elif line.num_profit_margin < line.low_margin and tmp_approve_level < 1:
+                    tmp_approve_level = 1
+        
+        self.order_id.approve_level = tmp_approve_level
+            
+
+    @api.depends('margin_percentage')
+    def compute_numerical_profit_margin(self):
+        for line in self:
+            non_decimal = re.compile(r'[^\d.]+')
+            line.num_profit_margin = float(non_decimal.sub('', self.margin_percentage))
 
     default_margin = fields.Float(
         'Default Profit Margin', store=True, compute='compute_profit_margins')
@@ -172,5 +195,9 @@ class SaleOrderLine(models.Model):
     approved_margin = fields.Float(
         'Approved Profit Margin', store=True, default=default_margin)
 
-    is_approved = fields.Booelan(
+    is_approved = fields.Boolean(
         'Is Validated', store=True, compute='compute_line_approved')
+
+
+
+    num_profit_margin = fields.Float('Numerical Profit Margin', compute='compute_profit_margin')
