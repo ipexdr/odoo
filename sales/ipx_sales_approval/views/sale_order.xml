@@ -11,7 +11,35 @@
                     <field name="low_margin"/>
                     <field name="min_margin"/>
                 </xpath>
+                <xpath expr="/form/header/field[@name='authorized_transaction_ids']" position="after">
+                    <field name="quote_approved" invisible="1"/>
+                    <field name="min_margin" invisible="1"/>
+                    <field name="std_min_margin" invisible="1"/>
+                </xpath>
             </field>
+            <button name="action_quotation_send" position="before">
+                    <!-- Assistant approve and reject btns -->
+                    <button name="action_quotation_approve" string="Approve"
+                            type="object" class="oe_highlight" groups="ipx_so_approval.so_approval_assistant"
+                            attrs="{'invisible':['|',('min_margin', '&lt;=', 0.15),('state', 'not in', ['to approve'])]}"/>
+                    
+                    <button name="action_quotation_reject" string="Reject"
+                            type="object" class="oe_highlight" groups="ipx_so_approval.so_approval_assistant"
+                            attrs="{'invisible':['|',('min_margin', '&lt;=', 0.15),('state', 'not in', ['to approve'])]}"/>
+
+                    <!-- Manager approve and reject btns -->
+                    <button name="action_quotation_approve" string="Approve"
+                            type="object" class="oe_highlight" groups="ipx_so_approval.so_approval_manager"
+                            attrs="{'invisible':['|',('min_margin', '&gt;', 0.15), ('state', 'not in', ['to approve'])]}"/>
+                    
+                    <button name="action_quotation_reject" string="Reject"
+                            type="object" class="oe_highlight" groups="ipx_so_approval.so_approval_manager"
+                            attrs="{'invisible':['|',('min_margin', '&gt;', 0.15), ('state', 'not in', ['to approve'])]}"/>
+                    <!-- User approval ask button -->
+                    <button name="action_ask_approval" string="Ask for Approval"
+                            type="object" class="oe_highlight"
+                            attrs="{'invisible':['|',('is_approved','=',True), ('state', 'not in', ['draft', 'sent'])]}"/>
+                </button>
         </record>
     </data>
 </odoo>
