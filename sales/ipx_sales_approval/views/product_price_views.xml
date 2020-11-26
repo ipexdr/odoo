@@ -8,7 +8,21 @@
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='pricelist_rule_advanced']//field[@name='price_max_margin']"
                         position="after">
+                    <label for="default_margin"/>
+                    <div class="o_row">
                         <field name="default_margin"/>
+                        <span>%%</span>
+                    </div>
+                    <label for="low_margin"/>
+                    <div class="o_row">
+                        <field name="low_margin"/>
+                        <span>%%</span>
+                    </div>
+                    <label for="min_margin"/>
+                    <div class="o_row">
+                        <field name="min_margin"/>
+                        <span>%%</span>
+                    </div>
                 </xpath>
             </field>
         </record>

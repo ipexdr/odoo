@@ -8,6 +8,8 @@
                 <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']"
                        position="after">
                     <field name="default_margin"/>
+                    <field name="low_margin"/>
+                    <field name="min_margin"/>
                 </xpath>
             </field>
         </record>
