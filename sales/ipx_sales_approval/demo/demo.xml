@@ -5,7 +5,7 @@
             <field name="login">sales_approval_assistant</field>
             <field name="password">sales_approval_assistant</field>
             <field name="company_id" ref="main_company" />
-            <field name="company_ids" eval="[(4, ref('main_company'))]" />
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]" />
             <field name="groups_id" eval="[(4,ref('ipx_sales_approval.sales_approval_assistant'))]" />
         </record>
         <record id="ipx_sales_approval.manager_demo" model="res.users">
@@ -13,7 +13,7 @@
             <field name="login">sales_approval_manager</field>
             <field name="password">sales_approval_manager</field>
             <field name="company_id" ref="main_company" />
-            <field name="company_ids" eval="[(4, ref('main_company'))]" />
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]" />
             <field name="groups_id" eval="[(4,ref('ipx_sales_approval.sales_approval_manager'))]" />
         </record>
     </data>
