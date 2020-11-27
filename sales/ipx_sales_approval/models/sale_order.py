@@ -142,7 +142,7 @@ class SaleOrder(models.Model):
 
     def action_quotation_approve(self):
         for line in self.order_line:
-            line.approved_margin = line.get_profit_margin()
+            line.approved_margin = line.num_profit_margin
 
     is_approved = fields.Boolean(
         'Is Approved', store=True, compute='compute_order_approval')
@@ -163,7 +163,7 @@ class SaleOrderLine(models.Model):
             line.min_margin = line.order_id.pricelist_id._get_min_margin(
                 line.product_id)
 
-    @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id', 'margin_percentage')
+    @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id', 'margin_percentage', 'approved_margin')
     def compute_line_approved(self):
         _logger.info("computing lines approval")
         for line in self:
