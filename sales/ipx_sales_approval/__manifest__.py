@@ -28,8 +28,8 @@
         'data/ir_module_category_data.xml',
         'security/security.xml',
         # 'security/ir.model.access.csv',
-        # 'views/sale_order.xml',
         'views/product_price_views.xml',
+        'views/sale_order.xml',
         'data/mail_data.xml',
     ],
     # only loaded in demonstration mode
