@@ -36,6 +36,24 @@ class SaleOrder(models.Model):
             else:
                 sale.is_approved = True
                 _logger.info("order approved")
+        
+        self.set_approval_level()
+
+    def set_approval_level(self):
+        # Setting order id approval level
+        # 1 - Assistant
+        # 2 - Manager
+        
+        tmp_approve_level = 0
+        
+        for line in self.order_line:
+            if not line.is_approved:
+                if line.num_profit_margin < line.min_margin:
+                    tmp_approve_level = max(tmp_approve_level, 2)
+                elif line.num_profit_margin < line.low_margin:
+                    tmp_approve_level = max(tmp_approve_level, 1)
+        
+        self.approve_level = tmp_approve_level
 
     def action_quotation_reject(self):
         view = self.env.ref('log_wizard.log_message_wizard_view')
@@ -142,12 +160,12 @@ class SaleOrder(models.Model):
 
     def action_quotation_approve(self):
         for line in self.order_line:
-            line.approved_margin = line.num_profit_margin
+            line.approved_margin = line.get_profit_margin()
 
     is_approved = fields.Boolean(
         'Is Approved', store=True, compute='compute_order_approval')
 
-    tmp_approve_level = fields.Integer('Approve level', default = 0)
+    approve_level = fields.Integer('Approve level', default = 0)
             
 
 class SaleOrderLine(models.Model):
@@ -162,29 +180,22 @@ class SaleOrderLine(models.Model):
                 line.product_id)
             line.min_margin = line.order_id.pricelist_id._get_min_margin(
                 line.product_id)
+            
 
     @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id', 'margin_percentage', 'approved_margin')
     def compute_line_approved(self):
         _logger.info("computing lines approval")
         for line in self:
-            _logger.info(f"Profit margin - {line.num_profit_margin}")
-            _logger.info(f"Approved margin - {line.approved_margin}")
-            _logger.info(f"Low margin - {line.low_margin}")
-            if (line.approved_margin and line.num_profit_margin < line.approved_margin) and line.num_profit_margin < line.low_margin:
+            _logger.info(f"Profit margin - {line.num_profit_margin} | Approved margin - {line.approved_margin} | Low margin - {line.low_margin}")
+            
+            if line.num_profit_margin < line.approved_margin:
                 line.is_approved = False
+                
+                _logger.info("Linea no aprobada")
             else:
                 line.is_approved = True
-        
-        tmp_approve_level = 0
-        
-        for line in self:
-            if not line.is_approved:
-                if line.num_profit_margin < line.min_margin:
-                    tmp_approve_level = max(tmp_approve_level, 2)
-                elif line.num_profit_margin < line.low_margin:
-                    tmp_approve_level = max(tmp_approve_level, 1)
-        
-        self.order_id.approve_level = tmp_approve_level
+                
+                _logger.info("Linea aprobada")
 
     @api.depends('margin_percentage')
     def compute_numerical_profit_margin(self):
@@ -200,7 +211,8 @@ class SaleOrderLine(models.Model):
         'Minimum Profit Margin', store=True, compute='compute_profit_margins')
 
     approved_margin = fields.Float(
-        'Approved Profit Margin', store=True, default=0)
+        'Approved Profit Margin', store=True, default= lambda self: self.order_id.pricelist_id._get_default_margin(
+                self.product_id))
 
     is_approved = fields.Boolean(
         'Is Validated', store=True, compute='compute_line_approved')
