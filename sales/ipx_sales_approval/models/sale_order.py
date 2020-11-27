@@ -159,7 +159,7 @@ class SaleOrderLine(models.Model):
             line.min_margin = line.order_id.pricelist_id._get_min_margin(
                 line.product_id)
 
-    @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id', 'price_unit', '')
+    @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id', 'price_unit', 'margin_percentage')
     def compute_line_approved(self):
         for line in self:
             if line.num_profit_margin < line.approved_margin and line.num_profit_margin < line.low_margin:
