@@ -84,50 +84,49 @@ class SaleOrder(models.Model):
         }
 
     def action_ask_approval(self):
+
+        # Get all users from system
         all_users = self.env['res.users'].search([('active', '=', True)])
-
-        if self.approve_level == 2:
-            my_users_group = all_users.filtered(lambda user: user.has_group(
-                'ipx_sales_approval.ipx_sales_approval_manager'))
-        else:
-            my_users_group = all_users.filtered(lambda user: user.has_group(
-                'ipx_sales_approval.ipx_sales_approval_assistant'))
         
-        so_number = self.name
-        order_id = self.id
+        if self.approve_level == 2:
+            # Get users in approval manager group
+            to_users = all_users.filtered(lambda user: user.has_group(
+            'ipx_sales_approval.sales_approval_manager'))
+        else:
+            # Get users in approval manager assistant
+            to_users =  all_users.filtered(lambda user: user.has_group(
+            'ipx_sales_approval.sales_approval_assistant'))
 
-        domain = self.env['ir.config_parameter'].sudo(
-        ).get_param('web.base.url')
-        url = f"{domain}/web#id={order_id}&action=334&model=sale.order&view_type=form&cids=1&menu_id=192"
-
-        msg = f"<p>The Quotation {so_number} needs to be approved.</p>"
+            # Keep users that are not in approval manager group
+            to_users = [user for user in to_users if user not in all_users.filtered(lambda user: user.has_group(
+            'ipx_sales_approval.sales_approval_manager'))]
+                
+        partner_ids = []
+        for user in to_users:
+            # Getting users' partner ids
+            partner_ids.append(user.partner_id.id)
+        
+        msg = f"<p>The Quotation {self.name} needs to be approved.</p>"
 
         exceeded_items = []
 
         # Knowing which items are the reason for the approval
-        
         for line in self.order_line:
             if not line.is_approved:
                 exceeded_items.append(
-                    {'item': line.product_id.name, 'margin': (line.real_margin * 100)})
+                    {'item': line.product_id.name, 'margin': (line.num_profit_margin)})
 
         msg += "<p>Items over the discount limit:</p><ul>"
 
         for item in exceeded_items:
             msg += f"<li>\t{item['item']} - Profit Margin: {round(item['margin'], 2)}%</li>"
 
-        msg += "</ul>"
-
-        partner_ids = []
-        for user in my_users_group:
-            partner_ids.append(user.partner_id.id)
+        msg += "\n</ul>"
 
         self.message_post(
             subject='Quotation pending for Approval',
             body=msg,
             partner_ids=tuple(partner_ids)
-            #             model=self._name,
-            #             res_id=self.id
         )
 
         self.write({'state': 'to approve'})
@@ -162,7 +161,7 @@ class SaleOrderLine(models.Model):
         for line in self:
             _logger.info(f"Profit margin - {line.num_profit_margin} | Approved margin - {line.approved_margin} | Low margin - {line.low_margin}")
             
-            if line.num_profit_margin < line.approved_margin:
+            if line.num_profit_margin < line.low_margin:
                 line.is_approved = False
                 
                 _logger.info("Linea no aprobada")
@@ -185,7 +184,7 @@ class SaleOrderLine(models.Model):
         'Minimum Profit Margin', store=True, compute='compute_profit_margins')
 
     approved_margin = fields.Float(
-        'Approved Profit Margin', store=True, default= lambda self: self.order_id.pricelist_id._get_default_margin(
+        'Approved Profit Margin', store=True, default= lambda self: self.order_id.pricelist_id._get_low_margin(
                 self.product_id))
 
     is_approved = fields.Boolean(
