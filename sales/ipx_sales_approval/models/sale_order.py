@@ -183,7 +183,7 @@ class SaleOrderLine(models.Model):
     def compute_numerical_profit_margin(self):
         for line in self:
             non_decimal = re.compile(r'[^\d.]+')
-            line.num_profit_margin = float(non_decimal.sub('', self.margin_percentage))
+            line.num_profit_margin = float(non_decimal.sub('', line.margin_percentage)) or 0
 
     default_margin = fields.Float(
         'Default Profit Margin', store=True, compute='compute_profit_margins')
@@ -193,11 +193,9 @@ class SaleOrderLine(models.Model):
         'Minimum Profit Margin', store=True, compute='compute_profit_margins')
 
     approved_margin = fields.Float(
-        'Approved Profit Margin', store=True, default=default_margin)
+        'Approved Profit Margin', store=True, default= lambda self: self.default_margin)
 
     is_approved = fields.Boolean(
         'Is Validated', store=True, compute='compute_line_approved')
-
-
 
     num_profit_margin = fields.Float('Numerical Profit Margin', compute='compute_profit_margin')
