@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="res_users_view_form_simple_modif_hsignature" model="ir.ui.view">
-        <field name="name">res.users.preferences.form.simplified.signature</field>
+    <record id="res_users_view_form_simple_modif_hand_signature" model="ir.ui.view">
+        <field name="name">res.users.preferences.form.simplified.hand.signature</field>
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
-        <!-- <field name="mode">primary</field> -->
         <field name="arch" type="xml">
             <xpath expr="//field[@name='signature']" position="after">
-                <group>
-                    <field name="hand_signature" />
-                </group>
+                <field name="hand_signature"/>
             </xpath>
         </field>
     </record>
