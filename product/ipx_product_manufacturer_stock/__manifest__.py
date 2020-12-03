@@ -20,7 +20,7 @@
 
     # any module necessary for this one to work correctly
 
-    'depends': ['stock'],
+    'depends': ['stock', 'ipx_product_manufacturer'],
 
     # always loaded
     'data': [
