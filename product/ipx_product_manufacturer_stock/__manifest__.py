@@ -24,6 +24,6 @@
 
     # always loaded
     'data': [
-        'views/product_form.xml',
+        'views/report_deliveryslip.xml',
     ]
 }
