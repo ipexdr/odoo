@@ -9,5 +9,5 @@
                 <span t-field="move.product_id.manufacturer"/>
             </td>
         </xpath>
-    </data>
+    </template>
 </odoo>
