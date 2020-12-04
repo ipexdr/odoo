@@ -4,9 +4,17 @@
         <xpath expr="//th[@name='th_sm_product']" position="after">
             <th name="th_sm_manufacturer"><strong>Manufacturer</strong></th>
         </xpath>
+        <xpath expr="//th[@name='th_sml_product']" position="after">
+            <th name="th_sm_manufacturer"><strong>Manufacturer</strong></th>
+        </xpath>
         <xpath expr="//table[@name='stock_move_table']/tbody/tr[1]/td[1]" position="after">
             <td>
                 <span t-field="move.product_id.manufacturer"/>
+            </td>
+        </xpath>
+        <xpath expr="//table[@name='stock_move_line_table']/tbody/tr[1]/td[1]" position="after">
+            <td>
+                <span t-field="move_line.product_id.manufacturer"/>
             </td>
         </xpath>
     </template>
