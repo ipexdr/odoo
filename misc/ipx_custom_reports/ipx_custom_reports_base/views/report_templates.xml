@@ -1,40 +1,42 @@
-<odoo>
-    <template id="external_layout_clean_inherit_ipx" inherit_id="web.external_layout_clean">
-        <!-- Changing logo - Resizing and adding Slogan -->
-        <xpath expr="//div[1]/div[2]/div[1]" position="inside">
-            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="max-height: 110px;" />
-            <h4 class="text-uppercase" style="margin-left: 65px;color: #94141c">IT for Business</h4>
+<?xml version="1.0"?>
+<data inherit_id="web.external_layout_clean">
+        <!-- Changing logo and removing address from top right corner -->
+        <xpath expr="//img[@t-if='company.logo']/../.." position="replace">
+          <div class='row'>
+            <div class='col-6'>
+              <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="max-height: 110px;"/>
+              <h4 t-field="company.report_header" class="text-uppercase" style="margin-left: 65px;color: #94141c"></h4>
+            </div>
+          </div>
         </xpath>
-        <!-- Removing company address from top right -->
-        <xpath expr="//div[@name='company_address']" position="inside"></xpath>
-        <!-- Centering footer -->
-        <xpath expr="//div[3]/div" position="inside">
+         <!--Centering footer -->
+        <xpath expr="//span[@t-field='company.report_footer']/../.." position="replace">
             <div class="row mt8">
-                <!--<div class="col-1">-->
-                <!--    <span t-field="company.report_footer" />-->
-                <!--</div>-->
                 <div class="col-1">
-                    <h4 class="mt0 mb0 text-uppercase" t-field="company.report_header" />
+                    <!--<span t-field="company.report_footer" />-->
                 </div>
+                <!--<div class="col-1">-->
+                <!--    <h4 class="mt0 mb0 text-uppercase" t-field="company.report_header"/>-->
+                <!--</div>  -->
                 <div class="col-10 text-center">
                     <ul class="list-unstyled">
                         <li t-if="company.street">
-                            <span class="o_force_ltr" t-field="company.street" />
+                            <span class="o_force_ltr" t-field="company.street"/>
                         </li>
                         <li>
-                            <span t-if="company.email" t-field="company.email" />
+                            <span t-if="company.email" t-field="company.email"/>
                             |
-                            <span t-if="company.website" t-field="company.website" />
+                            <span t-if="company.website" t-field="company.website"/>
                             |
-                            <span t-if="company.email" t-field="company.email" />
+                            <span t-if="company.email" t-field="company.email"/>
                         </li>
                         <li t-if="company.name">
-                            <span t-field="company.name" />
+                            <span t-field="company.name"/>
                         </li>
                         <li t-if="company.vat">
-                            <t t-esc="company.country_id.vat_label or 'Tax ID'" />
+                            <t t-esc="company.country_id.vat_label or 'Tax ID'"/>
                             :
-                            <span t-field="company.vat" />
+                            <span t-field="company.vat"/>
                         </li>
                     </ul>
                 </div>
@@ -43,12 +45,11 @@
                     <ul t-if="report_type == 'pdf'" class="list-inline pagenumber float-right text-center">
                         <li class="list-inline-item">
                             <strong>
-                                <span class="page" />
+                                <span class="page"/>
                             </strong>
                         </li>
                     </ul>
                 </div>
             </div>
         </xpath>
-    </template>
-</odoo>
+    </data>
