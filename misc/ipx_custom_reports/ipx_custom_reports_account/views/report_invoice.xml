@@ -35,6 +35,10 @@
                         <li t-if="o.partner_id.country_id">
                             <span t-field="o.partner_id.user_id.partner_id.country_id" />
                         </li>
+                        <li t-if="o.partner_id.vat">
+                            <t t-if="o.company_id.country_id.vat_label" t-esc="o.company_id.country_id.vat_label" id="inv_tax_id_label"/>
+                            <t t-else="">Tax ID</t>: <span t-field="o.partner_id.vat"/>    
+                        </li>
                     </ul>
                 </div>
             </div>
