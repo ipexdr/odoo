@@ -49,34 +49,60 @@
             <div class='row'>
                 <div class='col-8'>
                     <p t-if="o.type in ('out_invoice', 'in_refund')">
-                        Please use the following communication for your payment : <b><span t-field="o.invoice_payment_ref"/></b>
+                        Please use the following communication for your payment :
+                        <b>
+                            <span t-field="o.invoice_payment_ref" />
+                        </b>
                     </p>
 
                     <p>
-                    <b>PARA PAGO CON TRANSFERENCIAS</b><br/>
-                    <b>Nombre del Banco:</b> BHD LEON<br/>
-                    <b>No. Cuenta Bancaria en Dolares:</b> 12053700015<br/>
-                    <b>No. Cuenta Bancaria en Pesos:</b> 11982770013<br/>
-                    <b>Codigo Swift: BCBDODXXX /IBAN ABA:</b> BCBDODXXX<br/>
-                    <br/>
-                    <b>Nombre del Banco:</b> Banco de Reserva<br/>
-                    <b>No.Cuenta Corriente:</b> 100010102530084<br/>
-                    <b>No. Cuenta de Ahorro:</b> 200010100027978<br/>
-                    <br/>
-                    <b>Nombre del Banco:</b> Banco Popular Dominicano<br/>
-                    <b>No. Cuenta Corriente:</b> 8087754576<br/>
+                        <b>PARA PAGO CON TRANSFERENCIAS</b>
+                        <br />
+                        <b>Nombre del Banco:</b>
+                        BHD LEON
+                        <br />
+                        <b>No. Cuenta Bancaria en Dolares:</b>
+                        12053700015
+                        <br />
+                        <b>No. Cuenta Bancaria en Pesos:</b>
+                        11982770013
+                        <br />
+                        <b>Codigo Swift: BCBDODXXX /IBAN ABA:</b>
+                        BCBDODXXX
+                        <br />
+                        <br />
+                        <b>Nombre del Banco:</b>
+                        Banco de Reserva
+                        <br />
+                        <b>No.Cuenta Corriente:</b>
+                        100010102530084
+                        <br />
+                        <b>No. Cuenta de Ahorro:</b>
+                        200010100027978
+                        <br />
+                        <br />
+                        <b>Nombre del Banco:</b>
+                        Banco Popular Dominicano
+                        <br />
+                        <b>No. Cuenta Corriente:</b>
+                        8087754576
+                        <br />
                     </p>
 
                 </div>
                 <div t-if="o.type in ('out_invoice')" class='col-4'>
-                    <p><b>Importante: Despues de vencida su factura, se cargarán intereses y moras porvalor del 2% de la factura.</b></p>
-                    <div class='row'>
-                        <div class='col-2'></div>
-                        <div class='col-10'></div>
+                    <div clas='row'>
+                        <p>
+                            <b>Importante: Despues de vencida su factura, se cargarán intereses y moras porvalor del 2% de la factura.</b>
+                        </p>
                     </div>
                     <div class='row'>
-                        <div class='col-2'></div>
-                        <div class='col-10'></div>
+                        <div class='col-2'>Firma:</div>
+                        <div class='col-10'>___________</div>
+                    </div>
+                    <div class='row'>
+                        <div class='col-2'>Fecha</div>
+                        <div class='col-10'>___________</div>
                     </div>
                 </div>
             </div>
