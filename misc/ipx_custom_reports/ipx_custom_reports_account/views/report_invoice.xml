@@ -4,7 +4,7 @@
         <xpath expr="//t[@t-set='address']" position="replace">
             <t t-set="address" />
             <div class="row">
-                <div class="col-6">
+                <div class="col-8">
                     <ul t-if="o.partner_id.user_id" class="list-unstyled">
                         <li t-if="o.partner_id.user_id.partner_id.name">
                             <span t-field="o.partner_id.user_id.partner_id.name" />
@@ -20,7 +20,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                     <t t-set="address" />
                     <ul t-if="o.partner_id" class="list-unstyled">
                         <li t-if="o.partner_id.name">
