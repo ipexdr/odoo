@@ -2,107 +2,107 @@
 <odoo>
     <template inherit_id="account.report_invoice_document" id="report_invoice_document_inherit_ipx">
         <xpath expr="//t[@t-set='address']" position="replace">
-            <t t-set="address" />
+            <t t-set="address"/>
             <div class="row">
                 <div class="col-8">
                     <ul t-if="o.partner_id.user_id" class="list-unstyled">
                         <li t-if="o.partner_id.user_id.partner_id.name">
-                            <span t-field="o.partner_id.user_id.partner_id.name" />
+                            <span t-field="o.partner_id.user_id.partner_id.name"/>
                         </li>
                         <li t-if="o.partner_id.user_id.partner_id.phone">
-                            <span t-field="o.partner_id.user_id.partner_id.phone" />
+                            <span t-field="o.partner_id.user_id.partner_id.phone"/>
                         </li>
                         <li t-if="o.partner_id.user_id.partner_id.mobile">
-                            <span t-field="o.partner_id.user_id.partner_id.mobile" />
+                            <span t-field="o.partner_id.user_id.partner_id.mobile"/>
                         </li>
                         <li t-if="o.partner_id.user_id.partner_id.email">
-                            <span t-field="o.partner_id.user_id.partner_id.email" />
+                            <span t-field="o.partner_id.user_id.partner_id.email"/>
                         </li>
                     </ul>
                 </div>
                 <div class="col-4">
-                    <t t-set="address" />
+                    <t t-set="address"/>
                     <ul t-if="o.partner_id" class="list-unstyled">
                         <li t-if="o.partner_id.name">
-                            <span t-field="o.partner_id.name" />
+                            <span t-field="o.partner_id.name"/>
                         </li>
                         <li t-if="o.partner_id.street">
-                            <span t-field="o.partner_id.street" />
+                            <span t-field="o.partner_id.street"/>
                         </li>
                         <li t-if="o.partner_id.city">
-                            <span t-field="o.partner_id.city" />
+                            <span t-field="o.partner_id.city"/>
                         </li>
                         <li t-if="o.partner_id.country_id">
-                            <span t-field="o.partner_id.country_id" />
+                            <span t-field="o.partner_id.country_id"/>
                         </li>
                         <li t-if="o.partner_id.vat">
-                            <t t-if="o.company_id.country_id.vat_label" t-esc="o.company_id.country_id.vat_label" id="inv_tax_id_label" />
+                            <t t-if="o.company_id.country_id.vat_label" t-esc="o.company_id.country_id.vat_label" id="inv_tax_id_label"/>
                             <t t-else="">Tax ID</t>
                             :
-                            <span t-field="o.partner_id.vat" />
+                            <span t-field="o.partner_id.vat"/>
                         </li>
                     </ul>
                 </div>
             </div>
         </xpath>
         <xpath expr="//span[@t-field='o.invoice_payment_ref']/../.." position="replace">
-            <div class='row'>
-                <div class='col-8'>
+            <div class="row">
+                <div class="col-8">
                     <p t-if="o.type in ('out_invoice', 'in_refund')">
                         Please use the following communication for your payment :
                         <b>
-                            <span t-field="o.invoice_payment_ref" />
+                            <span t-field="o.invoice_payment_ref"/>
                         </b>
                     </p>
 
                     <p>
                         <b>PARA PAGO CON TRANSFERENCIAS</b>
-                        <br />
+                        <br/>
                         <b>Nombre del Banco:</b>
                         BHD LEON
-                        <br />
+                        <br/>
                         <b>No. Cuenta Bancaria en Dolares:</b>
                         12053700015
-                        <br />
+                        <br/>
                         <b>No. Cuenta Bancaria en Pesos:</b>
                         11982770013
-                        <br />
+                        <br/>
                         <b>Codigo Swift: BCBDODXXX /IBAN ABA:</b>
                         BCBDODXXX
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         <b>Nombre del Banco:</b>
                         Banco de Reserva
-                        <br />
+                        <br/>
                         <b>No.Cuenta Corriente:</b>
                         100010102530084
-                        <br />
+                        <br/>
                         <b>No. Cuenta de Ahorro:</b>
                         200010100027978
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         <b>Nombre del Banco:</b>
                         Banco Popular Dominicano
-                        <br />
+                        <br/>
                         <b>No. Cuenta Corriente:</b>
                         8087754576
-                        <br />
+                        <br/>
                     </p>
 
                 </div>
-                <div t-if="o.type in ('out_invoice')" class='col-4'>
-                    <div clas='row'>
-                        <p>
-                            <b>Importante: Despues de vencida su factura, se cargarán intereses y moras porvalor del 2% de la factura.</b>
+                <div t-if="o.type in ('out_invoice')" class="col-4">
+                    <div clas="row">
+                        <p style="text-align:justify">
+                            <b>Importante: Despues de vencida su factura, se cargarán intereses y moras por valor del 2% de la factura.</b>
                         </p>
                     </div>
-                    <div class='row'>
-                        <div class='col-2'>Firma:</div>
-                        <div class='col-10'>___________</div>
+                    <div class="row">
+                      <div class="col-3" style="white-space: nowrap">Firma:</div>
+                      <div class="col-8" style="border-bottom: 1px solid black;"><![CDATA[]]></div>
                     </div>
-                    <div class='row'>
-                        <div class='col-2'>Fecha</div>
-                        <div class='col-10'>___________</div>
+                    <div class="row">
+                      <div class="col-3" style="white-space: nowrap">Fecha:</div>
+                      <div class="col-8" style="border-bottom: 1px solid black;"><![CDATA[]]></div>
                     </div>
                 </div>
             </div>
