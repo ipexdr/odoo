@@ -21,7 +21,7 @@
 
     # any module necessary for this one to work correctly
 
-    'depends': ['ipx_custom_reports_base', 'sale_management'],
+    'depends': ['sale_management'],
 
     # always loaded
     'data': [
