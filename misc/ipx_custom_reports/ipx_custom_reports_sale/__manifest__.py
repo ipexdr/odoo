@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "IP Expert's PDF Formats",
+    'name': "Sale - Custom QWeb Reports",
 
     'summary': """
-        Some additional custom PDF Formats for IP Expert.""",
+        IPX specific custom reports/templates.""",
 
     'description': """
-        
+        - Removes part number from Sale Order.
+        - Adds SO report w/ part number
     """,
 
     'author': "IP Expert DR",
@@ -16,25 +17,17 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Sales',
-    'version': '1.0',
+    'version': '0.1.0',
 
-    # any module necessary for this one to work correctlyy
+    # any module necessary for this one to work correctly
 
     'depends': ['sale_management'],
 
     # always loaded
     'data': [
+        # 'security/security.xml',
         # 'security/ir.model.access.csv',
-        'report/sale_report.xml',
-        # 'data/project_stages.xml',
-#         'security/ir.model.access.csv'
+        # 'wizard/log_message_wizard_view.xml'
+        'views/sale_report.xml',
     ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
-
-    'css': [
-        'static/src/css/style.css'
-    ]
 }
