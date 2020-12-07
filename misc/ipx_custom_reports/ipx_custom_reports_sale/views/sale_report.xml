@@ -1,38 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="report_saleorder_document_withname" inherit_id="sale.report_saleorder_document" primary="True">
+        <template id="report_saleorder_document_inherit_sku_ipx" inherit_id="sale.report_saleorder_document" primary="True">
             <xpath expr="//th[@name='th_description']" position="before">
-                <th name="th_part_number" class="text-left">Part number</th>
-			</xpath>
-			<xpath expr="//td[@name='td_name']" position="before">
-                <td name='td_product_id'><span t-field="line.product_id.default_code"/></td>
-			</xpath>
+                <th name="th_part_number" class="text-left">SKU</th>
+            </xpath>
+            <xpath expr="//td[@name='td_name']" position="before">
+                <td name='td_product_id'>
+                    <span t-field="line.product_id.default_code" />
+                </td>
+            </xpath>
             <xpath expr="//td[@name='td_name']" position="replace">
-                <td name='td_product_id'><span t-esc="line.name[line.name.find(']')+1:]"/></td>
+                <td name='td_name'>
+                    <span t-esc="line.name[line.name.find(']')+1:]" />
+                </td>
             </xpath>
         </template>
 
-        <template id="report_saleorder_withname">
+        <template id="report_saleorder_document_inherit_no_sku_ipx" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//td[@name='td_name']" position="replace">
+                <td name='td_name'>
+                    <span t-esc="line.name[line.name.find(']')+1:]" />
+                </td>
+            </xpath>
+        </template>
+
+        <!--         <template id="report_saleorder_document_inherit_sku_ipx">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
-                    <t t-call="ipx_custom_reports_sale.report_saleorder_document_withname" t-lang="doc.partner_id.lang"/>
+                    <t t-call="ipx_custom_reports_sale.report_saleorder_document_inherit_sku_ipx" t-lang="doc.partner_id.lang"/>
                 </t>
             </t>
         </template>
 
         <report 
-            id="action_report_saleorder_withname"
-            string="Quotation / Order (with Part Number)"
+            id="action_report_saleorder_sku"
+            string="Quotation / Order (w/ SKU)"
             model="sale.order" 
             report_type="qweb-pdf"
-            file="ipx_custom_reports_sale.report_saleorder_withname" 
-            name="ipx_custom_reports_sale.report_saleorder_withname"
+            file="ipx_custom_reports_sale.report_saleorder_document_inherit_sku_ipx" 
+            name="ipx_custom_reports_sale.report_saleorder_document_inherit_sku_ipx"
             print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
-        />
+        /> -->
     </data>
-    
-    <data noupdate="1">
+
+    <!--     <data noupdate="1">
         <record id="email_template_edi_sale_withname" model="mail.template">
             <field name="name">Sales Order: Send by email (w/ PN)</field>
             <field name="model_id" ref="sale.model_sale_order"/>
@@ -248,5 +260,5 @@
             <field name="user_signature" eval="False"/>
             <field name="auto_delete" eval="True"/>
         </record>
-    </data>
+    </data> -->
 </odoo>
