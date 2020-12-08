@@ -1,0 +1,77 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="sale_order_view_inherit">
+            <field name="name">sale.order.view.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','in',['sent','to approve'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','in',['sent','to approve'])]}</attribute>
+                </xpath>
+                
+                
+                <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']"
+                       position="after">
+                    <field name="min_appr_margin" invisible="1"/>
+                </xpath>
+
+                <xpath expr="/form/header/field[@name='authorized_transaction_ids']" position="after">
+                    <field name="quote_approved" invisible="1"/>
+                    <field name="min_margin" invisible="1"/>
+                    <field name="std_min_margin" invisible="1"/>
+                </xpath>
+
+                <!-- TODO: Remove the hardcoded values for action_quoation_send invisible fields -->
+
+                <button name="action_quotation_send" position="before">
+                    <button name="action_quotation_approve" string="Approve"
+                            type="object" class="oe_highlight" groups="ipx_so_approval.so_approval_assistant"
+                            attrs="{'invisible':['|',('min_margin', '&lt;=', 0.15),('state', 'not in', ['to approve'])]}"/>
+                    
+                    <button name="action_quotation_reject" string="Reject"
+                            type="object" class="oe_highlight" groups="ipx_so_approval.so_approval_assistant"
+                            attrs="{'invisible':['|',('min_margin', '&lt;=', 0.15),('state', 'not in', ['to approve'])]}"/>
+
+                    <button name="action_quotation_approve" string="Approve"
+                            type="object" class="oe_highlight" groups="ipx_so_approval.so_approval_manager"
+                            attrs="{'invisible':['|',('min_margin', '&gt;', 0.15), ('state', 'not in', ['to approve'])]}"/>
+                    
+                    <button name="action_quotation_reject" string="Reject"
+                            type="object" class="oe_highlight" groups="ipx_so_approval.so_approval_manager"
+                            attrs="{'invisible':['|',('min_margin', '&gt;', 0.15), ('state', 'not in', ['to approve'])]}"/>
+
+                    <button name="action_ask_approval" string="Ask for Approval"
+                            type="object" class="oe_highlight"
+                            attrs="{'invisible':['|',('quote_approved','=',True), ('state', 'not in', ['draft', 'sent'])]}"/>
+                </button>
+                <button name="action_quotation_send" position="replace">
+                    <button name="action_quotation_send" string="Send by Email" type="object" class="btn-primary"
+                            attrs="{'invisible': ['|',('quote_approved', '=', False), ('state', '!=', 'draft')]}"/>
+                </button>
+
+                <xpath expr="/form/header/button[@name='action_quotation_send'][4]" position="replace">
+                    <button name="action_quotation_send" string="Send by Email" type="object"
+                            attrs="{'invisible': ['|', ('quote_approved', '=', False), ('state', 'not in', ['sent','sale'])]}"/>
+
+                </xpath>
+
+
+                <xpath expr="/form/header/button[@name='action_confirm'][1]" position="replace">
+                    <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary" type="object"
+                            attrs="{'invisible': ['|', ('quote_approved', '=', False), ('state', 'not in', ['sent'])]}"/>
+
+                </xpath>
+
+                <xpath expr="/form/header/button[@name='action_confirm'][2]" position="replace">
+                    <button name="action_confirm" string="Confirm" type="object"
+                            attrs="{'invisible': ['|',('quote_approved', '=', False), ('state', '!=', 'draft')]}"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
