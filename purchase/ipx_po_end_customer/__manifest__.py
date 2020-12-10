@@ -37,12 +37,4 @@
         'reports/po_report.xml',
         'reports/rfq_report.xml',
     ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
-
-    'css': [
-        'static/src/css/style.css'
-    ]
 }
