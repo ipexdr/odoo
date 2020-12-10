@@ -6,6 +6,7 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+
 class PurchaseOrder(models.Model):
     _inherit = ['purchase.order']
 
@@ -15,10 +16,13 @@ class PurchaseOrder(models.Model):
         'cancel': [('readonly', True)],
     }
 
-    end_customer_id = fields.Many2one('res.partner', string='End Customer', tracking=True, required=True, states=READONLY_STATES, default=lambda self: self.env.company.id)
-    end_contact_id = fields.Many2one('res.partner', string='Contact', tracking=True, states=READONLY_STATES)
-    
-    ref_customer_quote_id = fields.Many2one('sale.order', string='Customer Quote ID', tracking=True)
+    end_customer_id = fields.Many2one('res.partner', string='End Customer', tracking=True,
+                                      required=True, states=READONLY_STATES, default=lambda self: self.env.company.id)
+    end_contact_id = fields.Many2one(
+        'res.partner', string='Contact', tracking=True, states=READONLY_STATES)
+
+    ref_customer_quote_id = fields.Many2one(
+        'sale.order', string='Customer Quote ID', tracking=True)
 
     # is_vendor_quote = fields.Boolean('Vendor Quote is attached', store=True, default=False)
     # is_customer_po = fields.Boolean('Customer PO is attached', store=True, default=False)
