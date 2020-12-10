@@ -9,10 +9,4 @@ _logger = logging.getLogger(__name__)
 class PurchaseOrder(models.Model):
     _inherit = ['purchase.order']
 
-    READONLY_STATES = {
-        'purchase': [('readonly', True)],
-        'done': [('readonly', True)],
-        'cancel': [('readonly', True)],
-    }
-
     courier_id = fields.Many2one('res.partner', string='Courier', tracking=True)
