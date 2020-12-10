@@ -24,7 +24,7 @@
     'version': '0.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['purchase', 'paperformat_us_landscape'],
+    'depends': ['ipx_po_end_customer'],
 
     # always loaded
     'data': [
