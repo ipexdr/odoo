@@ -27,7 +27,7 @@
     'version': '1.2.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['purchase', 'paperformat_us_landscape'],
+    'depends': ['purchase', 'paperformat_us_landscape', 'sale'],
 
     # always loaded
     'data': [
