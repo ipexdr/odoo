@@ -20,7 +20,5 @@ class PurchaseOrder(models.Model):
     
     ref_customer_quote_id = fields.Many2one('sale.order', string='Customer Quote ID', tracking=True)
 
-    courier_id = fields.Many2one('res.partner', string='Courier', tracking=True)
-
     # is_vendor_quote = fields.Boolean('Vendor Quote is attached', store=True, default=False)
     # is_customer_po = fields.Boolean('Customer PO is attached', store=True, default=False)
