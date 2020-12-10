@@ -28,6 +28,7 @@
 
     # always loaded
     'data': [
+        'security/ir.model.access.csv',
         'views/purchase_views.xml',
         'reports/po_report.xml',
         'reports/rfq_report.xml',
