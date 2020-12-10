@@ -1,0 +1,15 @@
+<odoo>
+  <data>
+    <template id="report_purchasequotation_document_inherit" inherit_id="purchase.report_purchasequotation_document">
+      <xpath expr="//t[@t-if='o.dest_address_id']" position='after'>
+        <t t-if="o.dest_address_id or o.end_customer_id or o.courier_id">
+          <t t-if="o.courier_id"> 
+            <br/>
+            <strong>Courier:</strong>
+            <div t-field="o.courier_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: False, &quot;phone_icons&quot;: True}"/>
+          </t>
+        </t>
+      </xpath>
+    </template>
+  </data>
+</odoo>
