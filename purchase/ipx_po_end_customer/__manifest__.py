@@ -3,7 +3,7 @@
     'name': "End Customer in PO",
 
     'summary': """
-        End customer field in PO""",
+        End customer fields and vendor contact info in PO""",
 
     'description': """
         IP Expert module that adds relevant info about
@@ -15,6 +15,8 @@
         - Phone (only in Report)
         - Website (only in Report)
         - Contact Email (only in Report)
+
+        Added, too, the vendor contact to the PO.
     """,
 
     'author': "IP Expert DR",
@@ -24,7 +26,7 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Purchase',
-    'version': '1.2.1',
+    'version': '1.2.2',
 
     # any module necessary for this one to work correctly
     'depends': ['purchase', 'paperformat_us_landscape', 'sale'],
