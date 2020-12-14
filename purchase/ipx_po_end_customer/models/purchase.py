@@ -21,7 +21,7 @@ class PurchaseOrder(models.Model):
     end_contact_id = fields.Many2one(
         'res.partner', string='End Customer Contact', tracking=True, states=READONLY_STATES)
     
-    partner_contact = fields.Many2one(
+    partner_contact_id = fields.Many2one(
         'res.partner', string='Vendor Contact', tracking=True, states=READONLY_STATES)
 
     ref_customer_quote_id = fields.Many2one(

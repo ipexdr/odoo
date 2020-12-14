@@ -19,7 +19,7 @@
 					</group>
 				</xpath>
 				<xpath expr="//field[@name='partner_id']" position='after'>
-					<field name="partner_contact" widget="res_partner_many2one" domain="[('parent_id', '=', partner_id), ('is_company', '=', False)]"/>
+					<field name="partner_contact_id" widget="res_partner_many2one" domain="[('parent_id', '=', partner_id), ('is_company', '=', False)]"/>
 				</xpath>
 			</field>
 		</record>
