@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+    <template id="report_purchaseorder_document_inherit_end_customer" inherit_id="purchase.report_purchaseorder_document">
+      <xpath expr="//div[@id='total']/div" position="after">
+        <div class="row">
+          <div class="col-3" style="white-space: nowrap">Created by:</div>
+          <div class="col-8" style="border-bottom: 1px solid black;"><![CDATA[]]></div>
+        </div>
+        <br/>
+        <div class="row">
+          <div class="col-3" style="white-space: nowrap">Authorized by:</div>
+          <div class="col-8" style="border-bottom: 1px solid black;"><![CDATA[]]></div>
+        </div>
+      </xpath>
+    </template>
+  </data>
+</odoo>
