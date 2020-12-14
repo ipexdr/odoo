@@ -17,10 +17,10 @@ msgstr ""
 
 #. module: ipx_custom_reports_purchase
 #: model_terms:ir.ui.view,arch_db:ipx_custom_reports_purchase.report_purchaseorder_document_inherit_end_customer
-msgid "Autorizado por"
-msgstr ""
+msgid "Authorized by"
+msgstr "Autorizado por"
 
 #. module: ipx_custom_reports_purchase
 #: model_terms:ir.ui.view,arch_db:ipx_custom_reports_purchase.report_purchaseorder_document_inherit_end_customer
-msgid "Creado por"
-msgstr ""
+msgid "Created by"
+msgstr "Creado por"
