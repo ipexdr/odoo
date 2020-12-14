@@ -43,7 +43,8 @@
 
     </data>
 
-    <data noupdate="1">
+    <!-- TODO: Do this by inheritance -->
+    <!-- <data noupdate="1">
         <record id="email_template_edi_sale_withname" model="mail.template">
             <field name="name">Sales Order: Send by email (w/ PN)</field>
             <field name="model_id" ref="sale.model_sale_order" />
@@ -292,5 +293,5 @@
             <field name="user_signature" eval="False" />
             <field name="auto_delete" eval="True" />
         </record>
-    </data>
+    </data> -->
 </odoo>
