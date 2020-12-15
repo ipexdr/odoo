@@ -29,5 +29,6 @@
         # 'security/ir.model.access.csv',
         # 'wizard/log_message_wizard_view.xml'
         'views/sale_report.xml',
+        'views/sale_order_web_templates.xml',
     ],
 }
