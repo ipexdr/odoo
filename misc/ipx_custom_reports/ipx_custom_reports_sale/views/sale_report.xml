@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="report_saleorder_document_inherit_with_sku_ipx" inherit_id="sale.report_saleorder_document" primary="True">
-        </template>
         <template id="report_saleorder_document_inherit_no_sku_ipx" inherit_id="sale.report_saleorder_document">
             <xpath expr="//td[@name='td_name']" position="replace">
                 <td name='td_name'>
@@ -10,11 +8,18 @@
                 </td>
             </xpath>
         </template>
+        
+        <template id="report_saleorder_document_inherit_with_sku_ipx" inherit_id="sale.report_saleorder_document" primary="True">
+            <xpath expr="//td[@name='td_name']" position="replace">
+                <td name='td_name'><span t-esc="line.name"/></td>
+            </xpath>
+        </template>
+
         <template id="report_saleorder_with_sku_ipx">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
                     <t t-call="ipx_custom_reports_sale.report_saleorder_document_inherit_with_sku_ipx" t-lang="doc.partner_id.lang" />
-            </t>
+                </t>
             </t>
         </template>
         <report id="action_report_saleorder_no_sku" 
