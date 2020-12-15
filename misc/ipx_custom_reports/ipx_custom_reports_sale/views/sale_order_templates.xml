@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="sale_order_portal_content_inherit_no_sku" inherit_id="sale.sale_order_portal_content">
+            <xpath expr="//td[@id='product_name']" position="inside">
+                <span t-esc="line.name[line.name.find(']')+1:]" />
+            </xpath>
+        </template>
+    </data>
+</odoo>
