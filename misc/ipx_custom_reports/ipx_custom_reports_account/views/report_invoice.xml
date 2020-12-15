@@ -96,15 +96,12 @@
                             <b>Importante: Despues de vencida su factura, se cargarán intereses y moras por valor del 2% de la factura.</b>
                         </p>
                     </div>
-                    <div class="row">
-                      <div class="col-3" style="white-space: nowrap">Firma:</div>
-                      <div class="col-8" style="border-bottom: 1px solid black;"><![CDATA[]]></div>
-                    </div>
-                    <br/>
-                    <div class="row">
-                      <div class="col-3" style="white-space: nowrap">Fecha:</div>
-                      <div class="col-8" style="border-bottom: 1px solid black;"><![CDATA[]]></div>
-                    </div>
+                    <br/><br/>
+                    <div class="col-12" style="border-bottom: 2px solid black;"><![CDATA[]]></div>
+                    <div class='col-12' style="text-align: center;">Firma</div>
+                    <br/><br/>
+                    <div class="col-12" style="border-bottom: 2px solid black;"><![CDATA[]]></div>
+                    <div class='col-12' style="text-align: center;">Fecha</div>
                 </div>
             </div>
         </xpath>

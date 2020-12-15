@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Sale - Custom QWeb Reports",
+    'name': "Purchase - Custom QWeb Reports",
 
     'summary': """
         IPX specific custom reports/templates.""",
 
     'description': """
-        - Removes part number from Sale Order.
-        - Adds SO report w/ part number
+        - Adds handwritten signature fields at bottom of purchase order
     """,
 
     'author': "IP Expert DR",
@@ -16,19 +15,18 @@
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Sales',
-    'version': '0.1.1',
+    'category': 'Purchase',
+    'version': '0.1.0',
 
     # any module necessary for this one to work correctly
 
-    'depends': ['sale_management'],
+    'depends': ['purchase'],
 
     # always loaded
     'data': [
         # 'security/security.xml',
         # 'security/ir.model.access.csv',
         # 'wizard/log_message_wizard_view.xml'
-        'views/sale_report.xml',
-        'views/sale_order_web_templates.xml',
+        'reports/purchase_reports.xml',
     ],
 }
