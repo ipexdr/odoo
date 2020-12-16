@@ -6,7 +6,7 @@
         IPX specific custom reports for Inventory.""",
 
     'description': """
-        
+        -Removes product SKU from delivery slip
     """,
 
     'author': "IP Expert DR",
@@ -26,7 +26,7 @@
     'data': [
         # 'security/security.xml',
         # 'security/ir.model.access.csv',
-        # 'wizard/log_message_wizard_view.xml'
+        'reports/report_deliveryslilp.xml'
     ],
     # only loaded in demonstration mode
 }
