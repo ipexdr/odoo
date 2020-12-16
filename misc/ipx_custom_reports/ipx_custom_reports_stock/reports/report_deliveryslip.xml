@@ -8,6 +8,20 @@
             <xpath expr="//table[@name='stock_move_line_table']//span[@t-field='move_line.product_id']" position="replace">
                 <span t-field="move_line.product_id.name"/>
             </xpath>
+            <xpath expr="//t[@t-if=&quot;o.backorder_ids and o.backorder_ids.filtered(lambda x: x.state not in ('done', 'cancel'))&quot;]/.." position="after">
+                <div class="row">
+                    <div class="col-7">
+                    </div>
+                    <div class="col-5">
+                        <br/><br/>
+                        <div class="col-12" style="border-bottom: 2px solid black;"></div>
+                        <div class="col-12" style="text-align: center;">Firma</div>
+                        <br/><br/>
+                        <div class="col-12" style="border-bottom: 2px solid black;"></div>
+                        <div class="col-12" style="text-align: center;">Fecha</div>
+                    </div>
+                </div>
+            </xpath>
         </template>
     </data>
 </odoo>
