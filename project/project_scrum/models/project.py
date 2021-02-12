@@ -27,9 +27,31 @@ class Project(models.Model):
     
     stage_id = fields.Many2one('project.stage', tracking=True, string='Stage', ondelete='restrict', index=True,
     copy=False, group_expand='_read_group_stage_ids')
-
-
+    
 class Task(models.Model):
     _inherit = "project.task"
 
     iteration = fields.Char(string='Iteration', tracking=True)
+
+class Iteration(models.Model):
+    _inherit = 'project.iteration'
+    
+    fecha_inicio = fields.date([
+        ('date', 'BeginningDate'),
+        ('datetime', 'BeginningDatetime')], string="Fecha Inicio", default='date')
+    fecha_final = fields.date([
+        ('date', 'FinalDate'),
+        ('datetime', 'FinalDatetime')], string="Fecha Final", default='date')
+    display_name = fields.char('iteracion name')
+
+class IterationTemplates(models.Model):
+    _inherit = 'project.iterationtemplates'
+    
+    fecha_inicio = fields.date([
+        ('date', 'BeginningDate'),
+        ('datetime', 'BeginningDatetime')], string="Fecha Inicio", default='date')
+    fecha_final = fields.date([
+        ('date', 'FinalDate'),
+        ('datetime', 'FinalDatetime')], string="Fecha Final", default='date')
+    display_name = fields.char('iteraciontemplate name')
+    
