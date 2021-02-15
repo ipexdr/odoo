@@ -27,31 +27,26 @@ class Project(models.Model):
     
     stage_id = fields.Many2one('project.stage', tracking=True, string='Stage', ondelete='restrict', index=True,
     copy=False, group_expand='_read_group_stage_ids')
+    iteration_template = fields.Many2one('project.iteration.template', string='Iteration Template')
     
 class Task(models.Model):
     _inherit = "project.task"
 
-    iteration = fields.Char(string='Iteration', tracking=True)
+    iteration = fields.Char('Iteration', tracking=True)
+    iteration_id = fields.Many2one('project.iteration', string='Iteration')
 
 class Iteration(models.Model):
     _inherit = 'project.iteration'
     
-    fecha_inicio = fields.date([
-        ('date', 'BeginningDate'),
-        ('datetime', 'BeginningDatetime')], string="Fecha Inicio", default='date')
-    fecha_final = fields.date([
-        ('date', 'FinalDate'),
-        ('datetime', 'FinalDatetime')], string="Fecha Final", default='date')
-    display_name = fields.char('iteracion name')
+    start_date = fields.date("Fecha Inicio", default=fields.Date.now)
+    end_date = fields.date("Fecha Inicio", default=fields.Date.now)
+    
+    iteration_template_id = fields.Many2one('project.iteration.template', string='Iteration Template')
+    
+    display_name = fields.char('Iteration name')
 
 class IterationTemplates(models.Model):
-    _inherit = 'project.iterationtemplates'
+    _inherit = 'project.iteration.template'
     
-    fecha_inicio = fields.date([
-        ('date', 'BeginningDate'),
-        ('datetime', 'BeginningDatetime')], string="Fecha Inicio", default='date')
-    fecha_final = fields.date([
-        ('date', 'FinalDate'),
-        ('datetime', 'FinalDatetime')], string="Fecha Final", default='date')
-    display_name = fields.char('iteraciontemplate name')
-    
+    iteration_length = fields.Int('Iteration Length (days)', default=5)
+    display_name = fields.Char('Iteration Template Name')
