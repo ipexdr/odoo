@@ -48,5 +48,5 @@ class Iteration(models.Model):
 class IterationTemplates(models.Model):
     _inherit = 'project.iteration.template'
     
-    iteration_length = fields.Int('Iteration Length (days)', default=5)
+    iteration_length = fields.Integer('Iteration Length (days)', default=5)
     display_name = fields.Char('Iteration Template Name')
