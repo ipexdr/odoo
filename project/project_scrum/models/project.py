@@ -38,12 +38,12 @@ class Task(models.Model):
 class Iteration(models.Model):
     _inherit = 'project.iteration'
     
-    start_date = fields.date("Fecha Inicio", default=fields.Date.context_today)
-    end_date = fields.date("Fecha Inicio", default=fields.Date.context_today)
+    start_date = fields.Date("Fecha Inicio", default=fields.Date.context_today)
+    end_date = fields.Date("Fecha Inicio", default=fields.Date.context_today)
     
     iteration_template_id = fields.Many2one('project.iteration.template', string='Iteration Template')
     
-    display_name = fields.char('Iteration name')
+    display_name = fields.Char('Iteration name')
 
 class IterationTemplates(models.Model):
     _inherit = 'project.iteration.template'
