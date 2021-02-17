@@ -29,12 +29,12 @@ class Project(models.Model):
     
     stage_id = fields.Many2one('project.stage', tracking=True, string='Stage', ondelete='restrict', index=True,
     copy=False, group_expand='_read_group_stage_ids')
-    iteration_template = fields.Many2one('project.iteration.template', string='Iteration Template')
+    iteration_template_id = fields.Many2one('project.iteration.template', string='Iteration Template')
     
 class Task(models.Model):
     _inherit = "project.task"
-
-    iteration = fields.Char('Iteration (str)', tracking=True)
+    
+    iteration_template_id = fields.Many2one('project.iteration.template', 'Project It Template', related='project_id.iteration_template_id')
     iteration_id = fields.Many2one('project.iteration', string='Iteration')
 
 class Iteration(models.Model):
@@ -63,7 +63,7 @@ class Iteration(models.Model):
     
     iteration_template_id = fields.Many2one('project.iteration.template', string='Iteration Template', required=True)
     
-    display_name = fields.Char('Iteration name')
+    display_name = fields.Char('Display name', compute='_compute_display_name')
 
 class IterationTemplate(models.Model):
     _name = 'project.iteration.template'
@@ -71,15 +71,15 @@ class IterationTemplate(models.Model):
     
     @api.model
     def create(self, values):
-        new_date = values['first_iteration_date']
         res = super(IterationTemplate, self).create(values)
-        for i in range(4):
+        new_date = res.first_iteration_date
+        for i in range(3):
             new_vals = {
                 'start_date':new_date,
                 'iteration_template_id':res.id
             }
             self.env['project.iteration'].create(new_vals)
-            new_date = res.first_iteration_date + relativedelta(days = res.iteration_length)
+            new_date = new_date + relativedelta(days = res.iteration_length + 1)
             
         return res
     
@@ -96,4 +96,4 @@ class IterationTemplate(models.Model):
     
     iteration_length = fields.Integer('Iteration Length (days)', default=5, required=True)
     first_iteration_date = fields.Date('First Iteration', required=True)
-    display_name = fields.Char('Iteration Template Name', compute='_compute_display_name')
+    display_name = fields.Char('Name', compute='_compute_display_name')
