@@ -32,23 +32,30 @@ class Project(models.Model):
 class Task(models.Model):
     _inherit = "project.task"
 
-    iteration = fields.Char('Iteration', tracking=True)
+    iteration = fields.Char('Iteration (str)', tracking=True)
     iteration_id = fields.Many2one('project.iteration', string='Iteration')
 
 class Iteration(models.Model):
     _name = 'project.iteration'
     _description = 'Iteration'
     
-    start_date = fields.Date("Fecha Inicio", default=fields.Date.context_today)
-    end_date = fields.Date("Fecha Inicio", default=fields.Date.context_today)
+    start_date = fields.Date("Start Date", default=fields.Date.context_today)
+    end_date = fields.Date("End Date", default=fields.Date.context_today)
     
     iteration_template_id = fields.Many2one('project.iteration.template', string='Iteration Template')
     
     display_name = fields.Char('Iteration name')
 
-class IterationTemplates(models.Model):
+class IterationTemplate(models.Model):
     _name = 'project.iteration.template'
     _description = 'Iteration Template'
     
+    def name_get(self):
+        res = []
+        for template in self:
+            res.append((template.id, template.display_name))
+        return res
+    
     iteration_length = fields.Integer('Iteration Length (days)', default=5)
+    first_iteration_date = fields.Date('First Iteration')
     display_name = fields.Char('Iteration Template Name')
