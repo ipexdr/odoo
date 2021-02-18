@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <record id="view_iteration_template" model="ir.ui.view">
+            <field name="name">project.iteration.template.tree</field>
+            <field name="model">project.iteration.template</field>
+            <field name="arch" type="xml">
+                <tree decoration-bf="message_needaction==True" decoration-muted="active == False" string="Iteration Templates">
+                    <field name="sequence" widget="handle"/>
+                    <field name="active" invisible="1"/>
+                    <field name="display_name" string="Template name"/>
+                    <field name="iteration_length" string="Length (days)"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="open_iteration-template_form" model="ir.actions.act_window">
+            <field name="name">Iteration Templates</field>
+            <field name="res_model">project.iteration.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_iteration_template"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create new iteration templates for projects.
+              </p>
+            </field>
+        </record>
+
+        <menuitem action="open_iteration_template_form" id="menu_project_iteration_template_cofig" name="Iteration Templates" parent="project.menu_project_config" sequence="5" groups="project.group_project_manager"/>
+    </data>
+</odoo>

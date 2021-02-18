@@ -46,7 +46,7 @@
 		</record>
 
 		<record model="ir.ui.view" id="view_task_kanban_inherit">
-			<field name="name">>project.task.kanban.inherit</field>
+			<field name="name">project.task.kanban.inherit</field>
 			<field name="model">project.task</field>
 			<field name="inherit_id" ref="project.view_task_kanban"/>
 			<field name="arch" type="xml">
@@ -60,7 +60,7 @@
 		</record>
 
 		<record model="ir.ui.view" id="view_task_form2_inherit">
-			<field name="name">>project.task.form.inherit</field>
+			<field name="name">project.task.form.inherit</field>
 			<field name="model">project.task</field>
 			<field name="inherit_id" ref="project.view_task_form2"/>
 			<field name="arch" type="xml">
@@ -84,7 +84,7 @@
             </field>
         </record>
         
-        <record id="open_project_task_form" model="ir.actions.act_window">
+        <record id="open_project_stage_form" model="ir.actions.act_window">
             <field name="name">Stages</field>
             <field name="res_model">project.stage</field>
             <field name="view_mode">tree,kanban,form</field>
@@ -109,6 +109,6 @@
             </field>
         </record>
         
-        <menuitem action="open_project_task_form" id="menu_project_task_config_project" name="Project Stages" parent="project.menu_project_config" sequence="4" groups="project.group_project_manager"/>
+        <menuitem action="open_project_stage_form" id="menu_project_task_config_project" name="Project Stages" parent="project.menu_project_config" sequence="4" groups="project.group_project_manager"/>
 	</data>
 </odoo>

@@ -16,7 +16,7 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Operations/Project',
-    'version': '0.5.3',
+    'version': '0.5.4',
 
     # any module necessary for this one to work correctlyy
 
@@ -28,6 +28,7 @@
         'security/ir.model.access.csv',
         'views/project_views.xml',
         'data/project_stages.xml',
+        'data/project_views.xml',
 #         'security/ir.model.access.csv'
     ],
     # only loaded in demonstration mode
