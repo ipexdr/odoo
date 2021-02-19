@@ -27,8 +27,8 @@
         # 'security/security.xml',
         'security/ir.model.access.csv',
         'views/project_views.xml',
+        'views/iteration_views.xml',
         'data/project_stages.xml',
-        'data/project_views.xml',
 #         'security/ir.model.access.csv'
     ],
     # only loaded in demonstration mode
