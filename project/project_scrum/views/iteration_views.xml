@@ -4,17 +4,14 @@
             <field name="name">project.iteration.template.tree</field>
             <field name="model">project.iteration.template</field>
             <field name="arch" type="xml">
-                <tree decoration-bf="message_needaction==True" decoration-muted="active == False" string="Iteration Templates">
-                    <field name="sequence" widget="handle"/>
-                    <field name="active" invisible="1"/>
+                <tree string="Iteration Templates">
                     <field name="display_name" string="Template name"/>
                     <field name="iteration_length" string="Length (days)"/>
-                    <field name="company_id" groups="base.group_multi_company"/>
                 </tree>
             </field>
         </record>
 
-        <record id="open_iteration-template_form" model="ir.actions.act_window">
+        <record id="open_iteration_template_form" model="ir.actions.act_window">
             <field name="name">Iteration Templates</field>
             <field name="res_model">project.iteration.template</field>
             <field name="view_mode">tree,form</field>
@@ -26,6 +23,6 @@
             </field>
         </record>
 
-        <menuitem action="open_iteration_template_form" id="menu_project_iteration_template_cofig" name="Iteration Templates" parent="project.menu_project_config" sequence="5" groups="project.group_project_manager"/>
+        <menuitem action="open_iteration_template_form" id="menu_project_iteration_template_config" name="Iteration Templates" parent="project.menu_project_config" sequence="5" groups="project.group_project_manager"/>
     </data>
 </odoo>
