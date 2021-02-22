@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_document_hand_signature" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@class='clearfix']" position="after">
+            <div class="row" t-if="o.type == 'out_invoice' and o.state == 'posted'">
+                <div class='col-8'></div>
+                <div class='col-4'>
+                    <t t-if="user.hand_signature" t-set="user_signature" t-value="user.hand_signature"/>
+                    <img t-if="user.hand_signature" t-att-src="image_data_uri(user_signature)" style="max-height: 350px;"
+                            alt="Hand Signature"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

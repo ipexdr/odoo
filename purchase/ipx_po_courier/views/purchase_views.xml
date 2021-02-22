@@ -1,0 +1,18 @@
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="purchase_order_form_inherit">
+		<field name="name">purchase.order.form.inherit</field>
+		<field name="model">purchase.order</field>
+		<field name="inherit_id" ref="purchase.purchase_order_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//page[@name='purchase_delivery_invoice']/group/group[@name='planning']/div" position="after">
+				<label for='courier_id'/>
+				<div>
+				<field name="courier_id" widget="res_partner_many2one" context="{'show_vat': True}"
+					domain="[('is_company', '=', True)]" placeholder="Name, TIN, Email, or Reference"/>
+				</div>
+			</xpath>
+		</field>
+		</record>
+	</data>
+</odoo>

@@ -1,26 +1,22 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "End Customer and Courier in PO",
+    'name': "End Customer in PO",
 
     'summary': """
-        Adds the end customer and courier fields to the PO model""",
+        End customer fields and vendor contact info in PO""",
 
     'description': """
         IP Expert module that adds relevant info about
         the PO's end client.
         
-        End customer fields:
         - Name
-        - Address (only in PDF)
-        - Contact (only in PDF)
-        - Phone (only in PDF)
-        - Website (only in PDF)
-        - Contact Email (only in PDF)
+        - Address (only in Report)
+        - Contact (only in Report)
+        - Phone (only in Report)
+        - Website (only in Report)
+        - Contact Email (only in Report)
 
-        Courier fields:
-        - Name
-        - Address (only in PDF)
-        - Phone (only in PDF)
+        Added, too, the vendor contact to the PO.
     """,
 
     'author': "IP Expert DR",
@@ -30,26 +26,16 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Purchase',
-    'version': '1.1.1',
+    'version': '1.2.2',
 
     # any module necessary for this one to work correctly
-    'depends': ['purchase', 'sale', 'ipx_po_approval'],
+    'depends': ['purchase', 'paperformat_us_landscape', 'sale'],
 
     # always loaded
     'data': [
         # 'security/security.xml',
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/purchase_views.xml',
-        'reports/po_report.xml',
-        'reports/rfq_report.xml',
-        'data/paperformat_us_landscape.xml'
+        'reports/purchase_reports.xml',
     ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
-
-    'css': [
-        'static/src/css/style.css'
-    ]
 }

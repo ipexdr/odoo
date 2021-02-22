@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_saleorder_document_inherit_no_sku_ipx" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//td[@name='td_name']" position="replace">
+                <td name='td_name'>
+                    <span t-esc="line.name[line.name.find(']')+1:]" />
+                </td>
+            </xpath>
+        </template>
+        
+        <template id="report_saleorder_document_inherit_with_sku_ipx" inherit_id="sale.report_saleorder_document" primary="True">
+            <xpath expr="//td[@name='td_name']" position="replace">
+                <td name='td_name'><span t-esc="line.name"/></td>
+            </xpath>
+        </template>
+
+        <template id="report_saleorder_with_sku_ipx">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="ipx_custom_reports_sale.report_saleorder_document_inherit_with_sku_ipx" t-lang="doc.partner_id.lang" />
+                </t>
+            </t>
+        </template>
+        <report id="action_report_saleorder_no_sku" 
+            string="Quotation / Order (w/ SKU)"
+            model="sale.order"
+            report_type="qweb-pdf" 
+            file="ipx_custom_reports_sale.report_saleorder_with_sku_ipx" 
+            name="ipx_custom_reports_sale.report_saleorder_with_sku_ipx" 
+            print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"/>
+    </data>
+</odoo>
