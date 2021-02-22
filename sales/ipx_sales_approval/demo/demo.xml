@@ -6,12 +6,12 @@
         <field name="product_pricelist_setting">advanced</field>
     </record> -->
 
-    <record model="sale.config.settings" id="sale_config_settings_ipx_sales_approval_demo">
-        <field name="group_product_pricelist" eval="True"/>
+    <record model="res.config.settings" id="sale_config_settings_ipx_sales_approval_demo">
+        <field name="group_product_pricelist" eval="1"/>
         <field name="product_pricelist_setting">advanced</field>
     </record>
 
-    <function model="sale.config.settings" name="execute">
+    <function model="res.config.settings" name="execute">
         <value eval="[ref('sale_config_settings_ipx_sales_approval_demo')]"/>
         <value eval="{}"/>
     </function>
