@@ -17,7 +17,7 @@
 			<field name="inherit_id" ref="project.view_task_search_form"/>
             <field name="arch" type="xml">
                <xpath expr="//filter[@name='stage']" position="after">
-					<filter string="Iteration" name="iteration" context="{'group_by':'iteration'}"/>
+					<filter string="Iteration" name="iteration_id" context="{'group_by':'iteration_id'}"/>
 			   </xpath>
             </field>
         </record>
@@ -39,32 +39,34 @@
 			<field name="inherit_id" ref="project.quick_create_task_form"/>
 			<field name="arch" type="xml">
 				<xpath expr="//field[@name='user_id']" position="after">
-					<field name='iteration'/>
+					<field name='iteration_id'/>
+                    
 				</xpath>
 			</field>
 		</record>
 
 		<record model="ir.ui.view" id="view_task_kanban_inherit">
-			<field name="name">>project.task.kanban.inherit</field>
+			<field name="name">project.task.kanban.inherit</field>
 			<field name="model">project.task</field>
 			<field name="inherit_id" ref="project.view_task_kanban"/>
 			<field name="arch" type="xml">
 				<xpath expr="//strong[hasclass('o_kanban_record_title')]" position="after">
 					<br/>
-					<t t-if="record.iteration">
-						<field name='iteration'/>
+					<t t-if="record.iteration_id">
+						<field name='iteration_id'/>
 					</t>
 				</xpath>
 			</field>
 		</record>
 
 		<record model="ir.ui.view" id="view_task_form2_inherit">
-			<field name="name">>project.task.form.inherit</field>
+			<field name="name">project.task.form.inherit</field>
 			<field name="model">project.task</field>
 			<field name="inherit_id" ref="project.view_task_form2"/>
 			<field name="arch" type="xml">
 				<xpath expr="//field[@name='date_deadline']" position="after">
-					<field name='iteration'/>
+                    <field name='iteration_id' domain="[('iteration_template_id','=',iteration_template_id)]"/>
+                    <field name='iteration_template_id'/>
 				</xpath>
 			</field>
 		</record>
@@ -82,7 +84,7 @@
             </field>
         </record>
         
-        <record id="open_project_task_form" model="ir.actions.act_window">
+        <record id="open_project_stage_form" model="ir.actions.act_window">
             <field name="name">Stages</field>
             <field name="res_model">project.stage</field>
             <field name="view_mode">tree,kanban,form</field>
@@ -96,6 +98,17 @@
             </field>
         </record>
         
-        <menuitem action="open_project_task_form" id="menu_project_task_config_project" name="Project Stages" parent="project.menu_project_config" sequence="4" groups="project.group_project_manager"/>
+        <record id="edit_project_inherit_iteration_template" model="ir.ui.view">
+            <field name="name">project.project.form.inherit.iteration.template</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='privacy_visibility']" position="after">
+                    <field name="iteration_template_id"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <menuitem action="open_project_stage_form" id="menu_project_task_config_project" name="Project Stages" parent="project.menu_project_config" sequence="4" groups="project.group_project_manager"/>
 	</data>
 </odoo>
