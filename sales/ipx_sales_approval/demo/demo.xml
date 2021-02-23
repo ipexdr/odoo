@@ -13,7 +13,6 @@
 
     <function model="res.config.settings" name="execute">
         <value eval="[ref('sale_config_settings_ipx_sales_approval_demo')]"/>
-        <value eval="{}"/>
     </function>
 
     <!-- Demo partners -->
