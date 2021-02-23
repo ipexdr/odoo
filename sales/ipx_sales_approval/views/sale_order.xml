@@ -8,9 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
                 <!-- FOR DEV PURPOSES ONLY -->
-                <field name="default_margin"/>
                 <field name="low_margin"/>
-                <field name="min_margin"/>
             </xpath>
             <xpath expr="/form/header/field[@name='authorized_transaction_ids']" position="after">
                 <field name="is_approved" invisible="1"/>

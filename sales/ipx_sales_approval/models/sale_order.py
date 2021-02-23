@@ -145,15 +145,10 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id')
-    def compute_profit_margins(self):
+    def _compute_low_margin(self):
         for line in self:
-            line.default_margin = line.order_id.pricelist_id._get_default_margin(
-                line.product_id)
             line.low_margin = line.order_id.pricelist_id._get_low_margin(
                 line.product_id)
-            line.min_margin = line.order_id.pricelist_id._get_min_margin(
-                line.product_id)
-            
 
     @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id', 'margin_percentage', 'approved_margin')
     def compute_line_approved(self):
@@ -176,15 +171,11 @@ class SaleOrderLine(models.Model):
             non_decimal = re.compile(r'[^\d.]+')
             line.num_profit_margin = float(non_decimal.sub('', line.margin_percentage)) or 0
 
-    default_margin = fields.Float(
-        'Default Profit Margin', store=True, compute='compute_profit_margins')
     low_margin = fields.Float(
-        'Low Profit Margin', store=True, compute='compute_profit_margins')
-    min_margin = fields.Float(
-        'Minimum Profit Margin', store=True, compute='compute_profit_margins')
+        'Low Profit Margin', store=True, compute='_compute_low_margin')
 
     approved_margin = fields.Float(
-        'Approved Profit Margin', store=True, default= lambda self: self.order_id.pricelist_id._get_low_margin(
+        'Approved Profit Margin', store=True, default= lambda self: self.order_id.pricelist_id._get_default_margin(
                 self.product_id))
 
     is_approved = fields.Boolean(
