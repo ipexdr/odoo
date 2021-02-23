@@ -16,6 +16,13 @@ class PriceList(models.Model):
         else:
             return 0
 
+    def _get_default_margin(self, product):
+        for item in self.item_ids:
+            if item.applied_on == '2_product_category' and item.categ_id == product.categ_id:
+                return item.default_margin
+        else:
+            return 0
+
 class PricelistItem(models.Model):
     _inherit = 'product.pricelist.item'
 
