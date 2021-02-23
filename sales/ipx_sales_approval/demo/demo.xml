@@ -44,7 +44,7 @@
             <field name="partner_id" ref="ipx_sales_approval.partner_sales_approval_manager"/>
             <field name="company_id" ref="base.main_company" />
             <field name="company_ids" eval="[(4, ref('base.main_company'))]" />
-            <field name="groups_id" eval="[(6, 0, [ref('base.group_user'), ref('ipx_sales_approval.sales_approval_manager'), ref('sales_team.group_sale_salesman_all_leads'))]" />
+            <field name="groups_id" eval="[(4, ref('base.group_user')), (4, ref('ipx_sales_approval.sales_approval_manager')), (4, ref('sales_team.group_sale_salesman_all_leads'))]" />
         </record>
     </data>
 </odoo>
