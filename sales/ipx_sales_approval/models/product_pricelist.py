@@ -11,14 +11,15 @@ class PriceList(models.Model):
         
     def _get_low_margin(self, product):
         for item in self.item_ids:
-            if item.applied_on == '2_product_category' and item.categ_id == product.categ_id:
+            if (item.applied_on == '2_product_category' and item.categ_id == product.categ_id) or (item.applied_on == '1_product' and item.product_tmpl_id == product.product_tmpl_id):
                 return item.low_margin
         else:
             return 0
 
     def _get_default_margin(self, product):
         for item in self.item_ids:
-            if item.applied_on == '2_product_category' and item.categ_id == product.categ_id:
+            if (item.applied_on == '2_product_category' and item.categ_id == product.categ_id) or (item.applied_on == '1_product' and item.product_tmpl_id == product.product_tmpl_id):
+                _logger.info(f"Default margin {item.default_margin}")
                 return item.default_margin
         else:
             return 0
@@ -26,6 +27,7 @@ class PriceList(models.Model):
 class PricelistItem(models.Model):
     _inherit = 'product.pricelist.item'
 
+    @api.depends('price_discount')
     def _compute_default_margin(self):
         for item in self:
             item.default_margin = item.price_discount * -1
