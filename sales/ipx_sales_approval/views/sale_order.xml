@@ -16,14 +16,15 @@
             </xpath>
             <button name="action_quotation_send" position="before">
                 <!-- Assistant approve and reject btns -->
-                <button name="action_quotation_approve" string="Approve" type="object" class="oe_highlight" groups="ipx_sales_approval.sales_approval_assistant" attrs="{'invisible':['|',('approve_level', '!=', 1),('state', 'not in', ['to approve'])]}"/>
+<!--                 <button name="action_quotation_approve" string="Approve" type="object" class="oe_highlight" groups="ipx_sales_approval.sales_approval_assistant" attrs="{'invisible':['|',('approve_level', '!=', 1),('state', 'not in', ['to approve'])]}"/> -->
+                <button name="action_quotation_approve" string="Approve" type="object" class="oe_highlight" groups="ipx_sales_approval.sales_approval_assistant" attrs="{'invisible':[('approve_level', '!=', 1),('state', 'not in', ['to approve'])]}"/>
 
-                <button name="action_quotation_reject" string="Reject" type="object" class="oe_highlight" groups="ipx_sales_approval.sales_approval_assistant" attrs="{'invisible':['|',('approve_level', '!=', 1),('state', 'not in', ['to approve'])]}"/>
+                <button name="action_quotation_reject" string="Reject" type="object" class="oe_highlight" groups="ipx_sales_approval.sales_approval_assistant" attrs="{'invisible':[('approve_level', '!=', 1),('state', 'not in', ['to approve'])]}"/>
 
                 <!-- Manager approve and reject btns -->
-                <button name="action_quotation_approve" string="Approve" type="object" class="oe_highlight" groups="ipx_sales_approval.sales_approval_manager" attrs="{'invisible':['|',('approve_level', '!=', 2), ('state', 'not in', ['to approve'])]}"/>
+                <button name="action_quotation_approve" string="Approve" type="object" class="oe_highlight" groups="ipx_sales_approval.sales_approval_manager" attrs="{'invisible':[('approve_level', '!=', 2), ('state', 'not in', ['to approve'])]}"/>
 
-                <button name="action_quotation_reject" string="Reject" type="object" class="oe_highlight" groups="ipx_sales_approval.sales_approval_manager" attrs="{'invisible':['|',('approve_level', '!=', 2), ('state', 'not in', ['to approve'])]}"/>
+                <button name="action_quotation_reject" string="Reject" type="object" class="oe_highlight" groups="ipx_sales_approval.sales_approval_manager" attrs="{'invisible':[('approve_level', '!=', 2), ('state', 'not in', ['to approve'])]}"/>
 
                 <!-- User approval ask button -->
                 <button name="action_ask_approval" string="Ask for Approval" type="object" class="oe_highlight" attrs="{'invisible':['|',('is_approved','=',True)]}"/>

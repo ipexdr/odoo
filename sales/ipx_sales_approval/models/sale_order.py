@@ -35,6 +35,7 @@ class SaleOrder(models.Model):
                     break
             else:
                 sale.is_approved = True
+                sale.state = 'draft'
                 _logger.info("order approved")
         
         self.set_approval_level()
@@ -48,7 +49,7 @@ class SaleOrder(models.Model):
         
         for line in self.order_line:
             if not line.is_approved:
-                if line.num_profit_margin < line.min_margin:
+                if line.num_profit_margin < line.default_margin:
                     tmp_approve_level = max(tmp_approve_level, 2)
                 elif line.num_profit_margin < line.low_margin:
                     tmp_approve_level = max(tmp_approve_level, 1)
@@ -133,7 +134,7 @@ class SaleOrder(models.Model):
 
     def action_quotation_approve(self):
         for line in self.order_line:
-            line.approved_margin = line.get_profit_margin()
+            line.approved_margin = line.num_profit_margin
 
     is_approved = fields.Boolean(
         'Is Approved', store=True, compute='compute_order_approval')
@@ -156,7 +157,7 @@ class SaleOrderLine(models.Model):
         for line in self:
             _logger.info(f"Profit margin - {line.num_profit_margin} | Approved margin - {line.approved_margin} | Low margin - {line.low_margin}")
             
-            if line.num_profit_margin < line.low_margin:
+            if line.num_profit_margin < line.approved_margin:
                 line.is_approved = False
                 
                 _logger.info("Linea no aprobada")
@@ -164,6 +165,7 @@ class SaleOrderLine(models.Model):
                 line.is_approved = True
                 
                 _logger.info("Linea aprobada")
+        self.order_id.compute_order_approval()
 
     @api.depends('margin_percentage')
     def compute_numerical_profit_margin(self):
@@ -175,6 +177,10 @@ class SaleOrderLine(models.Model):
         'Low Profit Margin', store=True, compute='_compute_low_margin')
 
     approved_margin = fields.Float(
+        'Approved Profit Margin', store=True, default= lambda self: self.order_id.pricelist_id._get_default_margin(
+                self.product_id))
+    
+    default_margin = fields.Float(
         'Approved Profit Margin', store=True, default= lambda self: self.order_id.pricelist_id._get_default_margin(
                 self.product_id))
 
