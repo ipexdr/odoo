@@ -17,7 +17,7 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Sales',
-    'version': '0.3',
+    'version': '0.4',
 
     # any module necessary for this one to work correctly
 
@@ -25,12 +25,13 @@
 
     # always loaded
     'data': [
-        'data/ir_module_category_data.xml',
         'security/security.xml',
-        # 'security/ir.model.access.csv',
+        'views/res_config_settings.xml',
         'views/product_price_views.xml',
         'views/sale_order.xml',
+        'data/ir_module_category_data.xml',
         'data/mail_data.xml',
+        # 'security/ir.model.access.csv',
     ],
     # only loaded in demonstration mode
     'demo': [
