@@ -29,7 +29,7 @@ class SaleOrder(models.Model):
         _logger.info("computing order approval")
         for sale in self:
             for line in sale.order_line:
-                if not line.is_approved:
+                if not line.is_approved and self.env['ir.config_parameter'].sudo().get_param('ipx_sales_approval.sales_order_approval_enabled'):
                     sale.is_approved = False
                     _logger.info("order not approved")
                     break
@@ -44,7 +44,7 @@ class SaleOrder(models.Model):
         # Setting order id approval level
         # 1 - Assistant
         # 2 - Manager
-        
+
         tmp_approve_level = 0
         
         for line in self.order_line:
