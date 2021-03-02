@@ -25,11 +25,11 @@
 
     # always loaded
     'data': [
+        'data/ir_module_category_data.xml',
         'security/security.xml',
         'views/res_config_settings.xml',
         'views/product_price_views.xml',
         'views/sale_order.xml',
-        'data/ir_module_category_data.xml',
         'data/mail_data.xml',
         # 'security/ir.model.access.csv',
     ],
