@@ -14,7 +14,7 @@ class ResConfigSettings(models.TransientModel):
         res = super(ResConfigSettings, self).get_values()
         
         params = self.env['ir.config_parameter'].sudo()
-        sales_order_approval_enabled = params.get_param('ipx_sales_approval.sales_order_approval_enabled', default=False)
+        sales_order_approval_enabled = params.get_param('ipx_sale_approval.sales_order_approval_enabled', default=False)
         
         res.update(
             sales_order_approval_enabled = sales_order_approval_enabled
@@ -24,5 +24,5 @@ class ResConfigSettings(models.TransientModel):
     def set_values(self):
         super(ResConfigSettings, self).set_values()
         param = self.env['ir.config_parameter'].sudo()
-        param.set_param('ipx_sales_approval.sales_order_approval_enabled', self.sales_order_approval_enabled)
+        param.set_param('ipx_sale_approval.sales_order_approval_enabled', self.sales_order_approval_enabled)
         

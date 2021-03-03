@@ -29,7 +29,7 @@ class SaleOrder(models.Model):
         _logger.info("computing order approval")
         for sale in self:
             for line in sale.order_line:
-                if not line.is_approved and self.env['ir.config_parameter'].sudo().get_param('ipx_sales_approval.sales_order_approval_enabled'):
+                if not line.is_approved and self.env['ir.config_parameter'].sudo().get_param('ipx_sale_approval.sales_order_approval_enabled'):
                     sale.is_approved = False
                     _logger.info("order not approved")
                     break
@@ -92,15 +92,15 @@ class SaleOrder(models.Model):
         if self.approve_level == 2:
             # Get users in approval manager group
             to_users = all_users.filtered(lambda user: user.has_group(
-            'ipx_sales_approval.sales_approval_manager'))
+            'ipx_sale_approval.sales_approval_manager'))
         else:
             # Get users in approval manager assistant
             to_users =  all_users.filtered(lambda user: user.has_group(
-            'ipx_sales_approval.sales_approval_assistant'))
+            'ipx_sale_approval.sales_approval_assistant'))
 
             # Keep users that are not in approval manager group
             to_users = [user for user in to_users if user not in all_users.filtered(lambda user: user.has_group(
-            'ipx_sales_approval.sales_approval_manager'))]
+            'ipx_sale_approval.sales_approval_manager'))]
                 
         partner_ids = []
         for user in to_users:
