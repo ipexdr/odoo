@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    sales_order_approval_enabled = fields.Boolean(default=False)
+    sales_order_approval_enabled = fields.Boolean("Sales Order Approval", default=False)
 
     @api.model
     def get_values(self):

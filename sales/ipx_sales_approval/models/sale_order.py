@@ -172,6 +172,7 @@ class SaleOrderLine(models.Model):
         for line in self:
             non_decimal = re.compile(r'[^\d.]+')
             line.num_profit_margin = float(non_decimal.sub('', line.margin_percentage)) or 0
+            line.num_profit_margin = line.num_profit_margin * -1 if line.margin_percentage[0] == '-' else line.num_profit_margin
 
     low_margin = fields.Float(
         'Low Profit Margin', store=True, compute='_compute_low_margin')
