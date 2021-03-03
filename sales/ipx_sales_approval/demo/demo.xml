@@ -1,19 +1,5 @@
 <odoo>
     <data>
-    <!-- Activate advanced sales pricelists for easier demoing -->
-    <!-- <record id="base.main_company" model="res.config.settings">
-        <field name="group_product_pricelist" eval="True"/>
-        <field name="product_pricelist_setting">advanced</field>
-    </record> -->
-
-    <record model="res.config.settings" id="sale_config_settings_ipx_sales_approval_demo">
-        <field name="group_product_pricelist" eval="1"/>
-        <field name="product_pricelist_setting">advanced</field>
-    </record>
-
-    <function model="res.config.settings" name="execute">
-        <value eval="[ref('sale_config_settings_ipx_sales_approval_demo')]"/>
-    </function>
 
     <!-- Demo partners -->
         <record model="res.partner" id="ipx_sales_approval.partner_sales_approval_assistant">
