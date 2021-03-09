@@ -184,6 +184,6 @@ class SaleOrderLine(models.Model):
                 self.product_id))
 
     is_approved = fields.Boolean(
-        'Is Validated', store=True, compute='compute_line_approved')
+        'Is Validated', store=True, compute='_compute_line_approved')
 
     profit_margin = fields.Float('Numerical Profit Margin', compute='_compute_profit_margin')
