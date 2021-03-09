@@ -49,9 +49,9 @@ class SaleOrder(models.Model):
         
         for line in self.order_line:
             if not line.is_approved:
-                if line.num_profit_margin < line.default_margin:
+                if line.profit_margin < line.default_margin:
                     tmp_approve_level = max(tmp_approve_level, 2)
-                elif line.num_profit_margin < line.low_margin:
+                elif line.profit_margin < line.low_margin:
                     tmp_approve_level = max(tmp_approve_level, 1)
         
         self.approve_level = tmp_approve_level
@@ -115,7 +115,7 @@ class SaleOrder(models.Model):
         for line in self.order_line:
             if not line.is_approved:
                 exceeded_items.append(
-                    {'item': line.product_id.name, 'margin': (line.num_profit_margin)})
+                    {'item': line.product_id.name, 'margin': (line.profit_margin)})
 
         msg += "<p>Items over the discount limit:</p><ul>"
 
@@ -134,7 +134,7 @@ class SaleOrder(models.Model):
 
     def action_quotation_approve(self):
         for line in self.order_line:
-            line.approved_margin = line.num_profit_margin
+            line.approved_margin = line.profit_margin
 
     is_approved = fields.Boolean(
         'Is Approved', store=True, compute='compute_order_approval')
@@ -155,9 +155,9 @@ class SaleOrderLine(models.Model):
     def compute_line_approved(self):
         _logger.info("computing lines approval")
         for line in self:
-            _logger.info(f"Profit margin - {line.num_profit_margin} | Approved margin - {line.approved_margin} | Low margin - {line.low_margin}")
+            _logger.info(f"Profit margin - {line.profit_margin} | Approved margin - {line.approved_margin} | Low margin - {line.low_margin}")
             
-            if line.num_profit_margin < line.approved_margin:
+            if line.profit_margin < line.approved_margin:
                 line.is_approved = False
                 
                 _logger.info("Linea no aprobada")
@@ -168,11 +168,9 @@ class SaleOrderLine(models.Model):
         self.order_id.compute_order_approval()
 
     @api.depends('margin_percentage')
-    def compute_numerical_profit_margin(self):
+    def compute_profit_margin(self):
         for line in self:
-            non_decimal = re.compile(r'[^\d.]+')
-            line.num_profit_margin = float(non_decimal.sub('', line.margin_percentage)) or 0
-            line.num_profit_margin = line.num_profit_margin * -1 if line.margin_percentage[0] == '-' else line.num_profit_margin
+            line.profit_margin = line.price_unit / line.product_id.standard_price - 1
 
     low_margin = fields.Float(
         'Low Profit Margin', store=True, compute='_compute_low_margin')
@@ -188,4 +186,4 @@ class SaleOrderLine(models.Model):
     is_approved = fields.Boolean(
         'Is Validated', store=True, compute='compute_line_approved')
 
-    num_profit_margin = fields.Float('Numerical Profit Margin', compute='compute_numerical_profit_margin')
+    profit_margin = fields.Float('Numerical Profit Margin', compute='compute__profit_margin')
