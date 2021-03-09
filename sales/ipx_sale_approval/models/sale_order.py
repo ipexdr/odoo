@@ -170,7 +170,7 @@ class SaleOrderLine(models.Model):
     @api.depends('profit_margin')
     def _compute_profit_margin(self):
         for line in self:
-            line.profit_margin = line.price_unit / line.product_id.standard_price - 1
+            line.profit_margin = line.price_unit / line.product_id.standard_price - 1 if line.product_id.standard_price != 0 else 1
 
     low_margin = fields.Float(
         'Low Profit Margin', store=True, compute='_compute_low_margin')
