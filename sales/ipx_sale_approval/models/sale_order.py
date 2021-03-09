@@ -151,7 +151,7 @@ class SaleOrderLine(models.Model):
             line.low_margin = line.order_id.pricelist_id._get_low_margin(
                 line.product_id)
 
-    @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id', 'margin_percentage', 'approved_margin')
+    @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id', 'profit_margin', 'approved_margin')
     def compute_line_approved(self):
         _logger.info("computing lines approval")
         for line in self:
@@ -167,7 +167,7 @@ class SaleOrderLine(models.Model):
                 _logger.info("Linea aprobada")
         self.order_id.compute_order_approval()
 
-    @api.depends('margin_percentage')
+    @api.depends('profit_margin')
     def compute_profit_margin(self):
         for line in self:
             line.profit_margin = line.price_unit / line.product_id.standard_price - 1
