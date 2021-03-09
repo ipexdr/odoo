@@ -152,7 +152,7 @@ class SaleOrderLine(models.Model):
                 line.product_id)
 
     @api.depends('product_id', 'order_id.pricelist_id', 'order_id.partner_id', 'profit_margin', 'approved_margin')
-    def compute_line_approved(self):
+    def _compute_line_approved(self):
         _logger.info("computing lines approval")
         for line in self:
             _logger.info(f"Profit margin - {line.profit_margin} | Approved margin - {line.approved_margin} | Low margin - {line.low_margin}")
@@ -168,7 +168,7 @@ class SaleOrderLine(models.Model):
         self.order_id.compute_order_approval()
 
     @api.depends('profit_margin')
-    def compute_profit_margin(self):
+    def _compute_profit_margin(self):
         for line in self:
             line.profit_margin = line.price_unit / line.product_id.standard_price - 1
 
@@ -186,4 +186,4 @@ class SaleOrderLine(models.Model):
     is_approved = fields.Boolean(
         'Is Validated', store=True, compute='compute_line_approved')
 
-    profit_margin = fields.Float('Numerical Profit Margin', compute='compute__profit_margin')
+    profit_margin = fields.Float('Numerical Profit Margin', compute='_compute_profit_margin')
