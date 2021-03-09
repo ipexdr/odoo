@@ -26,19 +26,18 @@ class SaleOrder(models.Model):
         Checks every order line, if finds a non-approved order line
         sets the order as not approved
         '''
-        _logger.info("computing order approval")
-        for sale in self:
-            for line in sale.order_line:
-                if not line.is_approved and self.env['ir.config_parameter'].sudo().get_param('ipx_sale_approval.sales_order_approval_enabled'):
-                    sale.is_approved = False
-                    _logger.info("order not approved")
-                    break
-            else:
-                sale.is_approved = True
-                sale.state = 'draft'
-                _logger.info("order approved")
-        
-        self.set_approval_level()
+        if self.env['ir.config_parameter'].sudo().get_param('ipx_sale_approval.sales_order_approval_enabled'):
+            for sale in self:
+                for line in sale.order_line:
+                    if not line.is_approved:
+                        sale.is_approved = False
+                        _logger.info("order not approved")
+                        break
+                else:
+                    sale.is_approved = True
+                    sale.state = 'draft'
+                    _logger.info("order approved")
+            self.set_approval_level()
 
     def set_approval_level(self):
         # Setting order id approval level
@@ -170,17 +169,18 @@ class SaleOrderLine(models.Model):
     @api.depends('profit_margin')
     def _compute_profit_margin(self):
         for line in self:
-            line.profit_margin = line.price_unit / line.product_id.standard_price - 1 if line.product_id.standard_price != 0 else 1
+            line.profit_margin = round((line.price_unit / line.product_id.standard_price - 1) * 100) if line.product_id.standard_price != 0 else 1
 
     low_margin = fields.Float(
-        'Low Profit Margin', store=True, compute='_compute_low_margin')
+        'Low Profit Margin', store=False, default = lambda self: self.order_id.pricelist_id._get_low_margin(
+                self.product_id))
 
     approved_margin = fields.Float(
-        'Approved Profit Margin', store=True, default= lambda self: self.order_id.pricelist_id._get_default_margin(
+        'Approved Profit Margin', store=False, default= lambda self: self.order_id.pricelist_id._get_default_margin(
                 self.product_id))
     
     default_margin = fields.Float(
-        'Approved Profit Margin', store=True, default= lambda self: self.order_id.pricelist_id._get_default_margin(
+        'Approved Profit Margin', store=False, default= lambda self: self.order_id.pricelist_id._get_default_margin(
                 self.product_id))
 
     is_approved = fields.Boolean(
