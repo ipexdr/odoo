@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extended Sale Order Form View to add approval and margin fields -->
+    <record model="ir.ui.view" id="sale_order_view_inherit">
+        <field name="name">sale.order.view.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                <!-- FOR DEV PURPOSES ONLY -->
+                <field name="low_margin"/>
+            </xpath>
+            <xpath expr="/form/header/field[@name='authorized_transaction_ids']" position="after">
+                <field name="is_approved" invisible="1"/>
+                <field name="approve_level" invisible="1"/>
+            </xpath>
+            <button name="action_quotation_send" position="before">
+                <!-- Assistant approve and reject btns -->
+<!--                 <button name="action_quotation_approve" string="Approve" type="object" class="oe_highlight" groups="ipx_sale_approval.sales_approval_assistant" attrs="{'invisible':['|',('approve_level', '!=', 1),('state', 'not in', ['to approve'])]}"/> -->
+                <button name="action_quotation_approve" string="Approve" type="object" class="oe_highlight" groups="ipx_sale_approval.sales_approval_assistant" attrs="{'invisible':[('approve_level', '!=', 1),('state', 'not in', ['to approve'])]}"/>
+
+                <button name="action_quotation_reject" string="Reject" type="object" class="oe_highlight" groups="ipx_sale_approval.sales_approval_assistant" attrs="{'invisible':[('approve_level', '!=', 1),('state', 'not in', ['to approve'])]}"/>
+
+                <!-- Manager approve and reject btns -->
+                <button name="action_quotation_approve" string="Approve" type="object" class="oe_highlight" groups="ipx_sale_approval.sales_approval_manager" attrs="{'invisible':[('approve_level', '!=', 2), ('state', 'not in', ['to approve'])]}"/>
+
+                <button name="action_quotation_reject" string="Reject" type="object" class="oe_highlight" groups="ipx_sale_approval.sales_approval_manager" attrs="{'invisible':[('approve_level', '!=', 2), ('state', 'not in', ['to approve'])]}"/>
+
+                <!-- User approval ask button -->
+                <button name="action_ask_approval" string="Ask for Approval" type="object" class="oe_highlight" attrs="{'invisible':['|',('is_approved','=',True)]}"/>
+            </button>
+        </field>
+        
+    </record>
+</odoo>
