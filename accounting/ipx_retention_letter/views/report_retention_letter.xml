@@ -2,45 +2,59 @@
 <odoo>
     <template id="report_invoice_retention_letter">
         <t t-call="web.external_layout">
-            <h2>Prueba ABC titulo</h2>
-
+            <div class="page">
+                <p>Santo Domingo, R.D.<br/>18 de noviembre de 2020</p>
+                <p><b>Señores:</b></p>
+                <p>Dirección General De Impuestos Internos<br/>Santo Domingo, R.D.</p>
+                <h5 style="text-align:center"><b>Certificación retención ITBIS e ISR</b></h5>
+                <p>Distinguido Señor Director:</p>
+                <p>Por medio de la presente certificamos que de acuerdo con lo dispuesto en la Ley 11 -92 Código Tributario de la República Dominicana, en su Título I, Artículo No.8 Agentes de Retención o Percepción y los artículos Nos.1, 2 y 5 de la Norma General No. 02-05 Sobre Agentes de Retención del ITBIS, hemos retenido a la Empresa <b><span t-esc="o.partner_id.name"/></b> con el <b>RNC No.<span t-esc="o.partner_id.vat"/></b>, la suma total de <b>RD$ 306,12</b> por concepto retención ITBIS e ISR de la o las factura (s) detallada (s) a continuación:</p>
+                <br/>
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th><span>Fecha</span></th>
+                            <th><span>NCF</span></th>
+                            <th><span>Subtotal</span></th>
+                            <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                <th><span t-esc="amount_by_group[0]"/></th>
+                            </t>
+                            <th><span>Valor Total</span></th>
+                            <th><span>ITBIS Retenido</span></th>
+                            <th><span>ISR Retenido</span></th>
+                            <th><span>Valor pagado</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><p class="m-0" t-field="o.invoice_date"/></td>
+                            <td><p class="m-0" t-field="o.partner_id.vat"/></td>
+                            <td><p class="m-0" t-field="o.amount_untaxed"/></td>
+                            <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                <td><span t-esc="amount_by_group[3]"/></td>
+                            </t>
+                            <td><span class="text-nowrap" t-field="o.amount_total"/></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br/>
+                <p>Dicha retención será reportada en nuestra declaración de ITBIS del citado mes.</p>
+                <p>El presente documento se expide como constancia, para los fines de lugar.</p>
+                <p>Muy atentamente,</p>
+                <p>Lic. Henry Castro</p>
+                <hr/>
+                <p><b>Dpto. Contabilidad.</b></p>
+            </div>
         </t>
-        <div class="page">
-            <table class="table table-sm o_main_table">
-                <thead>
-                    <tr>
-                        <th><span>Fecha</span></th>
-                        <th><span>NCF</span></th>
-                        <th><span>Fecha</span></th>
-                        <th><span>Subtotal</span></th>
-                        <th><span>ITBIS</span></th>
-                        <th><span>Valor Total</span></th>
-                        <th><span>ITBIS Retenido</span></th>
-                        <th><span>ISR Retenido</span></th>
-                        <th><span>Valor pagado</span></th>
-                    <tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </template>
 
     <template id="report_retention_letter">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="account.report_invoice_retention_letter" t-lang="lang"/>
+                <t t-call="ipx_retention_letter.report_invoice_retention_letter" t-lang="lang"/>
             </t>
         </t>
     </template>
