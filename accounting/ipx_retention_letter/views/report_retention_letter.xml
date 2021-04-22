@@ -55,4 +55,16 @@
             </t>
         </t>
     </template>
+
+    <report
+        id="ipx_retention_letter_report"
+        model="account.move"
+        string="Retention Letter"
+        name="ipx_retention_letter.report_retention_letter"
+        report_type="qweb-pdf"
+        print_report_name="'Retention Letter ' + object._get_report_base_filename()"
+        attachment_use="True"
+        attachment="(object.state in ('open','paid')) and
+            ('Retention Letter INV'+(object.number or '').replace('/','')+'.pdf')"
+    />
 </odoo>
