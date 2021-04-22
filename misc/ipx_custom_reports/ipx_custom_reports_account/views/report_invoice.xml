@@ -67,25 +67,25 @@
                         <b>No. Cuenta Bancaria en Pesos:</b>
                         11982770013
                         <br/>
-                        <b>Codigo Swift: BCBDODXXX /IBAN ABA:</b>
+                        <b>Codigo Swift: BCBHDOSDXXX /IBAN ABA:</b>
                         BCBDODXXX
                         <br/>
                         <br/>
                         <b>Nombre del Banco:</b>
-                        Banco de Reserva
+                        Banco de Reservas
                         <br/>
-                        <b>No.Cuenta Corriente:</b>
-                        100010102530084
+                        <b>No.Cuenta Corriente en Pesos:</b>
+                        0102530084
                         <br/>
-                        <b>No. Cuenta de Ahorro:</b>
-                        200010100027978
+                        <b>No. Cuenta de Ahorro en Dolares:</b>
+                        0100027978
                         <br/>
                         <br/>
                         <b>Nombre del Banco:</b>
                         Banco Popular Dominicano
                         <br/>
-                        <b>No. Cuenta Corriente:</b>
-                        8087754576
+                        <b>No. Cuenta Corriente en Pesos:</b>
+                        808754576
                         <br/>
                     </p>
 
@@ -96,10 +96,10 @@
                             <b>Importante: Despues de vencida su factura, se cargarán intereses y moras por valor del 2% de la factura.</b>
                         </p>
                     </div>
-                    <br/><br/>
+                    <br/><br/><br/><br/><br/><br/><br/>
                     <div class="col-12" style="border-bottom: 2px solid black;"><![CDATA[]]></div>
                     <div class='col-12' style="text-align: center;">Firma</div>
-                    <br/><br/>
+                    <br/><br/><br/>
                     <div class="col-12" style="border-bottom: 2px solid black;"><![CDATA[]]></div>
                     <div class='col-12' style="text-align: center;">Fecha</div>
                 </div>
