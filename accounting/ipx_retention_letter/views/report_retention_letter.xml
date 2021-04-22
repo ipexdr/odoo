@@ -2,13 +2,15 @@
 <odoo>
     <template id="report_invoice_retention_letter">
         <t t-call="web.external_layout">
+            <t t-set="total_retention" t-value="abs(sum([float(a[3][str.find(a[3], ' ')+1:]) for a in o.amount_by_group if float(a[3][str.find(a[3], ' ')+1:]) &lt; 0]))"/>
+            
             <div class="page">
                 <p>Santo Domingo, R.D.<br/>18 de noviembre de 2020</p>
                 <p><b>Señores:</b></p>
                 <p>Dirección General De Impuestos Internos<br/>Santo Domingo, R.D.</p>
                 <h5 style="text-align:center"><b>Certificación retención ITBIS e ISR</b></h5>
                 <p>Distinguido Señor Director:</p>
-                <p>Por medio de la presente certificamos que de acuerdo con lo dispuesto en la Ley 11 -92 Código Tributario de la República Dominicana, en su Título I, Artículo No.8 Agentes de Retención o Percepción y los artículos Nos.1, 2 y 5 de la Norma General No. 02-05 Sobre Agentes de Retención del ITBIS, hemos retenido a la Empresa <b><span t-esc="o.partner_id.parent_id.name or o.partner_id.name"/></b> con el <b>RNC No.<span t-esc="o.partner_id.parent_id.vat or o.partner_id.vat"/></b>, la suma total de <b>RD$ 306,12</b> por concepto retención ITBIS e ISR de la o las factura (s) detallada (s) a continuación:</p>
+                <p style="text-align:justify">Por medio de la presente certificamos que de acuerdo con lo dispuesto en la Ley 11 -92 Código Tributario de la República Dominicana, en su Título I, Artículo No.8 Agentes de Retención o Percepción y los artículos Nos.1, 2 y 5 de la Norma General No. 02-05 Sobre Agentes de Retención del ITBIS, hemos retenido a la Empresa <b><span t-esc="o.partner_id.parent_id.name or o.partner_id.name"/></b> con el <b>RNC No.<span t-esc="o.partner_id.parent_id.vat or o.partner_id.vat"/></b>, la suma total de <b>RD$ <t t-esc="total_retention"/></b> por concepto retención ITBIS e ISR de la o las factura (s) detallada (s) a continuación:</p>
                 <br/>
                 <table class="table table-sm o_main_table">
                     <thead>
