@@ -22,3 +22,8 @@
 # 	path = pdeoleo/ipexdr-odoo-misc
 # 	url = git@github.com:pdeoleo/ipexdr-odoo-misc.git
 # 	branch = master
+
+[submodule "pdeoleo/ipx-crm-multicurrency"]
+	path = pdeoleo/ipx-crm-multicurrency
+	url = git@github.com:pdeoleo/ipx-crm-multicurrency.git
+	branch = master

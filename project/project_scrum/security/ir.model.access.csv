@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_project_stage_manager,project.stage,model_project_stage,project.group_project_manager,1,1,1,1
+access_project_iteration_manager,project.iteration,model_project_iteration,project.group_project_manager,1,1,1,1
+access_project_iteration_template_manager,project.iteration.template,model_project_iteration_template,project.group_project_manager,1,1,1,1
