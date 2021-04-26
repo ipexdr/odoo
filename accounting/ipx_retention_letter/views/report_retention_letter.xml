@@ -21,7 +21,9 @@
                             <t t-foreach="o.amount_by_group" t-as="amount_by_group">
                                 <th><span t-esc="amount_by_group[0]"/></th>
                             </t>
-                            <th><span>Valor Total</span></th>
+                            <t t-if="len(o.amount_by_group[0]>=4">
+                                <th><span>Valor Total</span></th>
+                            </t>
                             <th><span>Valor pagado</span></th>
                         </tr>
                     </thead>
@@ -33,8 +35,10 @@
                             <t t-foreach="o.amount_by_group" t-as="amount_by_group">
                                 <td><span t-esc="abs(float(amount_by_group[3][str.find(amount_by_group[3], ' ')+1:]))"/></td>
                             </t>
-                            <t t-set="valor_total" t-value="o.amount_untaxed + float(o.amount_by_group[0][3][str.find(o.amount_by_group[0][3], ' ')+1:])"/>
-                            <td><span class="text-nowrap" t-esc="valor_total"/></td>
+                            <t t-if="len(o.amount_by_group[0])>=4">
+                                <t t-set="valor_total" t-value="o.amount_untaxed + float(o.amount_by_group[0][3][str.find(o.amount_by_group[0][3], ' ')+1:])"/>
+                                <td><span class="text-nowrap" t-esc="valor_total"/></td>
+                            </t>
                             <td><span class="text-nowrap" t-esc="o.amount_total"/></td>
                         </tr>
                     </tbody>
