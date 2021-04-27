@@ -3,9 +3,8 @@
     <template id="report_invoice_retention_letter">
         <t t-call="web.external_layout">
             <t t-set="total_retention" t-value="abs(sum([float(a[3][str.find(a[3], ' ')+1:]) for a in o.amount_by_group if float(a[3][str.find(a[3], ' ')+1:]) &lt; 0]))"/>
-            
             <div class="page">
-                <p>Santo Domingo, R.D.<br/>18 de noviembre de 2020</p>
+                <p>Santo Domingo, R.D.<br/>span t-field="o.invoice_date" t-options='{"format": "d"}'/> de <span t-field="o.invoice_date" t-options='{"format": "MMMM"}'/> de <span t-field="o.invoice_date" t-options='{"format": "Y"}'/></p>
                 <p><b>Señores:</b></p>
                 <p>Dirección General De Impuestos Internos<br/>Santo Domingo, R.D.</p>
                 <h5 style="text-align:center"><b>Certificación retención ITBIS e ISR</b></h5>
@@ -61,7 +60,7 @@
     <template id="report_retention_letter">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="ipx_retention_letter.report_invoice_retention_letter" t-lang="lang"/>
+                <t t-call="ipx_retention_letter.report_invoice_retention_letter" t-lang="o.partner_id.lang"/>
             </t>
         </t>
     </template>
