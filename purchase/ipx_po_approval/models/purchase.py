@@ -14,16 +14,16 @@ class PurchaseOrder(models.Model):
     user_access_level = fields.Integer(compute='_compute_user_access', default=0)
     is_approve_visible = fields.Boolean(compute='_is_approve_visible', default=False)
     
-    pre_approved = fields.Float(store=True, default=False)
-    final_approved = fields.Float(store=True, default=False)
+    pre_approved = fields.Boolean(store=True, default=False)
+    final_approved = fields.Boolean(store=True, default=False)
     
     
     # Overriding original action_cancel to ask for approval if user is not assistant nor manager
     def button_cancel(self):
-        if not self.env.user.has_group('po_approval.group_purchase_assistant') and self.state not in ('draft'):
+        if not self.env.user.has_group('ipx_po_approval.group_purchase_assistant') and self.state not in ('draft'):
             # Getting all assistant/manager users
             all_users = self.env['res.users'].search([('active', '=', True)])
-            my_users_group = all_users.filtered(lambda user: user.has_group('po_approval.group_purchase_assistant'))
+            my_users_group = all_users.filtered(lambda user: user.has_group('ipx_po_approval.group_purchase_assistant'))
 
             partner_ids = []
             for user in my_users_group:
@@ -92,7 +92,7 @@ class PurchaseOrder(models.Model):
         if self.env.user.has_group('purchase.group_purchase_manager'):
             self.user_access_level = 2
             _logger.info("level 2")
-        elif self.env.user.has_group('po_approval.group_purchase_assistant'):
+        elif self.env.user.has_group('ipx_po_approval.group_purchase_assistant'):
             self.user_access_level = 1
             _logger.info("level 1")
         else:
@@ -127,7 +127,7 @@ class PurchaseOrder(models.Model):
             is_user_assistant = False
         else:
             is_user_manager = False
-            if self.env.user.has_group('po_approval.group_purchase_assistant'):
+            if self.env.user.has_group('ipx_po_approval.group_purchase_assistant'):
                 is_user_assistant = True
             else:
                 is_user_assistant = False
@@ -163,7 +163,7 @@ class PurchaseOrder(models.Model):
             
             all_users = self.env['res.users'].search([('active', '=', True)])
 
-            my_users_group = all_users.filtered(lambda user: user.has_group('purchase.group_purchase_manager'))
+            my_users_group = (self.env['ir.config_parameter'].sudo().get_param('partner_id'),) or all_users.filtered(lambda user: user.has_group('purchase.group_purchase_manager'))
             
             partner_ids = []
             for user in my_users_group:

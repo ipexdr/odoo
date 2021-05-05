@@ -12,14 +12,14 @@ class ResConfigSettings(models.TransientModel):
     
     def set_values(self):
     	res = super(ResConfigSettings, self).set_values()
-    	self.env['ir.config_parameter'].sudo().set_param('ipx_po_end_customer.po_manager', self.po_manager.id)
+    	self.env['ir.config_parameter'].sudo().set_param('ipx_po_approval.po_manager', self.po_manager.id)
     	return res
     
     @api.model
     def get_values(self):
         res = super(ResConfigSettings, self).get_values()
         with_user = self.env['ir.config_parameter'].sudo()
-        po_mgr = with_user.get_param('ipx_po_end_customer.po_manager')
+        po_mgr = with_user.get_param('ipx_po_approval.po_manager')
         # _logger.info(f"literal_eval po_mgr -> {literal_eval(po_mgr)}")
         res.update(
         	po_manager=(literal_eval(po_mgr)) if po_mgr else False)
