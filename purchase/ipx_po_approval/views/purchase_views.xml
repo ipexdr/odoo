@@ -1,12 +1,23 @@
-<?xml version="1.0"?>
-<data><xpath expr="/form/header/button[@name='action_rfq_send']" position="before">
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="purchase_order_form_inherit">
+		<field name="name">purchase.order.form.inherit</field>
+		<field name="model">purchase.order</field>
+		<field name="inherit_id" ref="purchase.purchase_order_form"/>
+		<field name="arch" type="xml">
+            <xpath expr="/form/header/button[@name='action_rfq_send']" position="before">
 				<field name="user_access_level" invisible="1"/>
 				<field name="is_approve_visible" invisible="1"/>
 			</xpath>
 			<xpath expr="/form/header/button[@name='action_rfq_send'][3]" position="replace">
-                <button name="action_rfq_send" states="purchase" groups="ipx_po_approval.group_purchase_assistant" string="Send PO by Email" type="object" context="{'send_rfq':False}"/>
+                <button name="action_rfq_send" states="purchase,done" groups="ipx_po_approval.group_purchase_assistant" string="Send PO by Email" type="object" context="{'send_rfq':False}"/>
 			</xpath>
             <xpath expr="//button[@name='button_approve']" position="replace">
-                <button name="button_approve" type="object" string="Approve Order" attrs="{'invisible': [('is_approve_visible', '=', False)]}" class="oe_highlight" groups="purchase.group_purchase_manager,ipx_po_approval.group_purchase_assistant"/>
+                <button name="button_approve" type="object" string="Approve Order" 
+				attrs="{'invisible': [('is_approve_visible', '=', False)]}"
+				class="oe_highlight" groups="purchase.group_purchase_manager,ipx_po_approval.group_purchase_assistant"/>
             </xpath>
-		</data>
+		</field>
+		</record>
+	</data>
+</odoo>
