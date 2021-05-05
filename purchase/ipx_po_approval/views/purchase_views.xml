@@ -10,12 +10,8 @@
 				<field name="is_approve_visible" invisible="1"/>
 			</xpath>
 			<xpath expr="/form/header/button[@name='action_rfq_send'][3]" position="replace">
-                <button name="action_rfq_send" states="purchase,done" groups="ipx_po_approval.group_purchase_assistant" string="Send PO by Email" type="object" context="{'send_rfq':False}"/>
+                <button name="action_rfq_send" states="purchase" groups="ipx_po_approval.group_purchase_assistant, purchase.group_purchase_manager" string="Send PO by Email" type="object" context="{'send_rfq':False}"/>
 			</xpath>
-			<!-- <xpath expr="/form/sheet/group/group/field[@name='partner_id']" position="after">
-				<field name="vendor_contact_id" widget="res_partner_many2one" domain="[('is_company', '=', False)]" context="{'show_vat': True}"
-				placeholder="Name, TIN, Email, or Reference"/>
-			</xpath> -->
             <xpath expr="//button[@name='button_approve']" position="replace">
                 <button name="button_approve" type="object" string="Approve Order" 
 				attrs="{'invisible': [('is_approve_visible', '=', False)]}"

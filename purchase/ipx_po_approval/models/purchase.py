@@ -14,16 +14,16 @@ class PurchaseOrder(models.Model):
     user_access_level = fields.Integer(compute='_compute_user_access', default=0)
     is_approve_visible = fields.Boolean(compute='_is_approve_visible', default=False)
     
-    pre_approved = fields.Float(store=True, default=False)
-    final_approved = fields.Float(store=True, default=False)
+    pre_approved = fields.Boolean(store=True, default=False)
+    final_approved = fields.Boolean(store=True, default=False)
     
     
     # Overriding original action_cancel to ask for approval if user is not assistant nor manager
     def button_cancel(self):
-        if not self.env.user.has_group('po_approval.group_purchase_assistant') and self.state not in ('draft'):
+        if not self.env.user.has_group('ipx_po_approval.group_purchase_assistant') and self.state not in ('draft'):
             # Getting all assistant/manager users
             all_users = self.env['res.users'].search([('active', '=', True)])
-            my_users_group = all_users.filtered(lambda user: user.has_group('po_approval.group_purchase_assistant'))
+            my_users_group = all_users.filtered(lambda user: user.has_group('ipx_po_approval.group_purchase_assistant'))
 
             partner_ids = []
             for user in my_users_group:
@@ -33,6 +33,9 @@ class PurchaseOrder(models.Model):
             view = self.env.ref('log_wizard.log_message_wizard_view')
             wiz = self.env['log.message.wizard'].create({})      
             wiz_name = "PO cancellation request"
+            
+            self.pre_approved = False
+            self.final_approved = False
             
             ctx = {
                 'subject': wiz_name,
@@ -92,32 +95,13 @@ class PurchaseOrder(models.Model):
         if self.env.user.has_group('purchase.group_purchase_manager'):
             self.user_access_level = 2
             _logger.info("level 2")
-        elif self.env.user.has_group('po_approval.group_purchase_assistant'):
+        elif self.env.user.has_group('ipx_po_approval.group_purchase_assistant'):
             self.user_access_level = 1
             _logger.info("level 1")
         else:
             self.user_access_level = 0
             _logger.info("level 0")
 
-#     @api.depends('user_access_level')
-#     def _can_send_po(self):
-#         _logger.info("_can_send_po")
-        
-#         user_access_level = self.user_access_level
-#         env_lock_conf_po = self.company_id.po_lock == 'lock'
-        
-#         _logger.info(f"user level -> {user_access_level}")
-#         _logger.info(f"lock conf PO -> {env_lock_conf_po}")
-#         if env_lock_conf_po:
-#             if user_access_level > 0 and self.state in ('done', 'purchase'):
-#                 self.can_send_po = True
-#                 _logger.info(f"can send -> True")
-#             else:
-#                 self.can_send_po = False
-#                 _logger.info(f"can send -> False")
-#         else:
-#             self.can_send_po = True
-#             _logger.info(f"can send -> True")
     
     @api.depends('user_id')
     def _is_approve_visible(self):
@@ -127,7 +111,7 @@ class PurchaseOrder(models.Model):
             is_user_assistant = False
         else:
             is_user_manager = False
-            if self.env.user.has_group('po_approval.group_purchase_assistant'):
+            if self.env.user.has_group('ipx_po_approval.group_purchase_assistant'):
                 is_user_assistant = True
             else:
                 is_user_assistant = False
@@ -150,7 +134,6 @@ class PurchaseOrder(models.Model):
             self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
             return {}
         else:
-            self.pre_approved = True
             po_number = self.name
 
             msg = f"<p>The Purchase Order <b>{po_number}</b> needs final approval.</p>"
@@ -160,18 +143,15 @@ class PurchaseOrder(models.Model):
             except:
                 pass
 
-            
-            all_users = self.env['res.users'].search([('active', '=', True)])
 
-            my_users_group = all_users.filtered(lambda user: user.has_group('purchase.group_purchase_manager'))
-            
-            partner_ids = []
-            for user in my_users_group:
-                partner_ids.append(user.partner_id.id)
-                        
+            user = self.env['res.users'].browse(int(self.env['ir.config_parameter'].sudo().get_param('ipx_po_approval.po_manager')))[0]            
+
+            self.pre_approved = True
+
             self.message_post(
                 subject='Purchase Order pending for Approval',
                 body=msg,
-                partner_ids=tuple(partner_ids),
+                partner_ids=(user.partner_id.id,),
             )
             return {}
+            
