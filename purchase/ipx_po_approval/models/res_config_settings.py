@@ -24,3 +24,4 @@ class ResConfigSettings(models.TransientModel):
         res.update(
         	po_manager=(literal_eval(po_mgr)) if po_mgr else False)
         return res
+        

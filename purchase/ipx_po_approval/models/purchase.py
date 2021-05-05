@@ -34,6 +34,9 @@ class PurchaseOrder(models.Model):
             wiz = self.env['log.message.wizard'].create({})      
             wiz_name = "PO cancellation request"
             
+            self.pre_approved = False
+            self.final_approved = False
+            
             ctx = {
                 'subject': wiz_name,
                 'partner_ids': partner_ids,
@@ -99,25 +102,6 @@ class PurchaseOrder(models.Model):
             self.user_access_level = 0
             _logger.info("level 0")
 
-#     @api.depends('user_access_level')
-#     def _can_send_po(self):
-#         _logger.info("_can_send_po")
-        
-#         user_access_level = self.user_access_level
-#         env_lock_conf_po = self.company_id.po_lock == 'lock'
-        
-#         _logger.info(f"user level -> {user_access_level}")
-#         _logger.info(f"lock conf PO -> {env_lock_conf_po}")
-#         if env_lock_conf_po:
-#             if user_access_level > 0 and self.state in ('done', 'purchase'):
-#                 self.can_send_po = True
-#                 _logger.info(f"can send -> True")
-#             else:
-#                 self.can_send_po = False
-#                 _logger.info(f"can send -> False")
-#         else:
-#             self.can_send_po = True
-#             _logger.info(f"can send -> True")
     
     @api.depends('user_id')
     def _is_approve_visible(self):
@@ -150,7 +134,6 @@ class PurchaseOrder(models.Model):
             self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
             return {}
         else:
-            self.pre_approved = True
             po_number = self.name
 
             msg = f"<p>The Purchase Order <b>{po_number}</b> needs final approval.</p>"
@@ -160,18 +143,15 @@ class PurchaseOrder(models.Model):
             except:
                 pass
 
-            
-            all_users = self.env['res.users'].search([('active', '=', True)])
 
-            my_users_group = (self.env['ir.config_parameter'].sudo().get_param('partner_id'),) or all_users.filtered(lambda user: user.has_group('purchase.group_purchase_manager'))
-            
-            partner_ids = []
-            for user in my_users_group:
-                partner_ids.append(user.partner_id.id)
-                        
+            user = self.env['res.users'].browse(int(self.env['ir.config_parameter'].sudo().get_param('ipx_po_approval.po_manager')))[0]            
+
+            self.pre_approved = True
+
             self.message_post(
                 subject='Purchase Order pending for Approval',
                 body=msg,
-                partner_ids=tuple(partner_ids),
+                partner_ids=(user.partner_id.id,),
             )
             return {}
+            
