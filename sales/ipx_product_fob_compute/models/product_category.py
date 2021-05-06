@@ -8,6 +8,6 @@ _logger = logging.getLogger(__name__)
 
 class Pricelist(models.Model):
     _inherit = ['product.category']
-    
-    default_tariff = fields.Float('Tariff', store=True, default=6)
+
+    default_tariff = fields.Float('Tariff', store=True, default=0)
     
